@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier Réel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calendar-container" id="calendar"></div>
+        <div id="editor">
+            <input type="date" id="event-date">
+            <select id="event-type">
+                <option value="ouverture">Ouverture</option>
+                <option value="fermeture">Fermeture</option>
+                <option value="nuit">Nuit</option>
+                <option value="journee">Journée</option>
+                <option value="repos">Repos</option>
+            </select>
+            <textarea id="event-text" placeholder="Notes..."></textarea>
+            <button id="save-event">Enregistrer</button>
+            <button id="delete-event">Supprimer</button>
+            <div>
+                <button id="prev-month">Mois précédent</button>
+                <span id="current-month"></span>
+                <button id="next-month">Mois suivant</button>
+            </div>
+        </div>
+    </div>
+    <script src="calendar.js"></script>
+</body>
+</html>

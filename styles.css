@@ -1,0 +1,93 @@
+body {
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.calendar-container {
+    width: 80%;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+#editor {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+button {
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+
+.day {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    min-height: 80px;
+    box-sizing: border-box;
+}
+
+.day span {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.day.event-ouverture {
+    background-color: #ff6f61;
+}
+
+.day.event-fermeture {
+    background-color: #61dafb;
+}
+
+.day.event-nuit {
+    background-color: #6bf178;
+}
+
+.day.event-journee {
+    background-color: #ffeb3b;
+}
+
+.day.event-repos {
+    background-color: #9e9e9e;
+}
+
+.day.selected {
+    border: 2px solid #ffeb3b;
+}
+
+.day.today {
+    border: 2px solid #ff9800;
+}
