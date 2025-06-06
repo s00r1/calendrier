@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
     const autoAssignBtn = document.getElementById('auto-assign');
+    const themeToggleBtn = document.getElementById('theme-toggle');
 
     let isAdmin = false;
 
@@ -117,6 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateBtn.addEventListener('click', generateCalendar);
     printBtn.addEventListener('click', () => window.print());
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+        });
+    }
     if (autoAssignBtn) {
         autoAssignBtn.addEventListener('click', autoAssign);
     }

@@ -1,26 +1,44 @@
+:root {
+    --bg-color: #fff;
+    --text-color: #000;
+    --header-bg: #f0f0f0;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+body.dark {
+    --bg-color: #333;
+    --text-color: #eee;
+    --header-bg: #444;
 }
 
 .controls {
     margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
+    gap: 6px;
 }
 
 .day, .header {
     padding: 10px;
     border: 1px solid #ccc;
     text-align: center;
+    border-radius: 4px;
 }
 
 .header {
-    background-color: #f0f0f0;
+    background-color: var(--header-bg);
     font-weight: bold;
 }
 
