@@ -11,6 +11,11 @@
     --btn-add: #ffc107;
 }
 
+@page {
+    size: A4 landscape;
+    margin: 1cm;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -211,6 +216,12 @@ input {
     }
     input {
         border: none;
+    }
+    body {
+        margin: 0;
+    }
+    .calendar {
+        width: 100%;
     }
 }
 
