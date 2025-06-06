@@ -76,6 +76,10 @@ input {
     align-items: center;
 }
 
+#admin-controls label {
+    display: inline-block;
+}
+
 #admin-controls input,
 #admin-controls select,
 #admin-controls button {
