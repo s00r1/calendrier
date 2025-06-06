@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let isAdmin = false;
     const excludedRooms = new Set([13]);
 
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+
     function updateExcludedList() {
         if (!excludedListDiv) return;
         const rooms = Array.from(excludedRooms).sort((a, b) => a - b);
@@ -150,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark');
+            const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
         });
     }
     if (autoAssignBtn) {
