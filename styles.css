@@ -29,9 +29,18 @@ input {
     padding: 4px;
 }
 
+#start-room,
+#start-day,
+#auto-assign {
+    display: none;
+}
+
 @media print {
     .controls button,
     .controls select {
+        display: none;
+    }
+    .controls input {
         display: none;
     }
     input {
