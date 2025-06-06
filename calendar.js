@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const excludeRoomInput = document.getElementById('exclude-room');
     const addExcludeBtn = document.getElementById('add-exclude');
     const excludedListDiv = document.getElementById('excluded-list');
+    const errorMessageDiv = document.getElementById('error-message');
     const themeToggleBtn = document.getElementById('theme-toggle');
 
     let isAdmin = false;
@@ -50,6 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (adminSection) adminSection.style.display = isAdmin ? 'block' : 'none';
         if (adminControls) adminControls.style.display = isAdmin ? 'flex' : 'none';
         if (excludedListDiv) excludedListDiv.style.display = isAdmin ? 'block' : 'none';
+        if (errorMessageDiv) {
+            errorMessageDiv.style.display = isAdmin ? 'block' : 'none';
+            if (!isAdmin) errorMessageDiv.textContent = '';
+        }
         if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
         updateExcludedList();
     }
@@ -127,14 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function autoAssign() {
+        const messages = [];
+        if (errorMessageDiv) errorMessageDiv.textContent = '';
         const startRoom = parseInt(startRoomInput.value, 10);
         const startDay = parseInt(startDaySelect.value, 10);
         const dayInputs = calendar.querySelectorAll('.day input');
         const daysInMonth = dayInputs.length;
-        if (isNaN(startRoom) || isNaN(startDay) || startRoom < 1 || startRoom > 54 || excludedRooms.has(startRoom) || startDay < 1 || startDay > daysInMonth) {
-            alert('Valeurs invalides');
+
+        if (isNaN(startRoom) || startRoom < 1 || startRoom > 54 || excludedRooms.has(startRoom)) {
+            messages.push('La chambre de départ est invalide');
+        }
+        if (isNaN(startDay) || startDay < 1 || startDay > daysInMonth) {
+            messages.push('La date de début est hors du mois');
+        }
+
+        if (messages.length > 0) {
+            if (errorMessageDiv) {
+                errorMessageDiv.textContent = messages.join(' - ');
+            } else {
+                alert(messages.join('\n'));
+            }
             return;
         }
+
         let room = startRoom;
         for (let i = startDay - 1; i < dayInputs.length; i++) {
             while (excludedRooms.has(room)) {

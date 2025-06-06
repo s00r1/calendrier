@@ -109,6 +109,12 @@ input {
     text-align: center;
 }
 
+.error-message {
+    color: red;
+    margin-top: 4px;
+    text-align: center;
+}
+
 .excluded-item {
     display: inline-flex;
     align-items: center;
