@@ -57,7 +57,10 @@ input {
 
 #start-room,
 #start-day,
-#auto-assign {
+#auto-assign,
+#exclude-room,
+#add-exclude,
+#excluded-list {
     display: none;
 }
 
