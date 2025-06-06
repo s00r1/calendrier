@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subtitle = document.getElementById('subtitle');
     const adminBtn = document.getElementById('admin-login');
     const adminControls = document.getElementById('admin-controls');
+    const adminSection = document.querySelector('.admin-section');
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
     const autoAssignBtn = document.getElementById('auto-assign');
@@ -24,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateAdminControls() {
+        if (adminSection) adminSection.style.display = isAdmin ? 'block' : 'none';
         if (adminControls) adminControls.style.display = isAdmin ? 'flex' : 'none';
         if (excludedListDiv) excludedListDiv.style.display = isAdmin ? 'block' : 'none';
         if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
