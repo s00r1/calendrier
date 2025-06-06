@@ -1,33 +1,67 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang=\"fr\">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendrier Réel</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>Calendrier Mensuel Hôtel</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+        .day, .header { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        .header { background-color: #f0f0f0; font-weight: bold; }
+        input { width: 80%; padding: 4px; }
+        button { margin-top: 10px; padding: 6px 12px; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="calendar-container" id="calendar"></div>
-        <div id="editor">
-            <input type="date" id="event-date">
-            <select id="event-type">
-                <option value="ouverture">Ouverture</option>
-                <option value="fermeture">Fermeture</option>
-                <option value="nuit">Nuit</option>
-                <option value="journee">Journée</option>
-                <option value="repos">Repos</option>
-            </select>
-            <textarea id="event-text" placeholder="Notes..."></textarea>
-            <button id="save-event">Enregistrer</button>
-            <button id="delete-event">Supprimer</button>
-            <div>
-                <button id="prev-month">Mois précédent</button>
-                <span id="current-month"></span>
-                <button id="next-month">Mois suivant</button>
-            </div>
-        </div>
-    </div>
-    <script src="calendar.js"></script>
+    <select id=\"monthSelector\"></select>
+    <button onclick=\"generateCalendar()\">Générer</button>
+    <div id=\"calendar\" class=\"calendar\"></div>
+
+    <script>
+        const monthSelector = document.getElementById('monthSelector');
+        const editPassword = 's00r1';
+
+        for (let i = 0; i < 12; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = new Date(2024, i).toLocaleString('fr', { month: 'long' });
+            monthSelector.appendChild(option);
+        }
+
+        function generateCalendar() {
+            const month = parseInt(monthSelector.value);
+            const year = new Date().getFullYear();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+
+            ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
+                const header = document.createElement('div');
+                header.className = 'header';
+                header.textContent = day;
+                calendar.appendChild(header);
+            });
+
+            for (let i = 1; i < (firstDay === 0 ? 7 : firstDay); i++) {
+                calendar.appendChild(document.createElement('div'));
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'day';
+                dayDiv.innerHTML = `${i}<br><input type=\"number\" min=\"1\" max=\"54\" placeholder=\"Chambre\" disabled oninput=\"if(this.value==13)this.value=''\">`;
+                calendar.appendChild(dayDiv);
+            }
+
+            if (prompt('Mot de passe pour éditer :') === editPassword) {
+                document.querySelectorAll('input').forEach(input => input.disabled = false);
+            }
+        }
+
+        generateCalendar();
+    </script>
 </body>
 </html>
