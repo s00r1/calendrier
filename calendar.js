@@ -71,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Update calendar whenever the month or year selection changes
+    monthSelect.addEventListener('change', generateCalendar);
+    yearSelect.addEventListener('change', generateCalendar);
+
     generateBtn.addEventListener('click', generateCalendar);
     printBtn.addEventListener('click', () => window.print());
     if (adminBtn) {
