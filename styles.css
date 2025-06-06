@@ -39,9 +39,15 @@ button {
     background-color: var(--accent-color);
     color: var(--header-text);
     border: none;
-    padding: 6px 12px;
+    padding: 8px 16px;
+    font-size: 1rem;
     border-radius: 4px;
     cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+button:hover {
+    filter: brightness(90%);
 }
 
 .calendar {
@@ -134,7 +140,7 @@ input {
     .controls button,
     .controls select,
     .controls input {
-        font-size: 1rem;
+        font-size: 1.1rem;
         padding: 10px;
     }
 
