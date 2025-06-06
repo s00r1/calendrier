@@ -4,6 +4,11 @@
     --header-bg: #f0f0f0;
     --accent-color: #007bff;
     --header-text: #000;
+    --btn-print: #28a745;
+    --btn-theme: #6c757d;
+    --btn-admin: #dc3545;
+    --btn-auto: #17a2b8;
+    --btn-add: #ffc107;
 }
 
 body {
@@ -24,6 +29,11 @@ body.dark {
     --header-bg: #444;
     --accent-color: #66b0ff;
     --header-text: #fff;
+    --btn-print: #28a745;
+    --btn-theme: #6c757d;
+    --btn-admin: #ff6b6b;
+    --btn-auto: #17a2b8;
+    --btn-add: #ffca28;
 }
 
 .controls {
@@ -48,6 +58,31 @@ button {
 
 button:hover {
     filter: brightness(90%);
+}
+
+#print {
+    background-color: var(--btn-print);
+    color: #fff;
+}
+
+#theme-toggle {
+    background-color: var(--btn-theme);
+    color: #fff;
+}
+
+#admin-login {
+    background-color: var(--btn-admin);
+    color: #fff;
+}
+
+#auto-assign {
+    background-color: var(--btn-auto);
+    color: #fff;
+}
+
+#add-exclude {
+    background-color: var(--btn-add);
+    color: #000;
 }
 
 .calendar {
