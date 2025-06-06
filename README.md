@@ -9,7 +9,7 @@ L'édition du calendrier est réservée à l'administrateur.
 ## Utilisation
 
 1. Ouvrez `index.html` dans votre navigateur.
-2. Sélectionnez le mois et l'année souhaités puis cliquez sur **Afficher**.
+2. Sélectionnez le mois et l'année souhaités : le calendrier se met à jour automatiquement.
 3. Si vous devez modifier le calendrier, cliquez sur **Admin** et entrez le mot de passe `s00r1` pour activer le mode édition.
 4. Renseignez les numéros de chambre pour chaque date.
 5. Utilisez le bouton **Imprimer** pour obtenir la version papier du calendrier.
