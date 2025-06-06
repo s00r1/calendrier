@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const calendar = document.getElementById('calendar');
     const generateBtn = document.getElementById('generate');
     const printBtn = document.getElementById('print');
+    const subtitle = document.getElementById('subtitle');
+    const adminBtn = document.getElementById('admin-login');
+
+    let isAdmin = false;
 
     const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
@@ -37,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const year = parseInt(yearSelect.value, 10);
         calendar.innerHTML = '';
         createHeader();
+        if (subtitle) {
+            subtitle.textContent = `Pour le mois de ${monthNames[month]} ${year}`;
+        }
 
         let firstDay = new Date(year, month, 1).getDay();
         firstDay = firstDay === 0 ? 7 : firstDay; // start Monday
@@ -53,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.min = 1;
             input.max = 54;
             input.placeholder = 'Chambre';
+            input.disabled = !isAdmin;
             input.addEventListener('input', function () {
                 if (this.value === '13') this.value = '';
             });
@@ -65,6 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateBtn.addEventListener('click', generateCalendar);
     printBtn.addEventListener('click', () => window.print());
+    if (adminBtn) {
+        adminBtn.addEventListener('click', () => {
+            const pass = prompt('Mot de passe admin ?');
+            if (pass === 's00r1') {
+                isAdmin = true;
+                alert('Mode \u00e9dition activ\u00e9');
+                generateCalendar();
+            } else {
+                alert('Mot de passe incorrect');
+            }
+        });
+    }
 
     generateCalendar();
 });
