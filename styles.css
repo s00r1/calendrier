@@ -139,6 +139,13 @@ input {
     width: 6em;
 }
 
+/* Tailored size for the plus button */
+#add-exclude {
+    width: 2em;
+    font-size: 0.8rem;
+    padding: 2px 4px;
+}
+
 #excluded-list {
     min-width: 6em;
     text-align: center;
@@ -213,6 +220,11 @@ input {
     #admin-controls select,
     #admin-controls button {
         width: 100%;
+    }
+
+    /* Keep plus button small on mobile */
+    #add-exclude {
+        width: 2em;
     }
 
     input {
