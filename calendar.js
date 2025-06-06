@@ -114,6 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let d = 1; d <= daysInMonth; d++) {
             const dayDiv = document.createElement('div');
             dayDiv.className = 'day';
+            const inputWrapper = document.createElement('div');
+            inputWrapper.className = 'room-input';
+            const prefix = document.createElement('span');
+            prefix.className = 'room-prefix';
+            prefix.textContent = '#';
             const input = document.createElement('input');
             input.type = 'number';
             input.min = 1;
@@ -123,9 +128,11 @@ document.addEventListener('DOMContentLoaded', () => {
             input.addEventListener('input', function () {
                 if (this.value === '13') this.value = '';
             });
+            inputWrapper.appendChild(prefix);
+            inputWrapper.appendChild(input);
             dayDiv.textContent = d;
             dayDiv.appendChild(document.createElement('br'));
-            dayDiv.appendChild(input);
+            dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
         }
         updateAdminControls();

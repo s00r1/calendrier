@@ -110,6 +110,21 @@ input {
     padding: 4px;
 }
 
+.room-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.room-prefix {
+    font-weight: bold;
+}
+
+.room-input input {
+    width: 5em;
+}
+
 .controls label {
     align-self: center;
 }
@@ -228,6 +243,10 @@ input {
     }
 
     input {
+        width: 100%;
+    }
+
+    .room-input input {
         width: 100%;
     }
 
