@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateAdminControls() {
         if (adminControls) adminControls.style.display = isAdmin ? 'flex' : 'none';
+        if (excludedListDiv) excludedListDiv.style.display = isAdmin ? 'block' : 'none';
         if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
         updateExcludedList();
     }
