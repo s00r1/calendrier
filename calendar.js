@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const printBtn = document.getElementById('print');
     const subtitle = document.getElementById('subtitle');
     const adminBtn = document.getElementById('admin-login');
+    const adminControls = document.getElementById('admin-controls');
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
     const autoAssignBtn = document.getElementById('auto-assign');
@@ -24,15 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateAdminControls() {
-        if (startRoomInput) startRoomInput.style.display = isAdmin ? 'inline-block' : 'none';
-        if (startDaySelect) startDaySelect.style.display = isAdmin ? 'inline-block' : 'none';
-        if (autoAssignBtn) {
-            autoAssignBtn.style.display = isAdmin ? 'inline-block' : 'none';
-            autoAssignBtn.disabled = !isAdmin;
-        }
-        if (excludeRoomInput) excludeRoomInput.style.display = isAdmin ? 'inline-block' : 'none';
-        if (addExcludeBtn) addExcludeBtn.style.display = isAdmin ? 'inline-block' : 'none';
-        if (excludedListDiv) excludedListDiv.style.display = isAdmin ? 'inline-block' : 'none';
+        if (adminControls) adminControls.style.display = isAdmin ? 'flex' : 'none';
+        if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
         updateExcludedList();
     }
 

@@ -22,6 +22,7 @@ body.dark {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
 }
 
 .calendar {
@@ -51,17 +52,21 @@ input {
     align-self: center;
 }
 
-#start-room {
-    width: auto;
+#admin-controls {
+    display: none;
+    gap: 10px;
+    align-items: center;
 }
 
-#start-room,
-#start-day,
-#auto-assign,
-#exclude-room,
-#add-exclude,
+#admin-controls input,
+#admin-controls select,
+#admin-controls button {
+    width: 6em;
+}
+
 #excluded-list {
-    display: none;
+    min-width: 6em;
+    text-align: center;
 }
 
 @media print {
