@@ -47,6 +47,14 @@ input {
     padding: 4px;
 }
 
+.controls label {
+    align-self: center;
+}
+
+#start-room {
+    width: auto;
+}
+
 #start-room,
 #start-day,
 #auto-assign {
