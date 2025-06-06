@@ -9,9 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
     const autoAssignBtn = document.getElementById('auto-assign');
+    const excludeRoomInput = document.getElementById('exclude-room');
+    const addExcludeBtn = document.getElementById('add-exclude');
+    const excludedListDiv = document.getElementById('excluded-list');
     const themeToggleBtn = document.getElementById('theme-toggle');
 
     let isAdmin = false;
+    const excludedRooms = new Set([13]);
+
+    function updateExcludedList() {
+        if (!excludedListDiv) return;
+        const rooms = Array.from(excludedRooms).sort((a, b) => a - b);
+        excludedListDiv.textContent = rooms.join(', ');
+    }
 
     function updateAdminControls() {
         if (startRoomInput) startRoomInput.style.display = isAdmin ? 'inline-block' : 'none';
@@ -20,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
             autoAssignBtn.style.display = isAdmin ? 'inline-block' : 'none';
             autoAssignBtn.disabled = !isAdmin;
         }
+        if (excludeRoomInput) excludeRoomInput.style.display = isAdmin ? 'inline-block' : 'none';
+        if (addExcludeBtn) addExcludeBtn.style.display = isAdmin ? 'inline-block' : 'none';
+        if (excludedListDiv) excludedListDiv.style.display = isAdmin ? 'inline-block' : 'none';
+        updateExcludedList();
     }
 
     const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
@@ -99,15 +113,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const startDay = parseInt(startDaySelect.value, 10);
         const dayInputs = calendar.querySelectorAll('.day input');
         const daysInMonth = dayInputs.length;
-        if (isNaN(startRoom) || isNaN(startDay) || startRoom < 1 || startRoom > 54 || startRoom === 13 || startDay < 1 || startDay > daysInMonth) {
+        if (isNaN(startRoom) || isNaN(startDay) || startRoom < 1 || startRoom > 54 || excludedRooms.has(startRoom) || startDay < 1 || startDay > daysInMonth) {
             alert('Valeurs invalides');
             return;
         }
         let room = startRoom;
         for (let i = startDay - 1; i < dayInputs.length; i++) {
+            while (excludedRooms.has(room)) {
+                room++;
+                if (room > 54) room = 1;
+            }
             dayInputs[i].value = room;
             room++;
-            if (room === 13) room++;
             if (room > 54) room = 1;
         }
     }
@@ -126,6 +143,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (autoAssignBtn) {
         autoAssignBtn.addEventListener('click', autoAssign);
     }
+    if (addExcludeBtn) {
+        addExcludeBtn.addEventListener('click', () => {
+            const num = parseInt(excludeRoomInput.value, 10);
+            if (!isNaN(num) && num >= 1 && num <= 54 && num !== 13) {
+                excludedRooms.add(num);
+                updateExcludedList();
+            }
+            excludeRoomInput.value = '';
+        });
+    }
     if (adminBtn) {
         adminBtn.addEventListener('click', () => {
             const pass = prompt('Mot de passe admin ?');
@@ -142,4 +169,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateAdminControls();
     generateCalendar();
+    updateExcludedList();
 });
