@@ -21,7 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateExcludedList() {
         if (!excludedListDiv) return;
         const rooms = Array.from(excludedRooms).sort((a, b) => a - b);
-        excludedListDiv.textContent = rooms.join(', ');
+        excludedListDiv.innerHTML = '';
+        rooms.forEach(room => {
+            const item = document.createElement('span');
+            item.className = 'excluded-item';
+            const label = document.createElement('span');
+            label.textContent = room;
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-exclude';
+            removeBtn.textContent = '×';
+            removeBtn.addEventListener('click', () => {
+                excludedRooms.delete(room);
+                updateExcludedList();
+            });
+            item.appendChild(label);
+            item.appendChild(removeBtn);
+            excludedListDiv.appendChild(item);
+        });
     }
 
     function updateAdminControls() {
