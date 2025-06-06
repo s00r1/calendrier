@@ -6,8 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const printBtn = document.getElementById('print');
     const subtitle = document.getElementById('subtitle');
     const adminBtn = document.getElementById('admin-login');
+    const startRoomInput = document.getElementById('start-room');
+    const startDaySelect = document.getElementById('start-day');
+    const autoAssignBtn = document.getElementById('auto-assign');
 
     let isAdmin = false;
+
+    function updateAdminControls() {
+        if (startRoomInput) startRoomInput.style.display = isAdmin ? 'inline-block' : 'none';
+        if (startDaySelect) startDaySelect.style.display = isAdmin ? 'inline-block' : 'none';
+        if (autoAssignBtn) {
+            autoAssignBtn.style.display = isAdmin ? 'inline-block' : 'none';
+            autoAssignBtn.disabled = !isAdmin;
+        }
+    }
 
     const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
@@ -52,6 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const daysInMonth = new Date(year, month + 1, 0).getDate();
+        if (startDaySelect) {
+            startDaySelect.innerHTML = '';
+            for (let i = 1; i <= daysInMonth; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = i;
+                startDaySelect.appendChild(opt);
+            }
+        }
         for (let d = 1; d <= daysInMonth; d++) {
             const dayDiv = document.createElement('div');
             dayDiv.className = 'day';
@@ -69,6 +90,25 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.appendChild(input);
             calendar.appendChild(dayDiv);
         }
+        updateAdminControls();
+    }
+
+    function autoAssign() {
+        const startRoom = parseInt(startRoomInput.value, 10);
+        const startDay = parseInt(startDaySelect.value, 10);
+        const dayInputs = calendar.querySelectorAll('.day input');
+        const daysInMonth = dayInputs.length;
+        if (isNaN(startRoom) || isNaN(startDay) || startRoom < 1 || startRoom > 54 || startRoom === 13 || startDay < 1 || startDay > daysInMonth) {
+            alert('Valeurs invalides');
+            return;
+        }
+        let room = startRoom;
+        for (let i = startDay - 1; i < dayInputs.length; i++) {
+            dayInputs[i].value = room;
+            room++;
+            if (room === 13) room++;
+            if (room > 54) room = 1;
+        }
     }
 
     // Update calendar whenever the month or year selection changes
@@ -77,6 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     generateBtn.addEventListener('click', generateCalendar);
     printBtn.addEventListener('click', () => window.print());
+    if (autoAssignBtn) {
+        autoAssignBtn.addEventListener('click', autoAssign);
+    }
     if (adminBtn) {
         adminBtn.addEventListener('click', () => {
             const pass = prompt('Mot de passe admin ?');
@@ -84,11 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 isAdmin = true;
                 alert('Mode \u00e9dition activ\u00e9');
                 generateCalendar();
+                updateAdminControls();
             } else {
                 alert('Mot de passe incorrect');
             }
         });
     }
 
+    updateAdminControls();
     generateCalendar();
 });
