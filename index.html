@@ -15,13 +15,15 @@
         <button id="generate">Afficher</button>
         <button id="print">Imprimer</button>
         <button id="theme-toggle">Thème</button>
-        <label for="start-room">Chambre de départ :</label>
-        <input id="start-room" type="number" min="1" max="54" placeholder="Chambre">
-        <select id="start-day"></select>
-        <button id="auto-assign">Auto</button>
-        <input id="exclude-room" type="number" min="1" max="54" placeholder="Exclure">
-        <button id="add-exclude">+</button>
-        <div id="excluded-list"></div>
+        <div id="admin-controls" class="admin-controls">
+            <label for="start-room">Chambre de départ :</label>
+            <input id="start-room" type="number" min="1" max="54" placeholder="Chambre">
+            <select id="start-day"></select>
+            <button id="auto-assign">Auto</button>
+            <input id="exclude-room" type="number" min="1" max="54" placeholder="Exclure">
+            <button id="add-exclude">+</button>
+            <div id="excluded-list"></div>
+        </div>
         <button id="admin-login">Admin</button>
     </div>
     <div id="calendar" class="calendar"></div>
