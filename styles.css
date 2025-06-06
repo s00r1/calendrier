@@ -2,6 +2,8 @@
     --bg-color: #fff;
     --text-color: #000;
     --header-bg: #f0f0f0;
+    --accent-color: #007bff;
+    --header-text: #000;
 }
 
 body {
@@ -11,10 +13,16 @@ body {
     color: var(--text-color);
 }
 
+h1, h2 {
+    color: var(--accent-color);
+}
+
 body.dark {
     --bg-color: #333;
     --text-color: #eee;
     --header-bg: #444;
+    --accent-color: #66b0ff;
+    --header-text: #fff;
 }
 
 .controls {
@@ -23,6 +31,15 @@ body.dark {
     flex-wrap: wrap;
     gap: 10px;
     align-items: center;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: var(--header-text);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .calendar {
@@ -40,6 +57,7 @@ body.dark {
 
 .header {
     background-color: var(--header-bg);
+    color: var(--header-text);
     font-weight: bold;
 }
 
