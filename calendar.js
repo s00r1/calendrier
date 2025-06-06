@@ -1,108 +1,70 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const calendar = document.getElementById("calendar");
-    const eventDate = document.getElementById("event-date");
-    const eventType = document.getElementById("event-type");
-    const eventText = document.getElementById("event-text");
-    const saveButton = document.getElementById("save-event");
-    const deleteButton = document.getElementById("delete-event");
-    const prevMonthButton = document.getElementById("prev-month");
-    const nextMonthButton = document.getElementById("next-month");
-    const currentMonthDisplay = document.getElementById("current-month");
+document.addEventListener('DOMContentLoaded', () => {
+    const monthSelect = document.getElementById('month');
+    const yearSelect = document.getElementById('year');
+    const calendar = document.getElementById('calendar');
+    const generateBtn = document.getElementById('generate');
+    const printBtn = document.getElementById('print');
 
-    let events = JSON.parse(localStorage.getItem("events")) || {};
-    let currentDate = new Date();
+    const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 
-    const horaires = {
-        ouverture: "07h00 - 15h00",
-        fermeture: "15h00 - 23h00",
-        nuit: "23h00 - 07h00",
-        journee: "09h00 - 17h00",
-        repos: ""
-    };
+    const today = new Date();
+    for (let i = 0; i < 12; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = monthNames[i];
+        monthSelect.appendChild(option);
+    }
+    for (let y = today.getFullYear() - 1; y <= today.getFullYear() + 1; y++) {
+        const option = document.createElement('option');
+        option.value = y;
+        option.textContent = y;
+        yearSelect.appendChild(option);
+    }
+    monthSelect.value = today.getMonth();
+    yearSelect.value = today.getFullYear();
 
-    function displayCalendar() {
-        let year = currentDate.getFullYear();
-        let month = currentDate.getMonth();
-        let firstDay = new Date(year, month, 1).getDay();
-        let daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        firstDay = firstDay === 0 ? 6 : firstDay - 1;
-
-        currentMonthDisplay.textContent = currentDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
-
-        let html = "<div class='calendar-grid'>";
-
-        const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-        html += daysOfWeek.map(day => `<div class="day-name">${day}</div>`).join('');
-
-        let dayCounter = 1;
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < 7; j++) {
-                let dayClass = "day";
-                if (i === 0 && j < firstDay) {
-                    html += `<div class="day empty"></div>`;
-                } else if (dayCounter > daysInMonth) {
-                    html += `<div class="day empty"></div>`;
-                } else {
-                    let currentDay = new Date(year, month, dayCounter);
-                    let event = events[`${year}-${String(month + 1).padStart(2, '0')}-${String(dayCounter).padStart(2, '0')}`];
-                    if (event) {
-                        dayClass += ` event-${event.type}`;
-                    }
-                    if (currentDay.toDateString() === new Date().toDateString()) {
-                        dayClass += " today";
-                    }
-                    html += `<div class="${dayClass}" data-date="${year}-${String(month + 1).padStart(2, '0')}-${String(dayCounter).padStart(2, '0')}">
-                                <span>${dayCounter}</span>
-                                <span class="event-type">${event ? event.type : ''}</span>
-                                <span class="event-hours">${event ? horaires[event.type] : ''}</span>
-                              </div>`;
-                    dayCounter++;
-                }
-            }
-        }
-
-        html += "</div>";
-
-        calendar.innerHTML = html;
-
-        document.querySelectorAll(".day:not(.empty)").forEach(day => {
-            day.addEventListener("click", function() {
-                eventDate.value = this.dataset.date;
-                eventType.value = events[this.dataset.date]?.type || "repos";
-                eventText.value = events[this.dataset.date]?.note || "";
-            });
+    function createHeader() {
+        ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
+            const div = document.createElement('div');
+            div.className = 'header';
+            div.textContent = day;
+            calendar.appendChild(div);
         });
     }
 
-    saveButton.addEventListener("click", function() {
-        if (eventDate.value) {
-            events[eventDate.value] = {
-                type: eventType.value,
-                note: eventText.value
-            };
-            localStorage.setItem("events", JSON.stringify(events));
-            displayCalendar();
+    function generateCalendar() {
+        const month = parseInt(monthSelect.value, 10);
+        const year = parseInt(yearSelect.value, 10);
+        calendar.innerHTML = '';
+        createHeader();
+
+        let firstDay = new Date(year, month, 1).getDay();
+        firstDay = firstDay === 0 ? 7 : firstDay; // start Monday
+        for (let i = 1; i < firstDay; i++) {
+            calendar.appendChild(document.createElement('div'));
         }
-    });
 
-    deleteButton.addEventListener("click", function() {
-        if (eventDate.value) {
-            delete events[eventDate.value];
-            localStorage.setItem("events", JSON.stringify(events));
-            displayCalendar();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'day';
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = 1;
+            input.max = 54;
+            input.placeholder = 'Chambre';
+            input.addEventListener('input', function () {
+                if (this.value === '13') this.value = '';
+            });
+            dayDiv.textContent = d;
+            dayDiv.appendChild(document.createElement('br'));
+            dayDiv.appendChild(input);
+            calendar.appendChild(dayDiv);
         }
-    });
+    }
 
-    prevMonthButton.addEventListener("click", function() {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        displayCalendar();
-    });
+    generateBtn.addEventListener('click', generateCalendar);
+    printBtn.addEventListener('click', () => window.print());
 
-    nextMonthButton.addEventListener("click", function() {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        displayCalendar();
-    });
-
-    displayCalendar();
+    generateCalendar();
 });
