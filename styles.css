@@ -109,6 +109,26 @@ input {
     text-align: center;
 }
 
+.excluded-item {
+    display: inline-flex;
+    align-items: center;
+    margin: 2px;
+    padding: 2px 4px;
+    background-color: var(--header-bg);
+    border-radius: 4px;
+}
+
+.excluded-item button {
+    margin-left: 4px;
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0 4px;
+}
+
 @media print {
     .controls button,
     .controls select {
