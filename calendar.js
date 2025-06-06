@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const monthSelect = document.getElementById('month');
     const yearSelect = document.getElementById('year');
     const calendar = document.getElementById('calendar');
-    const generateBtn = document.getElementById('generate');
     const printBtn = document.getElementById('print');
     const subtitle = document.getElementById('subtitle');
     const adminBtn = document.getElementById('admin-login');
@@ -127,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
 
-    generateBtn.addEventListener('click', generateCalendar);
     printBtn.addEventListener('click', () => window.print());
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
