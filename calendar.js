@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addExcludeBtn = document.getElementById('add-exclude');
     const excludedListDiv = document.getElementById('excluded-list');
     const errorMessageDiv = document.getElementById('error-message');
+    const langSwitcher = document.getElementById('langSwitcher');
     const themeSwitcher = document.getElementById('themeSwitcher');
     const logoutModal = document.getElementById('logout-modal');
     const logoutConfirm = document.getElementById('logout-confirm');
@@ -22,6 +23,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
+
+    let currentLang = 'fr';
+    const monthNamesMap = {
+        fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        ar: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
+    };
+    const dayNamesMap = {
+        fr: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+        ar: ['أحد', 'اثن', 'ثلث', 'أربع', 'خميس', 'جمع', 'سبت'],
+    };
+    const fullDayNamesMap = {
+        fr: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+        ar: ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد'],
+    };
+    const texts = {
+        fr: {
+            title: 'Calendrier du ménage de la cuisine',
+            subtitlePrefix: 'Pour le mois de',
+            startRoomLabel: 'Chambre de départ :',
+            startRoomPlaceholder: 'Chambre',
+            startDayLabel: 'Date de début :',
+            excludeRoomLabel: 'Chambre à exclure :',
+            excludeRoomPlaceholder: 'Exclure',
+            autoAssign: 'Auto',
+            clearCalendar: 'Clear',
+            adminLogin: 'Admin',
+            print: 'Imprimer',
+            logoutPrompt: 'Quitter le mode admin ?',
+            logoutConfirm: 'Oui',
+            logoutCancel: 'Non',
+            invalidRoom: 'La chambre de départ est invalide',
+            invalidDate: 'La date de début est hors du mois',
+            adminPassPrompt: 'Mot de passe admin ?',
+            adminEnabled: 'Mode édition activé',
+            adminWrongPass: 'Mot de passe incorrect',
+            dayPrefix: 'Chambre',
+        },
+        ar: {
+            title: 'جدول تنظيف المطبخ',
+            subtitlePrefix: 'لشهر',
+            startRoomLabel: 'الغرفة البداية:',
+            startRoomPlaceholder: 'غرفة',
+            startDayLabel: 'تاريخ البداية:',
+            excludeRoomLabel: 'الغرفة المستثناة:',
+            excludeRoomPlaceholder: 'استثناء',
+            autoAssign: 'تلقائي',
+            clearCalendar: 'مسح',
+            adminLogin: 'إدارة',
+            print: 'طباعة',
+            logoutPrompt: 'الخروج من وضع الإدارة؟',
+            logoutConfirm: 'نعم',
+            logoutCancel: 'لا',
+            invalidRoom: 'رقم الغرفة غير صالح',
+            invalidDate: 'التاريخ خارج الشهر',
+            adminPassPrompt: 'كلمة مرور الإدارة؟',
+            adminEnabled: 'تم تفعيل وضع التحرير',
+            adminWrongPass: 'كلمة المرور غير صحيحة',
+            dayPrefix: 'الغرفة',
+        },
+    };
 
 
     function updateExcludedList() {
@@ -68,15 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
         updateExcludedList();
     }
 
-    const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-
     const today = new Date();
-    for (let i = 0; i < 12; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = monthNames[i];
-        monthSelect.appendChild(option);
+    function populateMonthSelect() {
+        monthSelect.innerHTML = '';
+        for (let i = 0; i < 12; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = monthNamesMap[currentLang][i];
+            monthSelect.appendChild(option);
+        }
     }
+    populateMonthSelect();
     for (let y = today.getFullYear() - 1; y <= today.getFullYear() + 1; y++) {
         const option = document.createElement('option');
         option.value = y;
@@ -87,15 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     yearSelect.value = today.getFullYear();
 
     function createHeader() {
-        const fullDayNames = [
-            'Lundi',
-            'Mardi',
-            'Mercredi',
-            'Jeudi',
-            'Vendredi',
-            'Samedi',
-            'Dimanche',
-        ];
+        const fullDayNames = fullDayNamesMap[currentLang];
         fullDayNames.forEach(day => {
             const div = document.createElement('div');
             div.className = 'header';
@@ -110,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         calendar.innerHTML = '';
         createHeader();
         if (subtitle) {
-            subtitle.textContent = `Pour le mois de ${monthNames[month]} ${year}`;
+            subtitle.textContent = `${texts[currentLang].subtitlePrefix} ${monthNamesMap[currentLang][month]} ${year}`;
         }
 
         let firstDay = new Date(year, month, 1).getDay();
@@ -129,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 startDaySelect.appendChild(opt);
             }
         }
-        const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+        const dayNames = dayNamesMap[currentLang];
         for (let d = 1; d <= daysInMonth; d++) {
             const dayDiv = document.createElement('div');
             dayDiv.className = 'day';
@@ -137,12 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
             inputWrapper.className = 'room-input';
             const prefix = document.createElement('span');
             prefix.className = 'room-prefix';
-            prefix.textContent = 'Chambre';
+            prefix.textContent = texts[currentLang].dayPrefix;
             const input = document.createElement('input');
             input.type = 'number';
             input.min = 1;
             input.max = 54;
-            input.placeholder = 'Chambre';
+            input.placeholder = texts[currentLang].dayPrefix;
             input.disabled = !isAdmin;
             input.addEventListener('input', function () {
                 if (this.value === '13') this.value = '';
@@ -167,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysInMonth = dayInputs.length;
 
         if (isNaN(startRoom) || startRoom < 1 || startRoom > 54 || excludedRooms.has(startRoom)) {
-            messages.push('La chambre de départ est invalide');
+            messages.push(texts[currentLang].invalidRoom);
         }
         if (isNaN(startDay) || startDay < 1 || startDay > daysInMonth) {
-            messages.push('La date de début est hors du mois');
+            messages.push(texts[currentLang].invalidDate);
         }
 
         if (messages.length > 0) {
@@ -210,11 +265,41 @@ document.addEventListener('DOMContentLoaded', () => {
         excludeRoomInput.value = '';
     }
 
+    function applyLanguage(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        const t = texts[lang];
+        document.title = t.title;
+        document.querySelector('h1').textContent = t.title;
+        document.querySelector('label[for="start-room"]').textContent = t.startRoomLabel;
+        startRoomInput.placeholder = t.startRoomPlaceholder;
+        document.querySelector('label[for="start-day"]').textContent = t.startDayLabel;
+        document.querySelector('label[for="exclude-room"]').textContent = t.excludeRoomLabel;
+        excludeRoomInput.placeholder = t.excludeRoomPlaceholder;
+        autoAssignBtn.textContent = t.autoAssign;
+        clearCalendarBtn.textContent = t.clearCalendar;
+        adminBtn.textContent = t.adminLogin;
+        printBtn.textContent = t.print;
+        if (logoutModal) logoutModal.querySelector('p').textContent = t.logoutPrompt;
+        logoutConfirm.textContent = t.logoutConfirm;
+        logoutCancel.textContent = t.logoutCancel;
+        if (langSwitcher) langSwitcher.textContent = lang === 'ar' ? 'FR' : 'AR';
+        populateMonthSelect();
+        generateCalendar();
+    }
+
     // Update calendar whenever the month or year selection changes
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
 
-    printBtn.addEventListener('click', () => window.print());
+    printBtn.addEventListener('click', () => {
+        const before = currentLang;
+        if (before !== 'fr') {
+            applyLanguage('fr');
+            window.addEventListener('afterprint', () => applyLanguage(before), { once: true });
+        }
+        window.print();
+    });
     if (themeSwitcher) {
         if (
             localStorage.getItem('theme') === 'dark' ||
@@ -232,6 +317,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 themeSwitcher.textContent = '🌘';
                 localStorage.setItem('theme', 'light');
             }
+        });
+    }
+    if (langSwitcher) {
+        langSwitcher.addEventListener('click', () => {
+            const newLang = currentLang === 'fr' ? 'ar' : 'fr';
+            langSwitcher.textContent = newLang === 'ar' ? 'FR' : 'AR';
+            applyLanguage(newLang);
         });
     }
     if (autoAssignBtn) {
@@ -257,14 +349,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (logoutModal) logoutModal.style.display = 'flex';
                 return;
             }
-            const pass = prompt('Mot de passe admin ?');
+            const pass = prompt(texts[currentLang].adminPassPrompt);
             if (pass === 's00r1') {
                 isAdmin = true;
-                alert('Mode \u00e9dition activ\u00e9');
+                alert(texts[currentLang].adminEnabled);
                 generateCalendar();
                 updateAdminControls();
             } else {
-                alert('Mot de passe incorrect');
+                alert(texts[currentLang].adminWrongPass);
             }
         });
     }
@@ -283,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    applyLanguage(currentLang);
     updateAdminControls();
-    generateCalendar();
     updateExcludedList();
 });
