@@ -273,6 +273,9 @@ input {
     .controls input {
         display: none;
     }
+    .admin-section {
+        display: none;
+    }
     #excluded-list {
         display: none;
     }
