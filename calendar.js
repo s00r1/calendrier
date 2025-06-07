@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ar: {
             title: 'جدول تنظيف المطبخ',
             subtitlePrefix: 'لشهر',
-            startRoomLabel: 'الغرفة البداية:',
+            startRoomLabel: 'غرفة البداية:',
             startRoomPlaceholder: 'غرفة',
             startDayLabel: 'تاريخ البداية:',
             excludeRoomLabel: 'الغرفة المستثناة:',
