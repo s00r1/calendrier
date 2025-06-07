@@ -72,6 +72,8 @@ button:hover {
 #print {
     background-color: var(--btn-print);
     color: #fff;
+    display: block;
+    margin: 10px auto;
 }
 
 
@@ -278,6 +280,7 @@ input {
     .calendar {
         width: 100%;
     }
+    #print,
     .theme-switcher {
         display: none;
     }
