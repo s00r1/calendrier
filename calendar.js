@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // -------- PATCH BACKEND JSONBIN.IO --------
     const BIN_URL = "https://api.jsonbin.io/v3/b/6844456c8561e97a5020ae90";
-    const API_KEY = "TA_CLE_API_ICI"; // Mets ta vraie clé ici !
+    const API_KEY = "$2a$10$mJlj7uFLeyG4KrQN66zS4uYzd0mTDAZBeVQ08P4m/L.5sMkq/8VSy"; // Mets ta vraie clé ici !
 
     // Récupère toutes les assignations depuis jsonbin.io
     async function fetchAssignments() {
