@@ -234,7 +234,10 @@ input {
         display: none;
     }
     #excluded-list {
-        display: none;
+        display: none !important;
+    }
+    .admin-section {
+        display: none !important;
     }
     input {
         border: none;
