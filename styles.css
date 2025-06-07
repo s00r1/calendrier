@@ -273,8 +273,14 @@ input {
     .controls input {
         display: none;
     }
+    .admin-section {
+        display: none !important;
+    }
     #excluded-list {
-        display: none;
+        display: none !important;
+    }
+    .modal {
+        display: none !important;
     }
     input {
         border: none;
