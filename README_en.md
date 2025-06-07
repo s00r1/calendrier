@@ -12,7 +12,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Print directly from the browser
 - Admin interface elements are automatically hidden when printing
 - Bilingual interface (French/العربية) with instant switching via the AR/FR button
-- Online saving of assignments thanks to JSONBin via `/api/jsonbin-proxy` (set the `JSONBIN_KEY` environment variable on the server)
+- Online saving of assignments thanks to JSONBin via the `/api/jsonbin-proxy` function (deploy it to Vercel with the `JSONBIN_KEY` environment variable)
 
 ## Installation
 
@@ -22,11 +22,7 @@ No specific installation is required. Clone the repository and open the `index.h
 npx serve .
 ```
 
-If you want to persist assignments, run the proxy server located in `api/jsonbin-proxy.js` with the `JSONBIN_KEY` environment variable:
-
-```bash
-JSONBIN_KEY=yourKey node api/jsonbin-proxy.js
-```
+If you want to persist assignments, deploy the `api/jsonbin-proxy.js` function to Vercel (or a similar serverless platform) with the `JSONBIN_KEY` environment variable.
 
 The front-end will automatically communicate with `/api/jsonbin-proxy`.
 

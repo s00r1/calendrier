@@ -13,7 +13,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Les éléments de l'interface administrateur sont automatiquement masqués lors
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
-- Sauvegarde en ligne des affectations grâce à JSONBin via `/api/jsonbin-proxy` (définissez la variable d'environnement `JSONBIN_KEY` côté serveur)
+- Sauvegarde en ligne des affectations grâce à JSONBin via `/api/jsonbin-proxy` (à déployer sur Vercel avec la variable d'environnement `JSONBIN_KEY`)
 
 ## Installation
 
@@ -23,11 +23,7 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 npx serve .
 ```
 
-Si vous souhaitez conserver les affectations, lancez le serveur proxy présent dans `api/jsonbin-proxy.js` en définissant la variable d'environnement `JSONBIN_KEY` :
-
-```bash
-JSONBIN_KEY=maCle node api/jsonbin-proxy.js
-```
+Si vous souhaitez conserver les affectations, déployez la fonction `api/jsonbin-proxy.js` sur Vercel (ou une plateforme serverless similaire) en définissant la variable d'environnement `JSONBIN_KEY`.
 
 Le front-end utilise alors automatiquement `/api/jsonbin-proxy` pour communiquer avec JSONBin.
 
