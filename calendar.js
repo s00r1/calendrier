@@ -159,16 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
             item.className = 'excluded-item';
             const label = document.createElement('span');
             label.textContent = room;
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'remove-exclude';
-            removeBtn.textContent = '×';
-            removeBtn.addEventListener('click', () => {
-                excludedRooms.delete(room);
-                updateExcludedList();
-            });
             item.appendChild(label);
-            item.appendChild(removeBtn);
+            if (room !== 13) {
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'remove-exclude';
+                removeBtn.textContent = '×';
+                removeBtn.addEventListener('click', () => {
+                    excludedRooms.delete(room);
+                    updateExcludedList();
+                });
+                item.appendChild(removeBtn);
+            }
             excludedListDiv.appendChild(item);
         });
     }
