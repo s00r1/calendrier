@@ -24,6 +24,16 @@ npx serve .
 
 If you want to persist assignments, modify `BIN_URL` in `calendar.js` and set your API key in `localStorage` (key `jsonbin_api_key`) or via a `<script data-api-key>`.
 
+### Set the API key manually
+
+Open your browser's developer tools (usually **F12**) and run:
+
+```javascript
+localStorage.setItem('jsonbin_api_key', 'YOUR_KEY')
+```
+
+Then reload the page so the application can read the key.
+
 ## Quick usage
 
 1. Select the desired month and year; the calendar updates instantly.
