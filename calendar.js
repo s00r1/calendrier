@@ -1,10 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     // -------- PATCH BACKEND JSONBIN.IO --------
     const BIN_URL = "https://api.jsonbin.io/v3/b/6844456c8561e97a5020ae90";
-    const API_KEY = "$2a$10$mJlj7uFLeyG4KrQN66zS4uYzd0mTDAZBeVQ08P4m/L.5sMkq/8VSy"; // Mets ta vraie clé ici !
+    // La clé peut être stockée dans localStorage ou dans un <script> possédant
+    // l'attribut data-api-key. Aucun appel réseau n'est effectué sans clé.
+    const API_KEY =
+        localStorage.getItem('jsonbin_api_key') ||
+        document.querySelector('script[data-api-key]')?.dataset.apiKey ||
+        '';
 
     // Récupère toutes les assignations depuis jsonbin.io
     async function fetchAssignments() {
+        if (!API_KEY) {
+            showRequestError('Clé API manquante pour JSONBin');
+            return [];
+        }
         try {
             const r = await fetch(BIN_URL + "/latest", {
                 headers: {
@@ -23,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sauvegarde ou supprime une assignation
     async function saveAssignment(date, chambre) {
+        if (!API_KEY) {
+            showRequestError('Clé API manquante pour JSONBin');
+            return;
+        }
         try {
             // 1. Récupère toutes les assignations actuelles
             let assignments = await fetchAssignments();

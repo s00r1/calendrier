@@ -13,7 +13,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Les éléments de l'interface administrateur sont automatiquement masqués lors
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
-- Sauvegarde en ligne des affectations grâce à JSONBin (modifiez `BIN_URL` et `API_KEY` dans `calendar.js`)
+- Sauvegarde en ligne des affectations grâce à JSONBin (modifiez `BIN_URL` dans `calendar.js` et fournissez votre clé API via `localStorage` ou un `<script data-api-key>`)
 
 ## Installation
 
@@ -23,8 +23,7 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 npx serve .
 ```
 
-Si vous souhaitez conserver les affectations, renseignez vos propres valeurs de
-`BIN_URL` et `API_KEY` dans `calendar.js` pour pointer vers votre espace JSONBin.
+Si vous souhaitez conserver les affectations, modifiez `BIN_URL` dans `calendar.js` et renseignez votre clé API dans `localStorage` (clé `jsonbin_api_key`) ou via un `<script data-api-key>`.
 
 ## Utilisation rapide
 
@@ -50,7 +49,7 @@ Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de re
 
 ### Tester la sauvegarde
 
-Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via JSONBin. Si ce n'est pas le cas, vérifiez que `BIN_URL` et `API_KEY` sont correctement configurés dans `calendar.js`.
+Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via JSONBin. Si ce n'est pas le cas, vérifiez que `BIN_URL` est correct et que la clé API est disponible dans le navigateur.
 
 ### Thème sombre
 
