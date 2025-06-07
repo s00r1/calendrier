@@ -10,6 +10,8 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Exclusion de chambres et démarrage de l'attribution à une date précise
 - Effacement rapide du calendrier et thème sombre pour le confort visuel
 - Impression directe depuis le navigateur
+- Les éléments de l'interface administrateur sont automatiquement masqués lors
+  de l'impression
 
 ## Installation
 
