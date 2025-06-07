@@ -23,7 +23,7 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 npx serve .
 ```
 
-Si vous souhaitez conserver les affectations, déployez la fonction `api/jsonbin-proxy.js` sur Vercel (ou une plateforme serverless similaire) en définissant la variable d'environnement `JSONBIN_KEY`.
+Si vous souhaitez conserver les affectations, déployez la fonction `api/jsonbin-proxy/[[...path]].js` sur Vercel (ou une plateforme serverless similaire) en définissant la variable d'environnement `JSONBIN_KEY`.
 
 Le front-end utilise alors automatiquement `/api/jsonbin-proxy` pour communiquer avec JSONBin.
 

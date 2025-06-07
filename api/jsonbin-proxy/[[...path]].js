@@ -12,6 +12,13 @@ module.exports = async function(req, res) {
   const path = req.url.replace(/^\/api\/jsonbin-proxy/, '');
   const url = BASE_URL + path + (req.originalUrl && req.originalUrl.includes('?') ? req.originalUrl.slice(req.originalUrl.indexOf('?')) : '');
 
+  const raw = await new Promise(resolve => {
+    let data = '';
+    req.on('data', c => data += c);
+    req.on('end', () => resolve(data));
+  });
+  const body = raw ? JSON.parse(raw) : undefined;
+
   try {
     const forward = await fetch(url, {
       method: req.method,
@@ -19,7 +26,7 @@ module.exports = async function(req, res) {
         'Content-Type': 'application/json',
         'X-Master-Key': apiKey
       },
-      body: ['GET', 'HEAD'].includes(req.method) ? undefined : JSON.stringify(req.body)
+      body: ['GET', 'HEAD'].includes(req.method) ? undefined : JSON.stringify(body)
     });
 
     const text = await forward.text();
