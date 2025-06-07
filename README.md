@@ -13,7 +13,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Les éléments de l'interface administrateur sont automatiquement masqués lors
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
-- Sauvegarde en ligne des affectations grâce à JSONBin (modifiez `BIN_URL` dans `calendar.js` et fournissez votre clé API via `localStorage` ou un `<script data-api-key>`)
+- Sauvegarde en ligne des affectations grâce à JSONBin via `/api/jsonbin-proxy` (définissez la variable d'environnement `JSONBIN_KEY` côté serveur)
 
 ## Installation
 
@@ -23,22 +23,13 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 npx serve .
 ```
 
-Si vous souhaitez conserver les affectations, modifiez `BIN_URL` dans `calendar.js` et renseignez votre clé API dans `localStorage` (clé `jsonbin_api_key`) ou via un `<script data-api-key>`.
-Un exemple commenté est présent dans `index.html` juste avant l'inclusion du script `calendar.js` :
+Si vous souhaitez conserver les affectations, lancez le serveur proxy présent dans `api/jsonbin-proxy.js` en définissant la variable d'environnement `JSONBIN_KEY` :
 
-```html
-<!-- <script data-api-key="VOTRE_CLÉ_API"></script> -->
+```bash
+JSONBIN_KEY=maCle node api/jsonbin-proxy.js
 ```
 
-### Définir la clé API manuellement
-
-Ouvrez les outils développeur de votre navigateur (généralement avec **F12**) et exécutez :
-
-```javascript
-localStorage.setItem('jsonbin_api_key', 'VOTRE_CLÉ')
-```
-
-Rechargez ensuite la page pour que l'application prenne en compte la clé.
+Le front-end utilise alors automatiquement `/api/jsonbin-proxy` pour communiquer avec JSONBin.
 
 ## Utilisation rapide
 
@@ -68,7 +59,7 @@ Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de re
 
 ### Tester la sauvegarde
 
-Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via JSONBin. Si ce n'est pas le cas, vérifiez que `BIN_URL` est correct et que la clé API est disponible dans le navigateur.
+Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via JSONBin. Si ce n'est pas le cas, vérifiez que le proxy est bien lancé et que `JSONBIN_KEY` est configurée côté serveur.
 
 ### Thème sombre
 
