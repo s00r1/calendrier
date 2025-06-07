@@ -22,7 +22,7 @@ No specific installation is required. Clone the repository and open the `index.h
 npx serve .
 ```
 
-If you want to persist assignments, deploy the `api/jsonbin-proxy.js` function to Vercel (or a similar serverless platform) with the `JSONBIN_KEY` environment variable.
+If you want to persist assignments, deploy the `api/jsonbin-proxy/[[...path]].js` function to Vercel (or a similar serverless platform) with the `JSONBIN_KEY` environment variable.
 
 The front-end will automatically communicate with `/api/jsonbin-proxy`.
 
