@@ -30,6 +30,16 @@ Un exemple commenté est présent dans `index.html` juste avant l'inclusion du s
 <!-- <script data-api-key="VOTRE_CLÉ_API"></script> -->
 ```
 
+### Définir la clé API manuellement
+
+Ouvrez les outils développeur de votre navigateur (généralement avec **F12**) et exécutez :
+
+```javascript
+localStorage.setItem('jsonbin_api_key', 'VOTRE_CLÉ')
+```
+
+Rechargez ensuite la page pour que l'application prenne en compte la clé.
+
 ## Utilisation rapide
 
 1. Sélectionnez le mois et l'année souhaités, le calendrier se met à jour instantanément.
