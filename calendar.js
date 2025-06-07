@@ -4,18 +4,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Récupère toutes les assignations du Google Sheet
     async function fetchAssignments() {
-        const r = await fetch(BACKEND_URL);
-        return await r.json(); // [{date:"2024-06-10", chambre:"22"}, ...]
+        try {
+            const r = await fetch(BACKEND_URL);
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return await r.json();
+        } catch (err) {
+            console.error(err);
+            showRequestError("Erreur lors de la récupération des données");
+            return [];
+        }
     }
 
     // Sauvegarde ou supprime une assignation (update/ajout/suppression)
     async function saveAssignment(date, chambre) {
-        // Si chambre vide, suppression
-        await fetch(BACKEND_URL, {
-            method: "POST",
-            body: JSON.stringify({date, chambre}),
-            headers: {"Content-Type": "application/json"}
-        });
+        try {
+            await fetch(BACKEND_URL, {
+                method: "POST",
+                body: JSON.stringify({date, chambre}),
+                headers: {"Content-Type": "application/json"}
+            });
+        } catch (err) {
+            console.error(err);
+            showRequestError("Erreur lors de l'enregistrement des données");
+        }
     }
     // -------- FIN PATCH BACKEND --------
 
@@ -42,6 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutModal = document.getElementById('logout-modal');
     const logoutConfirm = document.getElementById('logout-confirm');
     const logoutCancel = document.getElementById('logout-cancel');
+    function showRequestError(msg) {
+        if (errorMessageDiv) {
+            errorMessageDiv.textContent = msg;
+        } else {
+            alert(msg);
+        }
+    }
+
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
