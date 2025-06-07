@@ -222,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.max = 54;
             input.placeholder = texts[currentLang].dayPrefix;
             input.disabled = !isAdmin;
+            input.dataset.day = d; // used for delegated change handler
             input.addEventListener('input', function () {
                 if (this.value === '13') this.value = '';
             });
@@ -243,15 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayInputs[d - 1].value = found.chambre;
             }
         }
-        // --------- Save à chaque modif input (patch admin only) ---------
-        dayInputs.forEach((input, idx) => {
-            input.addEventListener('change', async () => {
-                if (isAdmin) {
-                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
-                    await saveAssignment(dateStr, input.value); // PATCH : call backend pour update ou delete
-                }
-            });
-        });
         updateAdminControls();
     }
 
@@ -348,6 +340,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update calendar whenever the month or year selection changes
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
+
+    // Delegated change handler for day inputs
+    calendar.addEventListener('change', async e => {
+        if (!(e.target instanceof HTMLInputElement)) return;
+        if (!e.target.closest('.day')) return;
+        if (!isAdmin) return;
+        const day = parseInt(e.target.dataset.day, 10);
+        if (!day) return;
+        const month = parseInt(monthSelect.value, 10);
+        const year = parseInt(yearSelect.value, 10);
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        await saveAssignment(dateStr, e.target.value);
+    });
 
     printBtn.addEventListener('click', () => {
         const before = currentLang;
