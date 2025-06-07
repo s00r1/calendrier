@@ -265,6 +265,13 @@ document.addEventListener('DOMContentLoaded', () => {
         excludeRoomInput.value = '';
     }
 
+    function restoreInputs(values) {
+        const inputs = calendar.querySelectorAll('.day input');
+        inputs.forEach((input, i) => {
+            input.value = values[i] || '';
+        });
+    }
+
     function applyLanguage(lang) {
         currentLang = lang;
         document.documentElement.lang = lang;
@@ -294,9 +301,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     printBtn.addEventListener('click', () => {
         const before = currentLang;
+        const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
         if (before !== 'fr') {
             applyLanguage('fr');
-            window.addEventListener('afterprint', () => applyLanguage(before), { once: true });
+            restoreInputs(savedValues);
+            window.addEventListener(
+                'afterprint',
+                () => {
+                    applyLanguage(before);
+                    restoreInputs(savedValues);
+                },
+                { once: true }
+            );
         }
         window.print();
     });
