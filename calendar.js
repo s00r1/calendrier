@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const excludedListDiv = document.getElementById('excluded-list');
     const errorMessageDiv = document.getElementById('error-message');
     const themeSwitcher = document.getElementById('themeSwitcher');
+    const logoutModal = document.getElementById('logout-modal');
+    const logoutConfirm = document.getElementById('logout-confirm');
+    const logoutCancel = document.getElementById('logout-cancel');
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
@@ -43,6 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function setDayInputsDisabled(disabled) {
+        const inputs = calendar.querySelectorAll('.day input');
+        inputs.forEach(inp => {
+            inp.disabled = disabled;
+        });
+    }
+
     function updateAdminControls() {
         if (adminSection) adminSection.style.display = isAdmin ? 'block' : 'none';
         if (adminControls) adminControls.style.display = isAdmin ? 'flex' : 'none';
@@ -52,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isAdmin) errorMessageDiv.textContent = '';
         }
         if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
+        setDayInputsDisabled(!isAdmin);
         updateExcludedList();
     }
 
@@ -209,6 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (adminBtn) {
         adminBtn.addEventListener('click', () => {
+            if (isAdmin) {
+                if (logoutModal) logoutModal.style.display = 'flex';
+                return;
+            }
             const pass = prompt('Mot de passe admin ?');
             if (pass === 's00r1') {
                 isAdmin = true;
@@ -218,6 +233,20 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 alert('Mot de passe incorrect');
             }
+        });
+    }
+
+    if (logoutCancel) {
+        logoutCancel.addEventListener('click', () => {
+            if (logoutModal) logoutModal.style.display = 'none';
+        });
+    }
+
+    if (logoutConfirm) {
+        logoutConfirm.addEventListener('click', () => {
+            isAdmin = false;
+            if (logoutModal) logoutModal.style.display = 'none';
+            updateAdminControls();
         });
     }
 
