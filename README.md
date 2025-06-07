@@ -25,6 +25,8 @@ npx serve .
 
 Si vous souhaitez conserver les affectations, déployez la fonction `api/jsonbin-proxy/[[...path]].js` sur Vercel (ou une plateforme serverless similaire) en définissant la variable d'environnement `JSONBIN_KEY`.
 
+Cette fonction contient un identifiant de bin fixé dans la constante `BIN_ID`. Remplacez cette valeur par l'identifiant de votre propre bin ou exposez-le via la variable `JSONBIN_ID` lors du déploiement. La clé `JSONBIN_KEY` doit correspondre à ce même bin.
+
 Le front-end utilise alors automatiquement `/api/jsonbin-proxy` pour communiquer avec JSONBin.
 
 ## Utilisation rapide

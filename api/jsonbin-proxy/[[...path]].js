@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 
-const BIN_ID = '6844456c8561e97a5020ae90';
+// Default bin used for local testing. Replace with your own bin ID or
+// set the JSONBIN_ID environment variable when deploying.
+const BIN_ID = process.env.JSONBIN_ID || '6844456c8561e97a5020ae90';
 const BASE_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
 module.exports = async function(req, res) {
