@@ -85,7 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
     yearSelect.value = today.getFullYear();
 
     function createHeader() {
-        ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
+        const fullDayNames = [
+            'Lundi',
+            'Mardi',
+            'Mercredi',
+            'Jeudi',
+            'Vendredi',
+            'Samedi',
+            'Dimanche',
+        ];
+        fullDayNames.forEach(day => {
             const div = document.createElement('div');
             div.className = 'header';
             div.textContent = day;
