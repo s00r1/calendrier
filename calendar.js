@@ -1,4 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // -------- PATCH BACKEND --------
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbwtOOMbn3rfVCiazpl2Df6A5s22lfdlsv9sXdF0REdfkJyJET1Q9qqaztIitUlm417sDQ/exec";
+
+    // Récupère toutes les assignations du Google Sheet
+    async function fetchAssignments() {
+        const r = await fetch(BACKEND_URL);
+        return await r.json(); // [{date:"2024-06-10", chambre:"22"}, ...]
+    }
+
+    // Sauvegarde ou supprime une assignation (update/ajout/suppression)
+    async function saveAssignment(date, chambre) {
+        // Si chambre vide, suppression
+        await fetch(BACKEND_URL, {
+            method: "POST",
+            body: JSON.stringify({date, chambre}),
+            headers: {"Content-Type": "application/json"}
+        });
+    }
+    // -------- FIN PATCH BACKEND --------
+
+    // -- TOUT TON CODE À TOI (inchallah tu copies tout, rien à changer ici sauf la fonction generateCalendar !) --
+
     const monthSelect = document.getElementById('month');
     const yearSelect = document.getElementById('year');
     const calendar = document.getElementById('calendar');
@@ -84,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     };
 
-
     function updateExcludedList() {
         if (!excludedListDiv) return;
         const rooms = Array.from(excludedRooms).sort((a, b) => a - b);
@@ -159,7 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function generateCalendar() {
+    // ------------ PATCH PRINCIPAL : gestion backend Google Sheet -----------
+
+    async function generateCalendar() {
         const month = parseInt(monthSelect.value, 10);
         const year = parseInt(yearSelect.value, 10);
         calendar.innerHTML = '';
@@ -210,8 +233,29 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
         }
+        // --------- Ici, récupération des assignations depuis Google Sheet --------
+        const assignments = await fetchAssignments();
+        const dayInputs = calendar.querySelectorAll('.day input');
+        for (let d = 1; d <= dayInputs.length; d++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            const found = assignments.find(a => a.date === dateStr);
+            if (found) {
+                dayInputs[d - 1].value = found.chambre;
+            }
+        }
+        // --------- Save à chaque modif input (patch admin only) ---------
+        dayInputs.forEach((input, idx) => {
+            input.addEventListener('change', async () => {
+                if (isAdmin) {
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
+                    await saveAssignment(dateStr, input.value); // PATCH : call backend pour update ou delete
+                }
+            });
+        });
         updateAdminControls();
     }
+
+    // ------------ FIN PATCH PRINCIPAL ---------------
 
     function autoAssign() {
         const messages = [];
@@ -253,6 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const dayInputs = calendar.querySelectorAll('.day input');
         dayInputs.forEach(inp => {
             inp.value = '';
+            // PATCH: Suppression de l’assignation côté backend !
+            const month = parseInt(monthSelect.value, 10);
+            const year = parseInt(yearSelect.value, 10);
+            const idx = Array.from(dayInputs).indexOf(inp);
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
+            if (isAdmin) saveAssignment(dateStr, ""); // delete dans Google Sheet
         });
     }
 
