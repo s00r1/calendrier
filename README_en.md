@@ -12,7 +12,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Print directly from the browser
 - Admin interface elements are automatically hidden when printing
 - Bilingual interface (French/العربية) with instant switching via the AR/FR button
-- Online saving of assignments thanks to JSONBin (edit `BIN_URL` in `calendar.js` and provide your API key via `localStorage` or a `<script data-api-key>`)
+- Online saving of assignments thanks to JSONBin via `/api/jsonbin-proxy` (set the `JSONBIN_KEY` environment variable on the server)
 
 ## Installation
 
@@ -22,17 +22,13 @@ No specific installation is required. Clone the repository and open the `index.h
 npx serve .
 ```
 
-If you want to persist assignments, modify `BIN_URL` in `calendar.js` and set your API key in `localStorage` (key `jsonbin_api_key`) or via a `<script data-api-key>`.
+If you want to persist assignments, run the proxy server located in `api/jsonbin-proxy.js` with the `JSONBIN_KEY` environment variable:
 
-### Set the API key manually
-
-Open your browser's developer tools (usually **F12**) and run:
-
-```javascript
-localStorage.setItem('jsonbin_api_key', 'YOUR_KEY')
+```bash
+JSONBIN_KEY=yourKey node api/jsonbin-proxy.js
 ```
 
-Then reload the page so the application can read the key.
+The front-end will automatically communicate with `/api/jsonbin-proxy`.
 
 ## Quick usage
 
@@ -60,7 +56,7 @@ The **Clear** button quickly removes all entered values so you can start with a 
 
 ### Testing persistence
 
-After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via JSONBin. If not, check that `BIN_URL` is correct and that the API key is available in the browser.
+After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via JSONBin. If not, make sure the proxy server is running and that `JSONBIN_KEY` is set on the server.
 
 ### Dark theme
 
