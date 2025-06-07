@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ------------ FIN PATCH PRINCIPAL ---------------
 
-    function autoAssign() {
+    async function autoAssign() {
         const messages = [];
         if (errorMessageDiv) errorMessageDiv.textContent = '';
         const startRoom = parseInt(startRoomInput.value, 10);
@@ -324,6 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (room > 54) room = 1;
             }
             dayInputs[i].value = room;
+            if (isAdmin) {
+                const month = parseInt(monthSelect.value, 10);
+                const year = parseInt(yearSelect.value, 10);
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`;
+                await saveAssignment(dateStr, String(room));
+            }
             room++;
             if (room > 54) room = 1;
         }
