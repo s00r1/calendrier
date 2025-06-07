@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             logoutCancel: 'Non',
             invalidRoom: 'La chambre de départ est invalide',
             invalidDate: 'La date de début est hors du mois',
+            allExcluded: 'Toutes les chambres sont exclues',
             adminPassPrompt: 'Mot de passe admin ?',
             adminEnabled: 'Mode édition activé',
             adminWrongPass: 'Mot de passe incorrect',
@@ -156,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
             logoutCancel: 'لا',
             invalidRoom: 'رقم الغرفة غير صالح',
             invalidDate: 'التاريخ خارج الشهر',
+            allExcluded: 'جميع الغرف مستبعدة',
             adminPassPrompt: 'كلمة مرور الإدارة؟',
             adminEnabled: 'تم تفعيل وضع التحرير',
             adminWrongPass: 'كلمة المرور غير صحيحة',
@@ -328,6 +330,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 errorMessageDiv.textContent = messages.join(' - ');
             } else {
                 alert(messages.join('\n'));
+            }
+            return;
+        }
+
+        if (excludedRooms.size === 54) {
+            const msg = texts[currentLang].allExcluded || 'All rooms excluded';
+            if (errorMessageDiv) {
+                errorMessageDiv.textContent = msg;
+            } else {
+                alert(msg);
             }
             return;
         }

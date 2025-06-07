@@ -43,6 +43,10 @@ Dans la section administrateur, indiquez la **chambre de départ** ainsi que la 
 
 Saisissez les numéros à ignorer dans le champ d'exclusion puis validez pour retirer ces chambres de la planification automatique.
 
+#### Cas particulier
+
+Si la liste d'exclusion contient toutes les chambres (les 54 numéros), le bouton **Auto** affiche un message d'erreur et aucune attribution n'est réalisée.
+
 ### Nettoyer le calendrier
 
 Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de repartir sur une grille vierge.
