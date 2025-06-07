@@ -245,6 +245,9 @@ input {
     .calendar {
         width: 100%;
     }
+    .theme-switcher {
+        display: none;
+    }
 }
 
 @media (max-width: 600px) {
