@@ -118,6 +118,11 @@ button:hover {
     color: #000;
 }
 
+#clear-calendar {
+    background-color: var(--btn-add);
+    color: #000;
+}
+
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
