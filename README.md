@@ -48,6 +48,10 @@ Saisissez les numéros à ignorer dans le champ d'exclusion puis validez pour re
 
 Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de repartir sur une grille vierge.
 
+### Tester la sauvegarde
+
+Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via JSONBin. Si ce n'est pas le cas, vérifiez que `BIN_URL` et `API_KEY` sont correctement configurés dans `calendar.js`.
+
 ### Thème sombre
 
 Activez le bouton **Thème** pour basculer entre un affichage clair et sombre selon vos préférences.
