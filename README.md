@@ -12,7 +12,8 @@ L'édition du calendrier est réservée à l'administrateur.
 2. Sélectionnez le mois et l'année souhaités : le calendrier se met à jour automatiquement.
 3. Si vous devez modifier le calendrier, cliquez sur **Admin** et entrez le mot de passe `s00r1` pour activer le mode édition.
 4. Renseignez les numéros de chambre pour chaque date.
-5. Utilisez le bouton **Imprimer** pour obtenir la version papier du calendrier.
+5. Si besoin, utilisez le bouton **Clear** pour vider toutes les cases du calendrier.
+6. Utilisez le bouton **Imprimer** pour obtenir la version papier du calendrier.
 
 ## Mode administrateur
 
@@ -32,6 +33,10 @@ cliquez sur **Auto** pour préremplir les cases.
 Si certaines chambres ne doivent pas être planifiées, saisissez leur numéro dans
 l'entrée d'exclusion et cliquez sur le bouton **+**. Ces chambres seront ignorées
 lors de l'attribution automatique.
+
+## Nettoyer le calendrier
+
+Le bouton **Clear** efface toutes les valeurs saisies dans le calendrier pour repartir sur une grille vide.
 
 ## Thème sombre
 

@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
     const autoAssignBtn = document.getElementById('auto-assign');
+    const clearCalendarBtn = document.getElementById('clear-calendar');
     const excludeRoomInput = document.getElementById('exclude-room');
     const addExcludeBtn = document.getElementById('add-exclude');
     const excludedListDiv = document.getElementById('excluded-list');
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isAdmin) errorMessageDiv.textContent = '';
         }
         if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
+        if (clearCalendarBtn) clearCalendarBtn.disabled = !isAdmin;
         setDayInputsDisabled(!isAdmin);
         updateExcludedList();
     }
@@ -192,6 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function clearCalendar() {
+        const dayInputs = calendar.querySelectorAll('.day input');
+        dayInputs.forEach(inp => {
+            inp.value = '';
+        });
+    }
+
     // Update calendar whenever the month or year selection changes
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
@@ -218,6 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (autoAssignBtn) {
         autoAssignBtn.addEventListener('click', autoAssign);
+    }
+    if (clearCalendarBtn) {
+        clearCalendarBtn.addEventListener('click', clearCalendar);
     }
     if (addExcludeBtn) {
         addExcludeBtn.addEventListener('click', () => {
