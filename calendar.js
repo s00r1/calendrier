@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // -------- PATCH BACKEND --------
-    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbwY0Bd3S_6MXuSl_5ObLN3-3A7AjM9GxiiinE1YjIZKcndHNgMPMLJ5wka0GqJcrVCIvQ/exec";
+    const BACKEND_URL = "https://script.google.com/macros/s/AKfycby1x2wrhgZUw2ZdLekq9UJz6kInHLy5XRz4uw0OO0QCeg5GBAbguvh5QIJRLX6pGqQyTQ/exec";
 
     // Récupère toutes les assignations du Google Sheet
     async function fetchAssignments() {
