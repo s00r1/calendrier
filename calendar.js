@@ -36,13 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!found && chambre) assignments.push({date, chambre});
 
             // 3. Met à jour le bin entier (PUT)
-            await fetch(BIN_URL, {
+            const response = await fetch(BIN_URL, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(assignments)
             });
+
+            // Check server response and display any error details
+            const ct = response.headers.get('content-type') || '';
+            const text = ct.includes('application/json') ?
+                JSON.stringify(await response.json()) : await response.text();
+
+            if (!response.ok) {
+                showRequestError(text);
+            }
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de l'enregistrement des données");
