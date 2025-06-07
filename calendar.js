@@ -369,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function applyLanguage(lang) {
         currentLang = lang;
         document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
         const t = texts[lang];
         document.title = t.title;
         document.querySelector('h1').textContent = t.title;
