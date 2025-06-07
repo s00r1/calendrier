@@ -1,44 +1,51 @@
 # Calendrier du ménage de la cuisine
 
-Cette page permet de générer et d'imprimer un calendrier mensuel pour organiser le ménage de la cuisine.
-L'édition du calendrier est réservée à l'administrateur.
+Cette application web gère la répartition des tâches de ménage dans la cuisine. Elle fonctionne entièrement côté client : ouvrez simplement `index.html` dans un navigateur moderne pour générer et imprimer un calendrier personnalisé.
 
-- Les chambres vont de **1** à **54** mais la chambre **13** est exclue.
-- Le calendrier se génère entièrement côté client, aucun serveur n'est nécessaire.
+## Fonctionnalités principales
 
-## Utilisation
+- Génération dynamique d'un calendrier mensuel
+- Attribution manuelle ou automatique des chambres (de **1** à **54** sauf la chambre **13**)
+- Mode administrateur protégé par mot de passe pour modifier le planning
+- Exclusion de chambres et démarrage de l'attribution à une date précise
+- Effacement rapide du calendrier et thème sombre pour le confort visuel
+- Impression directe depuis le navigateur
 
-1. Ouvrez `index.html` dans votre navigateur.
-2. Sélectionnez le mois et l'année souhaités : le calendrier se met à jour automatiquement.
-3. Si vous devez modifier le calendrier, cliquez sur **Admin** et entrez le mot de passe `s00r1` pour activer le mode édition.
-4. Renseignez les numéros de chambre pour chaque date.
-5. Si besoin, utilisez le bouton **Clear** pour vider toutes les cases du calendrier.
-6. Utilisez le bouton **Imprimer** pour obtenir la version papier du calendrier.
+## Installation
 
-## Mode administrateur
+Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le fichier `index.html` avec votre navigateur préféré. Vous pouvez également servir le dossier via un petit serveur HTTP si vous souhaitez y accéder depuis d'autres machines :
 
-Cliquez sur le bouton **Admin** pour activer l'édition du calendrier. Le mot de
-passe par défaut est `s00r1`. Une fois connecté, des contrôles supplémentaires
-apparaissent pour faciliter la gestion des chambres.
+```bash
+npx serve .
+```
 
-## Attribution automatique
+## Utilisation rapide
 
-Dans le mode administrateur, les champs **Chambre de départ** et **Date de
-début** permettent de remplir automatiquement le calendrier. Indiquez la
-première chambre à assigner ainsi que le jour du mois où commencer, puis
-cliquez sur **Auto** pour préremplir les cases.
+1. Sélectionnez le mois et l'année souhaités, le calendrier se met à jour instantanément.
+2. Activez le **mode administrateur** via le bouton *Admin* et entrez le mot de passe par défaut `s00r1`.
+3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique.
+4. Cliquez sur **Imprimer** pour générer une version papier du planning.
 
-## Exclure des chambres
+### Attribution automatique
 
-Si certaines chambres ne doivent pas être planifiées, saisissez leur numéro dans
-l'entrée d'exclusion puis appuyez sur **Enter** ou cliquez sur le bouton **+**.
-Ces chambres seront ignorées lors de l'attribution automatique.
+Dans la section administrateur, indiquez la **chambre de départ** ainsi que la **date de début**. Appuyez sur le bouton **Auto** pour préremplir le calendrier en tenant compte des éventuelles chambres exclues.
 
-## Nettoyer le calendrier
+### Exclure des chambres
 
-Le bouton **Clear** efface toutes les valeurs saisies dans le calendrier pour repartir sur une grille vide.
+Saisissez les numéros à ignorer dans le champ d'exclusion puis validez pour retirer ces chambres de la planification automatique.
 
-## Thème sombre
+### Nettoyer le calendrier
 
-Le bouton **Thème** permet de passer en mode sombre ou de revenir au mode clair
-afin d'améliorer le confort visuel.
+Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de repartir sur une grille vierge.
+
+### Thème sombre
+
+Activez le bouton **Thème** pour basculer entre un affichage clair et sombre selon vos préférences.
+
+## Contribuer
+
+Les contributions sont les bienvenues ! N'hésitez pas à ouvrir des issues ou des pull requests pour proposer des améliorations.
+
+## Licence
+
+Ce projet est distribué sous la licence [MIT](LICENSE).
