@@ -24,6 +24,11 @@ npx serve .
 ```
 
 Si vous souhaitez conserver les affectations, modifiez `BIN_URL` dans `calendar.js` et renseignez votre clé API dans `localStorage` (clé `jsonbin_api_key`) ou via un `<script data-api-key>`.
+Un exemple commenté est présent dans `index.html` juste avant l'inclusion du script `calendar.js` :
+
+```html
+<!-- <script data-api-key="VOTRE_CLÉ_API"></script> -->
+```
 
 ## Utilisation rapide
 
