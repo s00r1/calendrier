@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // -------- PATCH BACKEND --------
-    const BACKEND_URL = "https://script.google.com/macros/s/AKfycbygFfLZIJ2c_7rYF5mO0Ay0OL03l319eoeq0BDK1YkkVeFHDxxO0d8S22VufEJRBkqqQg/exec";
+    // -------- PATCH BACKEND JSONBIN.IO --------
+    const BIN_URL = "https://api.jsonbin.io/v3/b/6844456c8561e97a5020ae90";
+    const API_KEY = "TA_CLE_API_ICI"; // Mets ta vraie clé ici !
 
-    // Récupère toutes les assignations du Google Sheet
+    // Récupère toutes les assignations depuis jsonbin.io
     async function fetchAssignments() {
         try {
-            const r = await fetch(BACKEND_URL);
+            const r = await fetch(BIN_URL + "/latest", {
+                headers: {
+                    "X-Master-Key": API_KEY
+                }
+            });
             if (!r.ok) throw new Error(`HTTP ${r.status}`);
-            return await r.json();
+            const data = await r.json();
+            return data.record || [];
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de la récupération des données");
@@ -15,13 +21,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Sauvegarde ou supprime une assignation (update/ajout/suppression)
+    // Sauvegarde ou supprime une assignation
     async function saveAssignment(date, chambre) {
         try {
-            await fetch(BACKEND_URL, {
-                method: "POST",
-                body: JSON.stringify({date, chambre}),
-                headers: {"Content-Type": "application/json"}
+            // 1. Récupère toutes les assignations actuelles
+            let assignments = await fetchAssignments();
+
+            // 2. Modifie ou supprime selon la valeur
+            let found = false;
+            assignments = assignments.map(a => {
+                if (a.date === date) {
+                    found = true;
+                    return chambre ? {date, chambre} : null; // null = suppression
+                }
+                return a;
+            }).filter(Boolean);
+
+            // Ajoute nouvelle entrée si pas trouvée et non vide
+            if (!found && chambre) assignments.push({date, chambre});
+
+            // 3. Met à jour le bin entier (PUT)
+            await fetch(BIN_URL, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Master-Key": API_KEY
+                },
+                body: JSON.stringify(assignments)
             });
         } catch (err) {
             console.error(err);
@@ -60,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(msg);
         }
     }
-
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
@@ -199,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ------------ PATCH PRINCIPAL : gestion backend Google Sheet -----------
+    // ------------ PATCH PRINCIPAL : gestion backend jsonbin.io -----------
 
     async function generateCalendar() {
         const month = parseInt(monthSelect.value, 10);
@@ -253,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
         }
-        // --------- Ici, récupération des assignations depuis Google Sheet --------
+        // --------- Ici, récupération des assignations depuis jsonbin.io --------
         const assignments = await fetchAssignments();
         const dayInputs = calendar.querySelectorAll('.day input');
         for (let d = 1; d <= dayInputs.length; d++) {
@@ -313,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const year = parseInt(yearSelect.value, 10);
             const idx = Array.from(dayInputs).indexOf(inp);
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
-            if (isAdmin) saveAssignment(dateStr, ""); // delete dans Google Sheet
+            if (isAdmin) saveAssignment(dateStr, ""); // suppression dans jsonbin.io
         });
     }
 
