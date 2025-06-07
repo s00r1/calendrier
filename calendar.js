@@ -362,17 +362,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function clearCalendar() {
+    async function clearCalendar() {
         const dayInputs = calendar.querySelectorAll('.day input');
-        dayInputs.forEach(inp => {
+        const promises = [];
+        dayInputs.forEach((inp, idx) => {
             inp.value = '';
-            // PATCH: Suppression de l’assignation côté backend !
             const month = parseInt(monthSelect.value, 10);
             const year = parseInt(yearSelect.value, 10);
-            const idx = Array.from(dayInputs).indexOf(inp);
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
-            if (isAdmin) saveAssignment(dateStr, ""); // suppression dans jsonbin.io
+            if (isAdmin) {
+                promises.push(saveAssignment(dateStr, ""));
+            }
         });
+        if (isAdmin && promises.length) {
+            try {
+                await Promise.all(promises);
+            } catch (err) {
+                console.error(err);
+                showRequestError("Erreur lors de la suppression des données");
+            }
+        }
     }
 
     function addExcludedRoom() {
