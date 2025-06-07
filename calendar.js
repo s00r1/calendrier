@@ -201,6 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function addExcludedRoom() {
+        const num = parseInt(excludeRoomInput.value, 10);
+        if (!isNaN(num) && num >= 1 && num <= 54 && num !== 13) {
+            excludedRooms.add(num);
+            updateExcludedList();
+        }
+        excludeRoomInput.value = '';
+    }
+
     // Update calendar whenever the month or year selection changes
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
@@ -232,13 +241,14 @@ document.addEventListener('DOMContentLoaded', () => {
         clearCalendarBtn.addEventListener('click', clearCalendar);
     }
     if (addExcludeBtn) {
-        addExcludeBtn.addEventListener('click', () => {
-            const num = parseInt(excludeRoomInput.value, 10);
-            if (!isNaN(num) && num >= 1 && num <= 54 && num !== 13) {
-                excludedRooms.add(num);
-                updateExcludedList();
+        addExcludeBtn.addEventListener('click', addExcludedRoom);
+    }
+    if (excludeRoomInput) {
+        excludeRoomInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addExcludedRoom();
             }
-            excludeRoomInput.value = '';
         });
     }
     if (adminBtn) {

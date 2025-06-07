@@ -31,8 +31,8 @@ cliquez sur **Auto** pour préremplir les cases.
 ## Exclure des chambres
 
 Si certaines chambres ne doivent pas être planifiées, saisissez leur numéro dans
-l'entrée d'exclusion et cliquez sur le bouton **+**. Ces chambres seront ignorées
-lors de l'attribution automatique.
+l'entrée d'exclusion puis appuyez sur **Enter** ou cliquez sur le bouton **+**.
+Ces chambres seront ignorées lors de l'attribution automatique.
 
 ## Nettoyer le calendrier
 
