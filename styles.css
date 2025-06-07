@@ -267,17 +267,15 @@ input {
 
 @media print {
     .controls button,
-    .controls select {
-        display: none;
-    }
-    .controls input {
-        display: none;
-    }
-    .admin-section {
-        display: none;
-    }
-    #excluded-list {
-        display: none;
+    .controls select,
+    .controls input,
+    .admin-section,
+    #admin-controls,
+    #admin-login,
+    #error-message,
+    #excluded-list,
+    #logout-modal {
+        display: none !important;
     }
     input {
         border: none;
