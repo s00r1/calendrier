@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 startDaySelect.appendChild(opt);
             }
         }
+        const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
         for (let d = 1; d <= daysInMonth; d++) {
             const dayDiv = document.createElement('div');
             dayDiv.className = 'day';
@@ -137,7 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             inputWrapper.appendChild(prefix);
             inputWrapper.appendChild(input);
-            dayDiv.textContent = d;
+            const abbr = dayNames[new Date(year, month, d).getDay()];
+            dayDiv.textContent = `${abbr} ${d}`;
             dayDiv.appendChild(document.createElement('br'));
             dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
