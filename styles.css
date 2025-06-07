@@ -74,8 +74,30 @@ button:hover {
     color: #fff;
 }
 
-#theme-toggle {
-    background-color: var(--btn-theme);
+
+.theme-switcher {
+    position: fixed;
+    top: 22px;
+    right: 22px;
+    z-index: 9999;
+    background: var(--header-bg);
+    color: var(--text-color);
+    border: none;
+    font-size: 2em;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    box-shadow: 0 2px 12px #0003;
+    cursor: pointer;
+    transition: background 0.17s, color 0.17s;
+    text-align: center;
+    line-height: 48px;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.theme-switcher:hover {
+    background: var(--accent-color);
     color: #fff;
 }
 

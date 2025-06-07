@@ -14,15 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const addExcludeBtn = document.getElementById('add-exclude');
     const excludedListDiv = document.getElementById('excluded-list');
     const errorMessageDiv = document.getElementById('error-message');
-    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeSwitcher = document.getElementById('themeSwitcher');
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
 
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-    }
 
     function updateExcludedList() {
         if (!excludedListDiv) return;
@@ -179,11 +175,23 @@ document.addEventListener('DOMContentLoaded', () => {
     yearSelect.addEventListener('change', generateCalendar);
 
     printBtn.addEventListener('click', () => window.print());
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
+    if (themeSwitcher) {
+        if (
+            localStorage.getItem('theme') === 'dark' ||
+            (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))
+        ) {
+            document.body.classList.add('dark');
+            themeSwitcher.textContent = '☀️';
+        }
+        themeSwitcher.addEventListener('click', () => {
             document.body.classList.toggle('dark');
-            const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
+            if (document.body.classList.contains('dark')) {
+                themeSwitcher.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeSwitcher.textContent = '🌘';
+                localStorage.setItem('theme', 'light');
+            }
         });
     }
     if (autoAssignBtn) {
