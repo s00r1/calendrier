@@ -12,7 +12,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Print directly from the browser
 - Admin interface elements are automatically hidden when printing
 - Bilingual interface (French/العربية) with instant switching via the AR/FR button
-- Online saving of assignments thanks to JSONBin via the `/api/jsonbin-proxy` function (deploy it to Vercel with the `JSONBIN_KEY` environment variable)
+- Online saving of assignments thanks to Firebase Firestore
 
 ## Installation
 
@@ -22,27 +22,13 @@ No specific installation is required. Clone the repository and open the `index.h
 npx serve .
 ```
 
-If you want to persist assignments, deploy the `api/jsonbin-proxy/[[...path]].js` function to Vercel (or a similar serverless platform) with the `JSONBIN_KEY` environment variable.
+To persist assignments with Firebase:
 
-The proxy contains a hard-coded bin identifier in the `BIN_ID` constant. Replace this value with your own bin ID or expose it via the `JSONBIN_ID` environment variable when deploying. The `JSONBIN_KEY` token must match that bin.
-
-The front-end will automatically communicate with `/api/jsonbin-proxy`.
-
-`JSONBIN_KEY` must be the *Master Key* of your JSONBin. Copy it from the service's dashboard.
-
-Example deployment with Vercel:
-
-```bash
-JSONBIN_KEY=<your_master_key> JSONBIN_ID=<your_bin_id> vercel --prod
-```
-
-For local testing you can run:
-
-```bash
-JSONBIN_KEY=<your_master_key> JSONBIN_ID=<your_bin_id> vercel dev
-```
-
-Then open `/api/jsonbin-proxy` in your browser to ensure the proxy responds correctly.
+1. Go to the [Firebase console](https://console.firebase.google.com) and create a project (e.g. **menage**).
+2. Enable Firestore in **test mode** while configuring the project.
+3. In the project settings, add a **web app** and copy the configuration object provided.
+4. Replace the values of `firebaseConfig` in `index.html` with your project's keys.
+5. Assignments will be stored in the `assignments` collection of Firestore.
 
 ## Quick usage
 
@@ -50,7 +36,7 @@ Then open `/api/jsonbin-proxy` in your browser to ensure the proxy responds corr
 2. Enable **admin mode** via the *Admin* button and enter the default password `s00r1`.
 3. Enter the room numbers for each date or use automatic assignment.
 4. Click **Print** to generate a paper version of the schedule.
-5. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in your JSONBin bin if the settings are provided.
+5. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in Firestore when configured.
 
 ### Automatic assignment
 
@@ -70,7 +56,7 @@ The **Clear** button quickly removes all entered values so you can start with a 
 
 ### Testing persistence
 
-After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via JSONBin. If not, make sure the proxy server is running and that `JSONBIN_KEY` is set on the server.
+After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via Firestore. If not, double-check your Firebase configuration.
 
 ### Dark theme
 

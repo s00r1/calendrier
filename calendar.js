@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // -------- PATCH BACKEND JSONBIN.IO --------
-    const BIN_URL = "/api/jsonbin-proxy";
+    // -------- BACKEND FIREBASE --------
+    const db = firebase.firestore();
 
-    // Récupère toutes les assignations depuis jsonbin.io
+    // Récupère toutes les assignations depuis Firestore
     async function fetchAssignments() {
         try {
-            const r = await fetch(BIN_URL + "/latest");
-            if (!r.ok) throw new Error(`HTTP ${r.status}`);
-            const data = await r.json();
-            return data.record || [];
+            const snapshot = await db.collection('assignments').get();
+            return snapshot.docs.map(doc => ({ date: doc.id, chambre: doc.data().chambre }));
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de la récupération des données");
@@ -16,50 +14,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Sauvegarde l'ensemble des assignations en une seule requête
+    // Sauvegarde en batch plusieurs assignations
     async function saveAssignments(assignments) {
         try {
-            const response = await fetch(BIN_URL, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ record: assignments })
+            const batch = db.batch();
+            assignments.forEach(({date, chambre}) => {
+                const ref = db.collection('assignments').doc(date);
+                if (chambre) batch.set(ref, { chambre });
+                else batch.delete(ref);
             });
-
-            const ct = response.headers.get('content-type') || '';
-            const text = ct.includes('application/json') ?
-                JSON.stringify(await response.json()) : await response.text();
-
-            if (!response.ok) {
-                showRequestError(text);
-            }
+            await batch.commit();
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de l'enregistrement des données");
         }
     }
 
-    // Sauvegarde ou supprime une assignation
+    // Sauvegarde ou supprime une assignation individuelle
     async function saveAssignment(date, chambre) {
         try {
-            let assignments = await fetchAssignments();
-            let found = false;
-            assignments = assignments.map(a => {
-                if (a.date === date) {
-                    found = true;
-                    return chambre ? {date, chambre} : null;
-                }
-                return a;
-            }).filter(Boolean);
-            if (!found && chambre) assignments.push({date, chambre});
-            await saveAssignments(assignments);
+            const ref = db.collection('assignments').doc(date);
+            if (chambre) await ref.set({ chambre });
+            else await ref.delete();
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de l'enregistrement des données");
         }
     }
-    // -------- FIN PATCH BACKEND --------
+    // -------- FIN BACKEND --------
 
     // -- TOUT TON CODE À TOI (inchallah tu copies tout, rien à changer ici sauf la fonction generateCalendar !) --
 
@@ -233,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ------------ PATCH PRINCIPAL : gestion backend jsonbin.io -----------
+    // ------------ PRINCIPAL : gestion backend Firebase -----------
 
     async function generateCalendar() {
         const month = parseInt(monthSelect.value, 10);
@@ -287,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
         }
-        // --------- Ici, récupération des assignations depuis jsonbin.io --------
+        // --------- Ici, récupération des assignations depuis Firestore --------
         const assignments = await fetchAssignments();
         const dayInputs = calendar.querySelectorAll('.day input');
         for (let d = 1; d <= dayInputs.length; d++) {
