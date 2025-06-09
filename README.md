@@ -28,8 +28,10 @@ Pour conserver les affectations avec Firebase :
 1. Ouvrez la console [Firebase](https://console.firebase.google.com) et créez un projet (par ex. **menage**).
 2. Activez Firestore en choisissant le mode **test** le temps de la configuration.
 3. Dans les paramètres du projet, ajoutez une **application web** puis copiez l'objet de configuration fourni.
-4. Dans le fichier `index.html`, remplacez les valeurs du bloc `firebaseConfig` par celles de votre projet.
+4. Des clés de démonstration sont déjà codées en dur dans `index.html`. Vous pouvez les remplacer par celles de votre projet Firebase.
 5. Les assignations seront alors enregistrées dans la collection `assignments` de Firestore.
+
+**Note :** ces clés sont temporaires pour les tests et seront remplacées ultérieurement par une méthode plus sûre.
 
 ## Utilisation rapide
 
