@@ -27,6 +27,8 @@ Si vous souhaitez conserver les affectations, déployez la fonction `api/jsonbin
 
 Cette fonction contient un identifiant de bin fixé dans la constante `BIN_ID`. Remplacez cette valeur par l'identifiant de votre propre bin ou exposez-le via la variable `JSONBIN_ID` lors du déploiement. La clé `JSONBIN_KEY` doit correspondre à ce même bin.
 
+La clé utilisée est définie dans la constante `API_KEY` avec la valeur par défaut `'votre_cle_test'`. Pensez à remplacer cette valeur par votre clé réelle ou à fournir `JSONBIN_KEY` via les variables d'environnement au moment du déploiement.
+
 Le front-end utilise alors automatiquement `/api/jsonbin-proxy` pour communiquer avec JSONBin.
 
 La variable `JSONBIN_KEY` doit impérativement correspondre à la *Master Key* de votre bin JSONBin, disponible depuis le tableau de bord du service.
