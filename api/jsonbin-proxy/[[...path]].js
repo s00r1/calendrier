@@ -6,6 +6,14 @@ const BIN_ID = process.env.JSONBIN_ID || '6844456c8561e97a5020ae90';
 const BASE_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
 module.exports = async function(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+
   const apiKey = process.env.JSONBIN_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'JSONBIN_KEY not set' });
