@@ -28,6 +28,22 @@ The proxy contains a hard-coded bin identifier in the `BIN_ID` constant. Replace
 
 The front-end will automatically communicate with `/api/jsonbin-proxy`.
 
+`JSONBIN_KEY` must be the *Master Key* of your JSONBin. Copy it from the service's dashboard.
+
+Example deployment with Vercel:
+
+```bash
+JSONBIN_KEY=<your_master_key> JSONBIN_ID=<your_bin_id> vercel --prod
+```
+
+For local testing you can run:
+
+```bash
+JSONBIN_KEY=<your_master_key> JSONBIN_ID=<your_bin_id> vercel dev
+```
+
+Then open `/api/jsonbin-proxy` in your browser to ensure the proxy responds correctly.
+
 ## Quick usage
 
 1. Select the desired month and year; the calendar updates instantly.
