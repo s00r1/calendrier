@@ -27,8 +27,10 @@ To persist assignments with Firebase:
 1. Go to the [Firebase console](https://console.firebase.google.com) and create a project (e.g. **menage**).
 2. Enable Firestore in **test mode** while configuring the project.
 3. In the project settings, add a **web app** and copy the configuration object provided.
-4. Replace the values of `firebaseConfig` in `index.html` with your project's keys.
+4. Demo keys are already hardcoded in `index.html`. You can replace them with your Firebase project keys.
 5. Assignments will be stored in the `assignments` collection of Firestore.
+
+**Note:** These keys are temporary for testing and will later be replaced by a safer method.
 
 ## Quick usage
 
