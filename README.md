@@ -13,7 +13,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Les éléments de l'interface administrateur sont automatiquement masqués lors
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
-- Sauvegarde en ligne des affectations grâce à JSONBin via `/api/jsonbin-proxy` (à déployer sur Vercel avec la variable d'environnement `JSONBIN_KEY`)
+- Sauvegarde en ligne des affectations grâce à Firebase Firestore
 
 ## Installation
 
@@ -23,29 +23,13 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 npx serve .
 ```
 
-Si vous souhaitez conserver les affectations, déployez la fonction `api/jsonbin-proxy/[[...path]].js` sur Vercel (ou une plateforme serverless similaire) en définissant la variable d'environnement `JSONBIN_KEY`.
+Pour conserver les affectations avec Firebase :
 
-Cette fonction contient un identifiant de bin fixé dans la constante `BIN_ID`. Remplacez cette valeur par l'identifiant de votre propre bin ou exposez-le via la variable `JSONBIN_ID` lors du déploiement. La clé `JSONBIN_KEY` doit correspondre à ce même bin.
-
-La clé utilisée est définie dans la constante `API_KEY` avec la valeur par défaut `'votre_cle_test'`. Pensez à remplacer cette valeur par votre clé réelle ou à fournir `JSONBIN_KEY` via les variables d'environnement au moment du déploiement.
-
-Le front-end utilise alors automatiquement `/api/jsonbin-proxy` pour communiquer avec JSONBin.
-
-La variable `JSONBIN_KEY` doit impérativement correspondre à la *Master Key* de votre bin JSONBin, disponible depuis le tableau de bord du service.
-
-Exemple de déploiement avec Vercel :
-
-```bash
-JSONBIN_KEY=<ma_master_key> JSONBIN_ID=<mon_bin_id> vercel --prod
-```
-
-Pour un test en local, vous pouvez lancer :
-
-```bash
-JSONBIN_KEY=<ma_master_key> JSONBIN_ID=<mon_bin_id> vercel dev
-```
-
-Ensuite ouvrez l'URL `/api/jsonbin-proxy` dans votre navigateur pour vérifier que le proxy répond correctement.
+1. Ouvrez la console [Firebase](https://console.firebase.google.com) et créez un projet (par ex. **menage**).
+2. Activez Firestore en choisissant le mode **test** le temps de la configuration.
+3. Dans les paramètres du projet, ajoutez une **application web** puis copiez l'objet de configuration fourni.
+4. Dans le fichier `index.html`, remplacez les valeurs du bloc `firebaseConfig` par celles de votre projet.
+5. Les assignations seront alors enregistrées dans la collection `assignments` de Firestore.
 
 ## Utilisation rapide
 
@@ -54,8 +38,8 @@ Ensuite ouvrez l'URL `/api/jsonbin-proxy` dans votre navigateur pour vérifier q
 3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique.
 4. Cliquez sur **Imprimer** pour générer une version papier du planning.
 5. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
-   Les modifications sont enregistrées automatiquement dans votre bin JSONBin si
-   les paramètres sont renseignés.
+   Les modifications sont enregistrées automatiquement dans Firestore si
+   la configuration est correcte.
 
 ### Attribution automatique
 
@@ -75,7 +59,7 @@ Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de re
 
 ### Tester la sauvegarde
 
-Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via JSONBin. Si ce n'est pas le cas, vérifiez que le proxy est bien lancé et que `JSONBIN_KEY` est configurée côté serveur.
+Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via Firestore. Si ce n'est pas le cas, vérifiez votre configuration Firebase.
 
 ### Thème sombre
 
