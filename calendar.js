@@ -16,26 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Sauvegarde ou supprime une assignation
-    async function saveAssignment(date, chambre) {
+    // Sauvegarde l'ensemble des assignations en une seule requête
+    async function saveAssignments(assignments) {
         try {
-            // 1. Récupère toutes les assignations actuelles
-            let assignments = await fetchAssignments();
-
-            // 2. Modifie ou supprime selon la valeur
-            let found = false;
-            assignments = assignments.map(a => {
-                if (a.date === date) {
-                    found = true;
-                    return chambre ? {date, chambre} : null; // null = suppression
-                }
-                return a;
-            }).filter(Boolean);
-
-            // Ajoute nouvelle entrée si pas trouvée et non vide
-            if (!found && chambre) assignments.push({date, chambre});
-
-            // 3. Met à jour le bin entier (PUT)
             const response = await fetch(BIN_URL, {
                 method: "PUT",
                 headers: {
@@ -44,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ record: assignments })
             });
 
-            // Check server response and display any error details
             const ct = response.headers.get('content-type') || '';
             const text = ct.includes('application/json') ?
                 JSON.stringify(await response.json()) : await response.text();
@@ -52,6 +34,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 showRequestError(text);
             }
+        } catch (err) {
+            console.error(err);
+            showRequestError("Erreur lors de l'enregistrement des données");
+        }
+    }
+
+    // Sauvegarde ou supprime une assignation
+    async function saveAssignment(date, chambre) {
+        try {
+            let assignments = await fetchAssignments();
+            let found = false;
+            assignments = assignments.map(a => {
+                if (a.date === date) {
+                    found = true;
+                    return chambre ? {date, chambre} : null;
+                }
+                return a;
+            }).filter(Boolean);
+            if (!found && chambre) assignments.push({date, chambre});
+            await saveAssignments(assignments);
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de l'enregistrement des données");
@@ -335,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let room = startRoom;
+        const updates = [];
         for (let i = startDay - 1; i < dayInputs.length; i++) {
             while (excludedRooms.has(room)) {
                 room++;
@@ -345,28 +348,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 const month = parseInt(monthSelect.value, 10);
                 const year = parseInt(yearSelect.value, 10);
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`;
-                await saveAssignment(dateStr, String(room));
+                updates.push({ date: dateStr, chambre: String(room) });
             }
             room++;
             if (room > 54) room = 1;
+        }
+        if (isAdmin && updates.length) {
+            try {
+                const existing = await fetchAssignments();
+                const map = {};
+                existing.forEach(a => { map[a.date] = a.chambre; });
+                updates.forEach(u => { map[u.date] = u.chambre; });
+                const all = Object.entries(map).map(([date, chambre]) => ({ date, chambre }));
+                await saveAssignments(all);
+            } catch (err) {
+                console.error(err);
+                showRequestError("Erreur lors de l'enregistrement des données");
+            }
         }
     }
 
     async function clearCalendar() {
         const dayInputs = calendar.querySelectorAll('.day input');
-        const promises = [];
+        const updates = [];
         dayInputs.forEach((inp, idx) => {
             inp.value = '';
-            const month = parseInt(monthSelect.value, 10);
-            const year = parseInt(yearSelect.value, 10);
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
             if (isAdmin) {
-                promises.push(saveAssignment(dateStr, ""));
+                const month = parseInt(monthSelect.value, 10);
+                const year = parseInt(yearSelect.value, 10);
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
+                updates.push({ date: dateStr, chambre: "" });
             }
         });
-        if (isAdmin && promises.length) {
+        if (isAdmin && updates.length) {
             try {
-                await Promise.all(promises);
+                const existing = await fetchAssignments();
+                const map = {};
+                existing.forEach(a => { map[a.date] = a.chambre; });
+                updates.forEach(u => { delete map[u.date]; });
+                const all = Object.entries(map).map(([date, chambre]) => ({ date, chambre }));
+                await saveAssignments(all);
             } catch (err) {
                 console.error(err);
                 showRequestError("Erreur lors de la suppression des données");
