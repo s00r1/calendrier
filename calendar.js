@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(assignments)
+                body: JSON.stringify({ record: assignments })
             });
 
             // Check server response and display any error details
