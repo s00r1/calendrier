@@ -1,12 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // -------- BACKEND FIREBASE --------
-    const db = firebase.firestore();
+    // --------- SUPABASE CONFIG ---------
+    const SUPABASE_URL = 'https://dexbvustuzzghzdpetjr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRleGJ2dXN0dXp6Z2h6ZHBldGpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk1NjQ4NTEsImV4cCI6MjA2NTE0MDg1MX0.h3PbDOoiLj9gQmaGJkRWZL7vN_M52Qboik4EFjqpavA';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Récupère toutes les assignations depuis Firestore
+    // -------- BACKEND SUPABASE --------
     async function fetchAssignments() {
         try {
-            const snapshot = await db.collection('assignments').get();
-            return snapshot.docs.map(doc => ({ date: doc.id, chambre: doc.data().chambre }));
+            const { data, error } = await supabase
+                .from('assignments')
+                .select('*');
+            if (error) throw error;
+            return data.map(row => ({
+                date: row.date,
+                chambre: row.chambre
+            }));
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de la récupération des données");
@@ -14,36 +22,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Sauvegarde en batch plusieurs assignations
     async function saveAssignments(assignments) {
         try {
-            const batch = db.batch();
-            assignments.forEach(({date, chambre}) => {
-                const ref = db.collection('assignments').doc(date);
-                if (chambre) batch.set(ref, { chambre });
-                else batch.delete(ref);
-            });
-            await batch.commit();
+            if (assignments.length === 0) return;
+            const month = assignments[0].date.slice(0, 7);
+            const { data: exist, error: errExist } = await supabase
+                .from('assignments')
+                .select('date');
+            if (errExist) throw errExist;
+            const toDelete = exist
+                .filter(a => a.date.slice(0, 7) === month)
+                .map(a => a.date);
+            if (toDelete.length) {
+                const { error: errDel } = await supabase
+                    .from('assignments')
+                    .delete()
+                    .in('date', toDelete);
+                if (errDel) throw errDel;
+            }
+            const cleanAssignments = assignments.filter(a => a.chambre && a.chambre !== '');
+            if (cleanAssignments.length) {
+                const { error: errInsert } = await supabase
+                    .from('assignments')
+                    .insert(cleanAssignments);
+                if (errInsert) throw errInsert;
+            }
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de l'enregistrement des données");
         }
     }
 
-    // Sauvegarde ou supprime une assignation individuelle
     async function saveAssignment(date, chambre) {
         try {
-            const ref = db.collection('assignments').doc(date);
-            if (chambre) await ref.set({ chambre });
-            else await ref.delete();
+            if (chambre) {
+                const { error } = await supabase
+                    .from('assignments')
+                    .upsert([{ date, chambre }], { onConflict: ['date'] });
+                if (error) throw error;
+            } else {
+                const { error } = await supabase
+                    .from('assignments')
+                    .delete()
+                    .eq('date', date);
+                if (error) throw error;
+            }
         } catch (err) {
             console.error(err);
             showRequestError("Erreur lors de l'enregistrement des données");
         }
     }
-    // -------- FIN BACKEND --------
 
-    // -- TOUT TON CODE À TOI (inchallah tu copies tout, rien à changer ici sauf la fonction generateCalendar !) --
+    // ----------- UI & LOGIQUE -----------
 
     const monthSelect = document.getElementById('month');
     const yearSelect = document.getElementById('year');
@@ -66,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutModal = document.getElementById('logout-modal');
     const logoutConfirm = document.getElementById('logout-confirm');
     const logoutCancel = document.getElementById('logout-cancel');
+
     function showRequestError(msg) {
         if (errorMessageDiv) {
             errorMessageDiv.textContent = msg;
@@ -76,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
-
     let currentLang = 'fr';
     const monthNamesMap = {
         fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -215,8 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ------------ PRINCIPAL : gestion backend Firebase -----------
-
     async function generateCalendar() {
         const month = parseInt(monthSelect.value, 10);
         const year = parseInt(yearSelect.value, 10);
@@ -227,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let firstDay = new Date(year, month, 1).getDay();
-        firstDay = firstDay === 0 ? 7 : firstDay; // start Monday
+        firstDay = firstDay === 0 ? 7 : firstDay;
         for (let i = 1; i < firstDay; i++) {
             calendar.appendChild(document.createElement('div'));
         }
@@ -257,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.max = 54;
             input.placeholder = texts[currentLang].dayPrefix;
             input.disabled = !isAdmin;
-            input.dataset.day = d; // used for delegated change handler
+            input.dataset.day = d;
             input.addEventListener('input', function () {
                 if (this.value === '13') this.value = '';
             });
@@ -269,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
         }
-        // --------- Ici, récupération des assignations depuis Firestore --------
         const assignments = await fetchAssignments();
         const dayInputs = calendar.querySelectorAll('.day input');
         for (let d = 1; d <= dayInputs.length; d++) {
@@ -281,8 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateAdminControls();
     }
-
-    // ------------ FIN PATCH PRINCIPAL ---------------
 
     async function autoAssign() {
         const messages = [];
@@ -417,11 +442,9 @@ document.addEventListener('DOMContentLoaded', () => {
         generateCalendar();
     }
 
-    // Update calendar whenever the month or year selection changes
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
 
-    // Delegated change handler for day inputs
     calendar.addEventListener('change', async e => {
         if (!(e.target instanceof HTMLInputElement)) return;
         if (!e.target.closest('.day')) return;
@@ -451,6 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         window.print();
     });
+
     if (themeSwitcher) {
         if (
             localStorage.getItem('theme') === 'dark' ||
@@ -511,13 +535,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     if (logoutCancel) {
         logoutCancel.addEventListener('click', () => {
             if (logoutModal) logoutModal.style.display = 'none';
         });
     }
-
     if (logoutConfirm) {
         logoutConfirm.addEventListener('click', () => {
             isAdmin = false;
