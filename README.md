@@ -63,6 +63,22 @@ Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de re
 
 Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via Supabase. Si ce n'est pas le cas, vérifiez votre configuration Supabase.
 
+### Verifier la connexion Supabase
+
+Un script Node (`testSupabase.js`) permet de tester rapidement l'acces a la table `assignments`.
+
+1. Installez les dependances (une seule fois) :
+```bash
+npm install
+```
+2. Executez le script :
+```bash
+node testSupabase.js
+```
+
+Les donnees recuperees ou un message d'erreur complet s'afficheront dans la console.
+
+
 ### Thème sombre
 
 Activez le bouton **Thème** pour basculer entre un affichage clair et sombre selon vos préférences.

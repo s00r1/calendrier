@@ -10,5 +10,7 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {}
+  "dependencies": {
+    "@supabase/supabase-js": "^2.50.0"
+  }
 }
