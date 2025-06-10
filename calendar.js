@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------- SUPABASE CONFIG ---------
     const SUPABASE_URL = 'https://dexbvustuzzghzdpetjr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRleGJ2dXN0dXp6Z2h6ZHBldGpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk1NjQ4NTEsImV4cCI6MjA2NTE0MDg1MX0.h3PbDOoiLj9gQmaGJkRWZL7vN_M52Qboik4EFjqpavA';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // -------- BACKEND SUPABASE --------
     async function fetchAssignments() {
         try {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('assignments')
                 .select('*');
             if (error) throw error;
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             if (assignments.length === 0) return;
             const month = assignments[0].date.slice(0, 7);
-            const { data: exist, error: errExist } = await supabase
+            const { data: exist, error: errExist } = await supabaseClient
                 .from('assignments')
                 .select('date');
             if (errExist) throw errExist;
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .filter(a => a.date.slice(0, 7) === month)
                 .map(a => a.date);
             if (toDelete.length) {
-                const { error: errDel } = await supabase
+                const { error: errDel } = await supabaseClient
                     .from('assignments')
                     .delete()
                     .in('date', toDelete);
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const cleanAssignments = assignments.filter(a => a.chambre && a.chambre !== '');
             if (cleanAssignments.length) {
-                const { error: errInsert } = await supabase
+                const { error: errInsert } = await supabaseClient
                     .from('assignments')
                     .insert(cleanAssignments);
                 if (errInsert) throw errInsert;
@@ -56,12 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
     async function saveAssignment(date, chambre) {
         try {
             if (chambre) {
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('assignments')
                     .upsert([{ date, chambre }], { onConflict: ['date'] });
                 if (error) throw error;
             } else {
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from('assignments')
                     .delete()
                     .eq('date', date);
