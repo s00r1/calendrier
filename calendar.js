@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chambre) {
             const { error } = await supabaseClient
                 .from('assignments')
-                .upsert({ title: chambre, due_date: date }, { onConflict: 'due_date' });
+                .upsert({ title: chambre, due_date: date }, { onConflict: ['due_date', 'title'] });
 
             if (error) showRequestError(`Erreur maj : ${error.message}`);
         } else {
