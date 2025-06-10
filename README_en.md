@@ -12,7 +12,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Print directly from the browser
 - Admin interface elements are automatically hidden when printing
 - Bilingual interface (French/العربية) with instant switching via the AR/FR button
-- Online saving of assignments thanks to Firebase Firestore
+- Online saving of assignments thanks to Supabase
 
 ## Installation
 
@@ -22,13 +22,13 @@ No specific installation is required. Clone the repository and open the `index.h
 npx serve .
 ```
 
-To persist assignments with Firebase:
+To persist assignments with Supabase:
 
-1. Go to the [Firebase console](https://console.firebase.google.com) and create a project (e.g. **menage**).
-2. Enable Firestore in **test mode** while configuring the project.
-3. In the project settings, add a **web app** and copy the configuration object provided.
-4. Demo keys are already hardcoded in `index.html`. You can replace them with your Firebase project keys.
-5. Assignments will be stored in the `assignments` collection of Firestore.
+1. Log in to [Supabase](https://app.supabase.com) and create a project (e.g. **menage**).
+2. In **Table Editor**, create a table `assignments` with the columns `date` (date, primary key) and `chambre` (text).
+3. Enable *Row Level Security* and add a policy allowing the `anon` role to read and write on the table (use `true` as expression for testing).
+4. Under **Settings > API**, copy your project URL and anon key.
+5. Fill these values in `calendar.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
 
 **Note:** These keys are temporary for testing and will later be replaced by a safer method.
 
@@ -38,7 +38,7 @@ To persist assignments with Firebase:
 2. Enable **admin mode** via the *Admin* button and enter the default password `s00r1`.
 3. Enter the room numbers for each date or use automatic assignment.
 4. Click **Print** to generate a paper version of the schedule.
-5. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in Firestore when configured.
+5. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in Supabase when configured.
 
 ### Automatic assignment
 
@@ -58,7 +58,7 @@ The **Clear** button quickly removes all entered values so you can start with a 
 
 ### Testing persistence
 
-After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via Firestore. If not, double-check your Firebase configuration.
+After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via Supabase. If not, double-check your Supabase configuration.
 
 ### Dark theme
 
