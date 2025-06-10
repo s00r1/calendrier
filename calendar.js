@@ -381,30 +381,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function clearCalendar() {
         const dayInputs = calendar.querySelectorAll('.day input');
-        const updates = [];
+        const deleteDates = [];
+
         dayInputs.forEach((inp, idx) => {
             inp.value = '';
             if (isAdmin) {
                 const month = parseInt(monthSelect.value, 10);
                 const year = parseInt(yearSelect.value, 10);
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(idx + 1).padStart(2, '0')}`;
-                updates.push({ date: dateStr, chambre: "" });
+                deleteDates.push(dateStr);
             }
         });
-        if (isAdmin && updates.length) {
+
+        if (isAdmin && deleteDates.length) {
             try {
-                const existing = await fetchAssignments();
-                const map = {};
-                existing.forEach(a => { map[a.date] = a.chambre; });
-                updates.forEach(u => { delete map[u.date]; });
-                const all = Object.entries(map).map(([date, chambre]) => ({ date, chambre }));
-                await saveAssignments(all);
+                const { error } = await supabaseClient
+                    .from('assignments')
+                    .delete()
+                    .in('due_date', deleteDates);
+
+                if (error) {
+                    showRequestError(`Erreur suppression : ${error.message}`);
+                }
             } catch (err) {
                 console.error(err);
-                showRequestError("Erreur lors de la suppression des données");
+                showRequestError(`Erreur suppression : ${err.message || JSON.stringify(err)}`);
             }
         }
     }
+
 
     function addExcludedRoom() {
         const num = parseInt(excludeRoomInput.value, 10);
