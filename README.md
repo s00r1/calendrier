@@ -13,7 +13,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Les éléments de l'interface administrateur sont automatiquement masqués lors
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
-- Sauvegarde en ligne des affectations grâce à Firebase Firestore
+- Sauvegarde en ligne des affectations grâce à Supabase
 
 ## Installation
 
@@ -23,13 +23,13 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 npx serve .
 ```
 
-Pour conserver les affectations avec Firebase :
+Pour conserver les affectations avec Supabase :
 
-1. Ouvrez la console [Firebase](https://console.firebase.google.com) et créez un projet (par ex. **menage**).
-2. Activez Firestore en choisissant le mode **test** le temps de la configuration.
-3. Dans les paramètres du projet, ajoutez une **application web** puis copiez l'objet de configuration fourni.
-4. Des clés de démonstration sont déjà codées en dur dans `index.html`. Vous pouvez les remplacer par celles de votre projet Firebase.
-5. Les assignations seront alors enregistrées dans la collection `assignments` de Firestore.
+1. Connectez-vous à [Supabase](https://app.supabase.com) et créez un projet (par ex. **menage**).
+2. Dans **Table Editor**, créez une table `assignments` avec les colonnes `date` (date, clé primaire) et `chambre` (texte).
+3. Activez la *Row Level Security* puis ajoutez une politique autorisant le rôle `anon` à lire et écrire dans la table (expression `true` pour les tests).
+4. Dans **Settings > API**, copiez l'URL et la clé `anon` de votre projet.
+5. Renseignez ces valeurs dans `calendar.js` aux constantes `SUPABASE_URL` et `SUPABASE_KEY`.
 
 **Note :** ces clés sont temporaires pour les tests et seront remplacées ultérieurement par une méthode plus sûre.
 
@@ -40,7 +40,7 @@ Pour conserver les affectations avec Firebase :
 3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique.
 4. Cliquez sur **Imprimer** pour générer une version papier du planning.
 5. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
-   Les modifications sont enregistrées automatiquement dans Firestore si
+   Les modifications sont enregistrées automatiquement dans Supabase si
    la configuration est correcte.
 
 ### Attribution automatique
@@ -61,7 +61,7 @@ Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de re
 
 ### Tester la sauvegarde
 
-Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via Firestore. Si ce n'est pas le cas, vérifiez votre configuration Firebase.
+Après avoir rempli manuellement le planning ou utilisé le bouton **Auto**, rafraîchissez la page. Toutes les dates attribuées doivent réapparaître grâce à la persistance via Supabase. Si ce n'est pas le cas, vérifiez votre configuration Supabase.
 
 ### Thème sombre
 
