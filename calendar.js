@@ -17,7 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }));
         } catch (err) {
             console.error(err);
-            showRequestError("Erreur lors de la récupération des données");
+            showRequestError(
+                `Erreur lors de la récupération des données : ${
+                    err.message || JSON.stringify(err)
+                }`
+            );
             return [];
         }
     }
@@ -49,7 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (err) {
             console.error(err);
-            showRequestError("Erreur lors de l'enregistrement des données");
+            showRequestError(
+                `Erreur lors de l'enregistrement des données : ${
+                    err.message || JSON.stringify(err)
+                }`
+            );
         }
     }
 
@@ -69,7 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (err) {
             console.error(err);
-            showRequestError("Erreur lors de l'enregistrement des données");
+            showRequestError(
+                `Erreur lors de l'enregistrement des données : ${
+                    err.message || JSON.stringify(err)
+                }`
+            );
         }
     }
 
@@ -370,7 +382,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 await saveAssignments(all);
             } catch (err) {
                 console.error(err);
-                showRequestError("Erreur lors de l'enregistrement des données");
+                showRequestError(
+                    `Erreur lors de l'enregistrement des données : ${
+                        err.message || JSON.stringify(err)
+                    }`
+                );
             }
         }
     }
@@ -397,7 +413,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 await saveAssignments(all);
             } catch (err) {
                 console.error(err);
-                showRequestError("Erreur lors de la suppression des données");
+                showRequestError(
+                    `Erreur lors de la suppression des données : ${
+                        err.message || JSON.stringify(err)
+                    }`
+                );
             }
         }
     }
