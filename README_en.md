@@ -13,6 +13,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Admin interface elements are automatically hidden when printing
 - Bilingual interface (French/العربية) with instant switching via the AR/FR button
 - Online saving of assignments thanks to Supabase
+- Ability to add multiple rooms per day and link rooms so they are assigned together
 
 ## Installation
 
@@ -28,7 +29,7 @@ To persist assignments with Supabase:
 2. In **Table Editor**, create a table `assignments` with the columns `id` (auto-increment, primary key), `due_date` (date, unique) and `title` (text). The `due_date` column must be unique so that `upsert` works correctly.
 3. Enable *Row Level Security* and add a policy allowing the `anon` role to read and write on the table (use `true` as expression for testing).
 4. Under **Settings > API**, copy your project URL and anon key.
-5. Fill these values in `calendar.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
+5. Fill these values in `supabase.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
 
 **Note:** These keys are temporary for testing and will later be replaced by a safer method.
 
@@ -36,10 +37,10 @@ To persist assignments with Supabase:
 
 1. Select the desired month and year; the calendar updates instantly.
 2. Enable **admin mode** via the *Admin* button and enter the default password `s00r1`.
-3. Enter the room numbers for each date or use automatic assignment.
+3. Enter the room numbers for each date or use automatic assignment. Use the **+** button to add multiple rooms if needed.
+
 4. Click **Print** to generate a paper version of the schedule.
 5. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in Supabase when configured.
-
 ### Automatic assignment
 
 In the admin section, enter the **starting room** and **start date**. Press the **Auto** button to pre-fill the calendar taking any excluded rooms into account.
@@ -51,6 +52,10 @@ Enter the numbers to ignore in the exclusion field then validate to remove those
 #### Edge case
 
 If the exclusion list contains all rooms (all 54 numbers), the **Auto** button displays an error message and no assignment is performed.
+
+### Linking rooms
+
+Use the two fields in the admin section to specify room numbers that should always be assigned together. Remove a link with the small cross next to it.
 
 ### Cleaning the calendar
 
