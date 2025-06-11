@@ -389,8 +389,16 @@ input {
     .controls button,
     .controls select,
     .controls input {
-        font-size: 1.1rem;
+        font-size: 1rem;
         padding: 10px;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    .room-prefix {
+        font-size: 0.75rem;
     }
 
     #admin-controls {
@@ -425,7 +433,7 @@ input {
     }
 
     .room-input input {
-        width: 100%;
+        width: 3.5em;
     }
 
     .calendar {
