@@ -18,13 +18,13 @@ export async function fetchAssignments() {
 
 export async function saveAssignments(assignments) {
   if (assignments.length === 0) return;
-  const month = assignments[0].date.slice(0, 7);
+  const months = Array.from(new Set(assignments.map(a => a.date.slice(0, 7))));
   const { data: exist, error: errExist } = await supabase
     .from('assignments')
     .select('id, due_date');
   if (errExist) throw new Error(errExist.message);
   const toDelete = exist
-    .filter(a => a.due_date.slice(0, 7) === month)
+    .filter(a => months.includes(a.due_date.slice(0, 7)))
     .map(a => a.id);
   if (toDelete.length) {
     const { error: errDel } = await supabase
