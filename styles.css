@@ -204,6 +204,7 @@ input {
 
 .room-input {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2px;
@@ -215,6 +216,7 @@ input {
 
 .room-input input {
     width: 5em;
+    margin: 2px 0;
 }
 
 .controls label {
