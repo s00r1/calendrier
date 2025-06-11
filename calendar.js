@@ -313,11 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let room = startRoom;
+        const visited = new Set();
         const updates = [];
         for (let i = startDay - 1; i < dayDivs.length; i++) {
-            while (excludedRooms.has(room)) {
+            let safety = 0;
+            while (excludedRooms.has(room) || visited.has(room)) {
                 room++;
                 if (room > 54) room = 1;
+                if (++safety > 54) break;
             }
             const wrapper = dayDivs[i].querySelector('.room-input');
             const inputs = wrapper.querySelectorAll('input');
@@ -331,9 +334,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const rooms = [room];
             if (linkedRooms.has(room)) {
                 linkedRooms.get(room).forEach(r => {
-                    if (!excludedRooms.has(r) && !rooms.includes(r)) rooms.push(r);
+                    if (!excludedRooms.has(r) && !visited.has(r) && !rooms.includes(r)) {
+                        rooms.push(r);
+                    }
                 });
             }
+            rooms.forEach(r => visited.add(r));
             if (inputs.length) {
                 inputs[0].value = rooms.join(' / ');
             }
