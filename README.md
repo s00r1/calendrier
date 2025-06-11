@@ -26,7 +26,7 @@ npx serve .
 Pour conserver les affectations avec Supabase :
 
 1. Connectez-vous à [Supabase](https://app.supabase.com) et créez un projet (par ex. **menage**).
-2. Dans **Table Editor**, créez une table `assignments` avec les colonnes `date` (date, clé primaire) et `chambre` (texte).
+2. Dans **Table Editor**, créez une table `assignments` avec les colonnes `id` (auto‑incrément, clé primaire), `due_date` (date, unique) et `title` (texte). La colonne `due_date` doit être unique pour permettre l’`upsert`.
 3. Activez la *Row Level Security* puis ajoutez une politique autorisant le rôle `anon` à lire et écrire dans la table (expression `true` pour les tests).
 4. Dans **Settings > API**, copiez l'URL et la clé `anon` de votre projet.
 5. Renseignez ces valeurs dans `calendar.js` aux constantes `SUPABASE_URL` et `SUPABASE_KEY`.
