@@ -191,7 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createRoomInput(day) {
         const input = document.createElement('input');
-        input.type = 'number';
+        input.type = 'text';
+        input.inputMode = 'numeric';
         input.min = 1;
         input.max = 54;
         input.placeholder = texts[currentLang].dayPrefix;
