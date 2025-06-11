@@ -99,6 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const excludeRoomInput = document.getElementById('exclude-room');
     const addExcludeBtn = document.getElementById('add-exclude');
     const excludedListDiv = document.getElementById('excluded-list');
+    const linkRoomAInput = document.getElementById('link-room-a');
+    const linkRoomBInput = document.getElementById('link-room-b');
+    const addLinkBtn = document.getElementById('add-link');
+    const linkedListDiv = document.getElementById('linked-list');
+    const linkGroup = document.getElementById('link-group');
     const errorMessageDiv = document.getElementById('error-message');
     const langSwitcher = document.getElementById('langSwitcher');
     const themeSwitcher = document.getElementById('themeSwitcher');
@@ -116,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
+    const linkedRooms = new Map();
     let currentLang = 'fr';
     const monthNamesMap = {
         fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
@@ -218,6 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (adminSection) adminSection.style.display = isAdmin ? 'block' : 'none';
         if (adminControls) adminControls.style.display = isAdmin ? 'flex' : 'none';
         if (excludedListDiv) excludedListDiv.style.display = isAdmin ? 'block' : 'none';
+        if (linkGroup) linkGroup.style.display = isAdmin ? 'flex' : 'none';
+        if (linkedListDiv) linkedListDiv.style.display = isAdmin ? 'block' : 'none';
         if (errorMessageDiv) {
             errorMessageDiv.style.display = isAdmin ? 'block' : 'none';
             if (!isAdmin) errorMessageDiv.textContent = '';
@@ -230,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.display = isAdmin ? 'inline-block' : 'none';
         });
         updateExcludedList();
+        updateLinkedList();
     }
 
     const today = new Date();
@@ -393,19 +402,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (room > 54) room = 1;
             }
             const wrapper = dayDivs[i].querySelector('.room-input');
-            const inputs = wrapper.querySelectorAll('input');
-            inputs.forEach((inp, idx) => {
-                if (idx === 0) {
-                    inp.value = room;
-                } else {
-                    inp.remove();
-                }
+            const addBtn = wrapper.querySelector('.add-room');
+            wrapper.querySelectorAll('input').forEach(inp => inp.remove());
+            const rooms = [room];
+            if (linkedRooms.has(room)) {
+                linkedRooms.get(room).forEach(r => {
+                    if (!excludedRooms.has(r) && !rooms.includes(r)) rooms.push(r);
+                });
+            }
+            rooms.forEach(r => {
+                const inp = createRoomInput(i + 1);
+                inp.value = r;
+                wrapper.insertBefore(inp, addBtn);
             });
             if (isAdmin) {
                 const month = parseInt(monthSelect.value, 10);
                 const year = parseInt(yearSelect.value, 10);
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i + 1).padStart(2, '0')}`;
-                updates.push({ date: dateStr, chambre: String(room) });
+                updates.push({ date: dateStr, chambre: rooms.join(' / ') });
             }
             room++;
             if (room > 54) room = 1;
@@ -414,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const existing = await fetchAssignments();
                 const map = {};
-                existing.forEach(a => { map[a.date] = a.chambres.join('/'); });
+                existing.forEach(a => { map[a.date] = a.chambres.join(' / '); });
                 updates.forEach(u => { map[u.date] = u.chambre; });
                 const all = Object.entries(map).map(([date, chambre]) => ({ date, chambre }));
                 await saveAssignments(all);
@@ -473,6 +487,51 @@ document.addEventListener('DOMContentLoaded', () => {
         excludeRoomInput.value = '';
     }
 
+    function addLinkedRoom(roomA, roomB) {
+        if (!linkedRooms.has(roomA)) linkedRooms.set(roomA, new Set());
+        if (!linkedRooms.has(roomB)) linkedRooms.set(roomB, new Set());
+        linkedRooms.get(roomA).add(roomB);
+        linkedRooms.get(roomB).add(roomA);
+    }
+
+    function removeLinkedRoom(roomA, roomB) {
+        if (linkedRooms.has(roomA)) {
+            linkedRooms.get(roomA).delete(roomB);
+            if (linkedRooms.get(roomA).size === 0) linkedRooms.delete(roomA);
+        }
+        if (linkedRooms.has(roomB)) {
+            linkedRooms.get(roomB).delete(roomA);
+            if (linkedRooms.get(roomB).size === 0) linkedRooms.delete(roomB);
+        }
+    }
+
+    function updateLinkedList() {
+        if (!linkedListDiv) return;
+        linkedListDiv.innerHTML = '';
+        const pairs = [];
+        linkedRooms.forEach((set, a) => {
+            set.forEach(b => {
+                if (a < b) pairs.push([a, b]);
+            });
+        });
+        pairs.sort((p1, p2) => p1[0] - p2[0] || p1[1] - p2[1]);
+        pairs.forEach(([a, b]) => {
+            const item = document.createElement('span');
+            item.className = 'linked-item';
+            item.textContent = `${a} ⇔ ${b}`;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'remove-link';
+            btn.textContent = '×';
+            btn.addEventListener('click', () => {
+                removeLinkedRoom(a, b);
+                updateLinkedList();
+            });
+            item.appendChild(btn);
+            linkedListDiv.appendChild(item);
+        });
+    }
+
     function restoreInputs(values) {
         const inputs = calendar.querySelectorAll('.day input');
         inputs.forEach((input, i) => {
@@ -514,11 +573,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isAdmin) return;
         const day = parseInt(e.target.dataset.day, 10);
         if (!day) return;
+        const wrapper = dayDiv.querySelector('.room-input');
+        const addBtn = wrapper.querySelector('.add-room');
+        const val = parseInt(e.target.value.trim(), 10);
+        if (!isNaN(val) && linkedRooms.has(val)) {
+            const existingInputs = Array.from(wrapper.querySelectorAll('input'));
+            const existing = new Set(
+                existingInputs
+                    .map(inp => parseInt(inp.value, 10))
+                    .filter(n => !isNaN(n))
+            );
+            linkedRooms.get(val).forEach(num => {
+                if (!existing.has(num)) {
+                    const newInput = createRoomInput(day);
+                    newInput.value = num;
+                    wrapper.insertBefore(newInput, addBtn);
+                    existing.add(num);
+                }
+            });
+        }
         const inputs = dayDiv.querySelectorAll('input');
         const value = Array.from(inputs)
             .map(inp => inp.value.trim())
             .filter(v => v)
-            .join('/');
+            .join(' / ');
         const month = parseInt(monthSelect.value, 10);
         const year = parseInt(yearSelect.value, 10);
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -575,6 +653,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (clearCalendarBtn) {
         clearCalendarBtn.addEventListener('click', clearCalendar);
     }
+    if (addLinkBtn) {
+        addLinkBtn.addEventListener('click', () => {
+            const a = parseInt(linkRoomAInput.value, 10);
+            const b = parseInt(linkRoomBInput.value, 10);
+            if (
+                !isNaN(a) &&
+                !isNaN(b) &&
+                a >= 1 &&
+                a <= 54 &&
+                b >= 1 &&
+                b <= 54 &&
+                a !== b &&
+                a !== 13 &&
+                b !== 13
+            ) {
+                addLinkedRoom(a, b);
+                updateLinkedList();
+            }
+            linkRoomAInput.value = '';
+            linkRoomBInput.value = '';
+        });
+    }
+    if (linkRoomAInput && linkRoomBInput) {
+        [linkRoomAInput, linkRoomBInput].forEach(inp => {
+            inp.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (addLinkBtn) addLinkBtn.click();
+                }
+            });
+        });
+    }
     if (addExcludeBtn) {
         addExcludeBtn.addEventListener('click', addExcludedRoom);
     }
@@ -619,4 +729,5 @@ document.addEventListener('DOMContentLoaded', () => {
     applyLanguage(currentLang);
     updateAdminControls();
     updateExcludedList();
+    updateLinkedList();
 });
