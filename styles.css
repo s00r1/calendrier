@@ -162,6 +162,14 @@ button:hover {
     color: #000;
 }
 
+.add-room {
+    background-color: var(--btn-add);
+    color: #000;
+    width: 2em;
+    font-size: 0.8rem;
+    padding: 2px 4px;
+}
+
 #clear-calendar {
     background-color: var(--btn-add);
     color: #000;
@@ -244,6 +252,9 @@ input {
     width: 2em;
     font-size: 0.8rem;
     padding: 2px 4px;
+}
+.add-room {
+    width: 2em;
 }
 
 #excluded-list {
@@ -403,6 +414,9 @@ input {
 
     /* Keep plus button small on mobile */
     #add-exclude {
+        width: 2em;
+    }
+    .add-room {
         width: 2em;
     }
 

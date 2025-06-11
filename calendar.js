@@ -13,7 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return [];
         }
 
-        return data.map(row => ({ date: row.due_date.slice(0, 10), chambre: row.title }));
+        return data.map(row => ({
+            date: row.due_date.slice(0, 10),
+            chambres: row.title
+                ? row.title.split('/').map(s => s.trim()).filter(Boolean)
+                : [],
+        }));
     }
 
     async function saveAssignments(assignments) {
@@ -64,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (chambre) {
             const { error } = await supabaseClient
                 .from('assignments')
-                .upsert({ title: chambre, due_date: date }, { onConflict: ['due_date', 'title'] });
+                .upsert({ title: chambre, due_date: date }, { onConflict: ['due_date'] });
 
             if (error) showRequestError(`Erreur maj : ${error.message}`);
         } else {
@@ -203,6 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.forEach(inp => {
             inp.disabled = disabled;
         });
+        const btns = calendar.querySelectorAll('.add-room');
+        btns.forEach(btn => {
+            btn.disabled = disabled;
+        });
     }
 
     function updateAdminControls() {
@@ -216,6 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (autoAssignBtn) autoAssignBtn.disabled = !isAdmin;
         if (clearCalendarBtn) clearCalendarBtn.disabled = !isAdmin;
         setDayInputsDisabled(!isAdmin);
+        const addBtns = calendar.querySelectorAll('.add-room');
+        addBtns.forEach(btn => {
+            btn.style.display = isAdmin ? 'inline-block' : 'none';
+        });
         updateExcludedList();
     }
 
@@ -247,6 +260,20 @@ document.addEventListener('DOMContentLoaded', () => {
             div.textContent = day;
             calendar.appendChild(div);
         });
+    }
+
+    function createRoomInput(day) {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.min = 1;
+        input.max = 54;
+        input.placeholder = texts[currentLang].dayPrefix;
+        input.disabled = !isAdmin;
+        input.dataset.day = day;
+        input.addEventListener('input', function () {
+            if (this.value === '13') this.value = '';
+        });
+        return input;
     }
 
     async function generateCalendar() {
@@ -283,18 +310,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const prefix = document.createElement('span');
             prefix.className = 'room-prefix';
             prefix.textContent = texts[currentLang].dayPrefix;
-            const input = document.createElement('input');
-            input.type = 'number';
-            input.min = 1;
-            input.max = 54;
-            input.placeholder = texts[currentLang].dayPrefix;
-            input.disabled = !isAdmin;
-            input.dataset.day = d;
-            input.addEventListener('input', function () {
-                if (this.value === '13') this.value = '';
-            });
+            const input = createRoomInput(d);
             inputWrapper.appendChild(prefix);
             inputWrapper.appendChild(input);
+            const addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.className = 'add-room';
+            addBtn.textContent = '+';
+            addBtn.style.display = isAdmin ? 'inline-block' : 'none';
+            addBtn.addEventListener('click', () => {
+                const newInput = createRoomInput(d);
+                inputWrapper.insertBefore(newInput, addBtn);
+            });
+            inputWrapper.appendChild(addBtn);
             const abbr = dayNames[new Date(year, month, d).getDay()];
             dayDiv.textContent = `${abbr} ${d}`;
             dayDiv.appendChild(document.createElement('br'));
@@ -302,12 +330,22 @@ document.addEventListener('DOMContentLoaded', () => {
             calendar.appendChild(dayDiv);
         }
         const assignments = await fetchAssignments();
-        const dayInputs = calendar.querySelectorAll('.day input');
-        for (let d = 1; d <= dayInputs.length; d++) {
+        const dayDivs = calendar.querySelectorAll('.day');
+        for (let d = 1; d <= dayDivs.length; d++) {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             const found = assignments.find(a => a.date === dateStr);
             if (found) {
-                dayInputs[d - 1].value = found.chambre;
+                const wrapper = dayDivs[d - 1].querySelector('.room-input');
+                const addBtn = wrapper.querySelector('.add-room');
+                const inputs = wrapper.querySelectorAll('input');
+                if (found.chambres.length > 0) {
+                    inputs[0].value = found.chambres[0];
+                }
+                for (let i = 1; i < found.chambres.length; i++) {
+                    const newInput = createRoomInput(d);
+                    newInput.value = found.chambres[i];
+                    wrapper.insertBefore(newInput, addBtn);
+                }
             }
         }
         updateAdminControls();
@@ -318,8 +356,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (errorMessageDiv) errorMessageDiv.textContent = '';
         const startRoom = parseInt(startRoomInput.value, 10);
         const startDay = parseInt(startDaySelect.value, 10);
-        const dayInputs = calendar.querySelectorAll('.day input');
-        const daysInMonth = dayInputs.length;
+        const dayDivs = calendar.querySelectorAll('.day');
+        const daysInMonth = dayDivs.length;
 
         if (isNaN(startRoom) || startRoom < 1 || startRoom > 54 || excludedRooms.has(startRoom)) {
             messages.push(texts[currentLang].invalidRoom);
@@ -349,12 +387,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let room = startRoom;
         const updates = [];
-        for (let i = startDay - 1; i < dayInputs.length; i++) {
+        for (let i = startDay - 1; i < dayDivs.length; i++) {
             while (excludedRooms.has(room)) {
                 room++;
                 if (room > 54) room = 1;
             }
-            dayInputs[i].value = room;
+            const wrapper = dayDivs[i].querySelector('.room-input');
+            const inputs = wrapper.querySelectorAll('input');
+            inputs.forEach((inp, idx) => {
+                if (idx === 0) {
+                    inp.value = room;
+                } else {
+                    inp.remove();
+                }
+            });
             if (isAdmin) {
                 const month = parseInt(monthSelect.value, 10);
                 const year = parseInt(yearSelect.value, 10);
@@ -368,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const existing = await fetchAssignments();
                 const map = {};
-                existing.forEach(a => { map[a.date] = a.chambre; });
+                existing.forEach(a => { map[a.date] = a.chambres.join('/'); });
                 updates.forEach(u => { map[u.date] = u.chambre; });
                 const all = Object.entries(map).map(([date, chambre]) => ({ date, chambre }));
                 await saveAssignments(all);
@@ -380,11 +426,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function clearCalendar() {
-        const dayInputs = calendar.querySelectorAll('.day input');
+        const dayDivs = calendar.querySelectorAll('.day');
         const deleteDates = [];
 
-        dayInputs.forEach((inp, idx) => {
-            inp.value = '';
+        dayDivs.forEach((div, idx) => {
+            const inputs = div.querySelectorAll('input');
+            inputs.forEach((inp, i) => {
+                if (i === 0) {
+                    inp.value = '';
+                } else {
+                    inp.remove();
+                }
+            });
             if (isAdmin) {
                 const month = parseInt(monthSelect.value, 10);
                 const year = parseInt(yearSelect.value, 10);
@@ -456,14 +509,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     calendar.addEventListener('change', async e => {
         if (!(e.target instanceof HTMLInputElement)) return;
-        if (!e.target.closest('.day')) return;
+        const dayDiv = e.target.closest('.day');
+        if (!dayDiv) return;
         if (!isAdmin) return;
         const day = parseInt(e.target.dataset.day, 10);
         if (!day) return;
+        const inputs = dayDiv.querySelectorAll('input');
+        const value = Array.from(inputs)
+            .map(inp => inp.value.trim())
+            .filter(v => v)
+            .join('/');
         const month = parseInt(monthSelect.value, 10);
         const year = parseInt(yearSelect.value, 10);
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        await saveAssignment(dateStr, e.target.value);
+        await saveAssignment(dateStr, value);
     });
 
     printBtn.addEventListener('click', () => {
