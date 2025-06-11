@@ -4,7 +4,7 @@
   "description": "Cette application web gère la répartition des tâches de ménage dans la cuisine. Elle fonctionne entièrement côté client : ouvrez simplement `index.html` dans un navigateur moderne pour générer et imprimer un calendrier personnalisé.",
   "main": "src/calendar.js",
   "scripts": {
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -12,8 +12,5 @@
   "type": "commonjs",
   "dependencies": {
     "@supabase/supabase-js": "^2.50.0"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0"
   }
 }
