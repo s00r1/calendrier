@@ -25,7 +25,7 @@ npx serve .
 To persist assignments with Supabase:
 
 1. Log in to [Supabase](https://app.supabase.com) and create a project (e.g. **menage**).
-2. In **Table Editor**, create a table `assignments` with the columns `date` (date, primary key) and `chambre` (text).
+2. In **Table Editor**, create a table `assignments` with the columns `id` (auto-increment, primary key), `due_date` (date, unique) and `title` (text). The `due_date` column must be unique so that `upsert` works correctly.
 3. Enable *Row Level Security* and add a policy allowing the `anon` role to read and write on the table (use `true` as expression for testing).
 4. Under **Settings > API**, copy your project URL and anon key.
 5. Fill these values in `calendar.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
