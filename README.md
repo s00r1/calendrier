@@ -23,6 +23,7 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 ```bash
 npx serve .
 ```
+Copiez le fichier `.env.example` en `.env` puis ajustez la valeur `ADMIN_PASS` selon votre choix.
 
 Pour conserver les affectations avec Supabase :
 
@@ -37,7 +38,7 @@ Pour conserver les affectations avec Supabase :
 ## Utilisation rapide
 
 1. Sélectionnez le mois et l'année souhaités, le calendrier se met à jour instantanément.
-2. Activez le **mode administrateur** via le bouton *Admin* et entrez le mot de passe par défaut `s00r1`.
+2. Activez le **mode administrateur** via le bouton *Admin* et entrez le mot de passe defini dans le fichier `.env` (cle `ADMIN_PASS`).
 3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique. Utilisez le bouton **+** pour ajouter plusieurs chambres si besoin.
 4. Cliquez sur **Imprimer** pour générer une version papier du planning.
 5. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
