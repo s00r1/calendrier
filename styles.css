@@ -1,8 +1,8 @@
 :root {
     --bg-color: #fff;
-    --text-color: #000;
-    --header-bg: #f0f0f0;
-    --accent-color: #007bff;
+    --text-color: #222;
+    --header-bg: #e9ecef;
+    --accent-color: #0d6efd;
     --header-text: #000;
     --btn-print: #28a745;
     --btn-theme: #6c757d;
@@ -51,6 +51,24 @@ body.dark input {
     flex-wrap: wrap;
     gap: 10px;
     align-items: center;
+    justify-content: center;
+}
+
+.date-selectors {
+    display: flex;
+    gap: 10px;
+}
+
+.admin-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.admin-buttons {
+    display: flex;
+    gap: 10px;
     justify-content: center;
 }
 
@@ -207,7 +225,8 @@ input {
 #admin-controls {
     display: none;
     gap: 10px;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
 #admin-controls label {
@@ -322,7 +341,7 @@ input {
 @media (max-width: 600px) {
     body {
         margin: 10px;
-        font-size: 14px;
+        font-size: 13px;
     }
 
     h1 {
@@ -352,6 +371,10 @@ input {
         width: 100%;
     }
 
+    .date-selectors {
+        flex-direction: column;
+    }
+
     .controls button,
     .controls select,
     .controls input {
@@ -360,6 +383,15 @@ input {
     }
 
     #admin-controls {
+        flex-direction: column;
+    }
+
+    .admin-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-buttons {
         flex-direction: column;
     }
 
