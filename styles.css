@@ -12,7 +12,7 @@
 }
 
 @page {
-    size: A4 landscape;
+    size: A4 portrait;
     margin: 1cm;
 }
 
@@ -368,6 +368,8 @@ input {
     }
     .calendar {
         width: 100%;
+        font-size: 0.9em;
+        page-break-inside: avoid;
     }
     #print,
     .theme-switcher,
