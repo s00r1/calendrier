@@ -345,15 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const found = assignments.find(a => a.date === dateStr);
             if (found) {
                 const wrapper = dayDivs[d - 1].querySelector('.room-input');
-                const addBtn = wrapper.querySelector('.add-room');
                 const inputs = wrapper.querySelectorAll('input');
-                if (found.chambres.length > 0) {
-                    inputs[0].value = found.chambres[0];
-                }
-                for (let i = 1; i < found.chambres.length; i++) {
-                    const newInput = createRoomInput(d);
-                    newInput.value = found.chambres[i];
-                    wrapper.insertBefore(newInput, addBtn);
+                if (found.chambres.length) {
+                    inputs[0].value = found.chambres.join(' / ');
                 }
             }
         }
@@ -402,19 +396,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (room > 54) room = 1;
             }
             const wrapper = dayDivs[i].querySelector('.room-input');
-            const addBtn = wrapper.querySelector('.add-room');
-            wrapper.querySelectorAll('input').forEach(inp => inp.remove());
+            const inputs = wrapper.querySelectorAll('input');
+            inputs.forEach((inp, idx) => {
+                if (idx === 0) {
+                    inp.value = '';
+                } else {
+                    inp.remove();
+                }
+            });
             const rooms = [room];
             if (linkedRooms.has(room)) {
                 linkedRooms.get(room).forEach(r => {
                     if (!excludedRooms.has(r) && !rooms.includes(r)) rooms.push(r);
                 });
             }
-            rooms.forEach(r => {
-                const inp = createRoomInput(i + 1);
-                inp.value = r;
-                wrapper.insertBefore(inp, addBtn);
-            });
+            if (inputs.length) {
+                inputs[0].value = rooms.join(' / ');
+            }
             if (isAdmin) {
                 const month = parseInt(monthSelect.value, 10);
                 const year = parseInt(yearSelect.value, 10);
@@ -574,29 +572,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const day = parseInt(e.target.dataset.day, 10);
         if (!day) return;
         const wrapper = dayDiv.querySelector('.room-input');
-        const addBtn = wrapper.querySelector('.add-room');
-        const val = parseInt(e.target.value.trim(), 10);
-        if (!isNaN(val) && linkedRooms.has(val)) {
-            const existingInputs = Array.from(wrapper.querySelectorAll('input'));
-            const existing = new Set(
-                existingInputs
-                    .map(inp => parseInt(inp.value, 10))
-                    .filter(n => !isNaN(n))
-            );
-            linkedRooms.get(val).forEach(num => {
-                if (!existing.has(num)) {
-                    const newInput = createRoomInput(day);
-                    newInput.value = num;
-                    wrapper.insertBefore(newInput, addBtn);
-                    existing.add(num);
-                }
-            });
+        const inputs = wrapper.querySelectorAll('input');
+
+        let values = Array.from(inputs)
+            .map(inp => inp.value)
+            .join(' / ')
+            .split('/')
+            .map(v => v.trim())
+            .filter(v => v);
+
+        values.slice().forEach(v => {
+            const num = parseInt(v, 10);
+            if (!isNaN(num) && linkedRooms.has(num)) {
+                linkedRooms.get(num).forEach(r => {
+                    const s = String(r);
+                    if (!values.includes(s)) values.push(s);
+                });
+            }
+        });
+
+        const joined = values.join(' / ');
+        if (inputs.length) {
+            inputs[0].value = joined;
+            for (let i = 1; i < inputs.length; i++) inputs[i].remove();
         }
-        const inputs = dayDiv.querySelectorAll('input');
-        const value = Array.from(inputs)
-            .map(inp => inp.value.trim())
-            .filter(v => v)
-            .join(' / ');
+
+        const value = joined;
         const month = parseInt(monthSelect.value, 10);
         const year = parseInt(yearSelect.value, 10);
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
