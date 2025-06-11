@@ -12,24 +12,33 @@
     <h1>Calendrier du ménage de la cuisine</h1>
     <h2 id="subtitle"></h2>
     <div class="controls">
-        <select id="month"></select>
-        <select id="year"></select>
-        <div class="admin-section">
-            <div id="admin-controls" class="admin-controls">
-                <label for="start-room">Chambre de départ :</label>
-                <input id="start-room" type="number" min="1" max="54" placeholder="Chambre">
-                <label for="start-day">Date de début :</label>
-                <select id="start-day"></select>
-                <label for="exclude-room">Chambre à exclure :</label>
-                <input id="exclude-room" type="number" min="1" max="54" placeholder="Exclure">
-                <button id="add-exclude">+</button>
-                <div id="excluded-list"></div>
-                <button id="auto-assign">Auto</button>
-                <button id="clear-calendar">Clear</button>
-            </div>
-            <div id="error-message" class="error-message"></div>
+        <div class="date-selectors">
+            <select id="month"></select>
+            <select id="year"></select>
         </div>
         <button id="admin-login">Admin</button>
+    </div>
+
+    <div class="admin-section">
+        <div id="admin-controls" class="admin-controls">
+            <div class="admin-group">
+                <label for="start-room">Départ&nbsp;:</label>
+                <input id="start-room" type="number" min="1" max="54" placeholder="#">
+                <label for="start-day">Jour&nbsp;:</label>
+                <select id="start-day"></select>
+            </div>
+            <div class="admin-group">
+                <label for="exclude-room">Exclure&nbsp;:</label>
+                <input id="exclude-room" type="number" min="1" max="54" placeholder="#">
+                <button id="add-exclude">+</button>
+                <div id="excluded-list"></div>
+            </div>
+            <div class="admin-buttons">
+                <button id="auto-assign">Auto</button>
+                <button id="clear-calendar">Vider</button>
+            </div>
+        </div>
+        <div id="error-message" class="error-message"></div>
     </div>
     <div id="calendar" class="calendar"></div>
     <button id="print">Imprimer</button>
