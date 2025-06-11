@@ -22,6 +22,7 @@ No specific installation is required. Clone the repository and open the `index.h
 ```bash
 npx serve .
 ```
+Copy the `.env.example` file to `.env` and set the `ADMIN_PASS` value.
 
 To persist assignments with Supabase:
 
@@ -36,7 +37,7 @@ To persist assignments with Supabase:
 ## Quick usage
 
 1. Select the desired month and year; the calendar updates instantly.
-2. Enable **admin mode** via the *Admin* button and enter the default password `s00r1`.
+2. Enable **admin mode** via the *Admin* button and enter the password set in the `.env` file (`ADMIN_PASS`).
 3. Enter the room numbers for each date or use automatic assignment. Use the **+** button to add multiple rooms if needed.
 
 4. Click **Print** to generate a paper version of the schedule.

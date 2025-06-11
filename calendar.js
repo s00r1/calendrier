@@ -633,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             const pass = prompt(texts[currentLang].adminPassPrompt);
-            if (pass === 's00r1') {
+            if (pass === (window.ADMIN_PASS || 's00r1')) {
                 isAdmin = true;
                 alert(texts[currentLang].adminEnabled);
                 generateCalendar();
