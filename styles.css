@@ -269,9 +269,25 @@ input {
 }
 
 .error-message {
-    color: red;
     margin-top: 4px;
     text-align: center;
+}
+
+.error-item {
+    color: red;
+    margin: 2px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.error-close {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1em;
+    line-height: 1;
 }
 
 .excluded-item {
