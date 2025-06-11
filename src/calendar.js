@@ -3,8 +3,15 @@ import {
     saveAssignments,
     saveAssignment,
     deleteAssignments,
-} from './supabase.js';
-import { showRequestError } from './ui.js';
+} from './data.js';
+import {
+    showRequestError,
+    populateMonthSelect,
+    applyLanguage,
+    restoreInputs,
+    initThemeSwitcher,
+    initLangSwitcher,
+} from './ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -102,6 +109,27 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     };
 
+    function setLanguage(lang) {
+        currentLang = lang;
+        applyLanguage(lang, {
+            texts,
+            monthNamesMap,
+            monthSelect,
+            startRoomInput,
+            excludeRoomInput,
+            autoAssignBtn,
+            clearCalendarBtn,
+            adminBtn,
+            printBtn,
+            logoutModal,
+            logoutConfirm,
+            logoutCancel,
+            langSwitcher,
+            populateMonthSelect,
+            generateCalendar,
+        });
+    }
+
     function updateExcludedList() {
         if (!excludedListDiv) return;
         const rooms = Array.from(excludedRooms).sort((a, b) => a - b);
@@ -160,16 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const today = new Date();
-    function populateMonthSelect() {
-        monthSelect.innerHTML = '';
-        for (let i = 0; i < 12; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = monthNamesMap[currentLang][i];
-            monthSelect.appendChild(option);
-        }
-    }
-    populateMonthSelect();
+    populateMonthSelect(monthSelect, monthNamesMap[currentLang]);
     for (let y = today.getFullYear() - 1; y <= today.getFullYear() + 1; y++) {
         const option = document.createElement('option');
         option.value = y;
@@ -454,36 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function restoreInputs(values) {
-        const inputs = calendar.querySelectorAll('.day input');
-        inputs.forEach((input, i) => {
-            input.value = values[i] || '';
-        });
-    }
-
-    function applyLanguage(lang) {
-        currentLang = lang;
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-        const t = texts[lang];
-        document.title = t.title;
-        document.querySelector('h1').textContent = t.title;
-        document.querySelector('label[for="start-room"]').textContent = t.startRoomLabel;
-        startRoomInput.placeholder = t.startRoomPlaceholder;
-        document.querySelector('label[for="start-day"]').textContent = t.startDayLabel;
-        document.querySelector('label[for="exclude-room"]').textContent = t.excludeRoomLabel;
-        excludeRoomInput.placeholder = t.excludeRoomPlaceholder;
-        autoAssignBtn.textContent = t.autoAssign;
-        clearCalendarBtn.textContent = t.clearCalendar;
-        adminBtn.textContent = t.adminLogin;
-        printBtn.textContent = t.print;
-        if (logoutModal) logoutModal.querySelector('p').textContent = t.logoutPrompt;
-        logoutConfirm.textContent = t.logoutConfirm;
-        logoutCancel.textContent = t.logoutCancel;
-        if (langSwitcher) langSwitcher.textContent = lang === 'ar' ? 'FR' : 'AR';
-        populateMonthSelect();
-        generateCalendar();
-    }
 
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
@@ -537,13 +526,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const before = currentLang;
         const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
         if (before !== 'fr') {
-            applyLanguage('fr');
-            restoreInputs(savedValues);
+            setLanguage('fr');
+            restoreInputs(calendar, savedValues);
             window.addEventListener(
                 'afterprint',
                 () => {
-                    applyLanguage(before);
-                    restoreInputs(savedValues);
+                    setLanguage(before);
+                    restoreInputs(calendar, savedValues);
                 },
                 { once: true }
             );
@@ -551,32 +540,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.print();
     });
 
-    if (themeSwitcher) {
-        if (
-            localStorage.getItem('theme') === 'dark' ||
-            (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))
-        ) {
-            document.body.classList.add('dark');
-            themeSwitcher.textContent = '☀️';
-        }
-        themeSwitcher.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            if (document.body.classList.contains('dark')) {
-                themeSwitcher.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeSwitcher.textContent = '🌘';
-                localStorage.setItem('theme', 'light');
-            }
-        });
-    }
-    if (langSwitcher) {
-        langSwitcher.addEventListener('click', () => {
-            const newLang = currentLang === 'fr' ? 'ar' : 'fr';
-            langSwitcher.textContent = newLang === 'ar' ? 'FR' : 'AR';
-            applyLanguage(newLang);
-        });
-    }
+    initThemeSwitcher(themeSwitcher);
+    initLangSwitcher(langSwitcher, () => currentLang, setLanguage);
     if (autoAssignBtn) {
         autoAssignBtn.addEventListener('click', autoAssign);
     }
@@ -656,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    applyLanguage(currentLang);
+    setLanguage(currentLang);
     updateAdminControls();
     updateExcludedList();
     updateLinkedList();

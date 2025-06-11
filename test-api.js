@@ -1,5 +1,5 @@
-import { fetchAssignments, saveAssignment, deleteAssignments } from './supabase.js';
-import { showRequestError } from './ui.js';
+import { fetchAssignments, saveAssignment, deleteAssignments } from './src/data.js';
+import { showRequestError } from './src/ui.js';
 
 async function runTest(title, fn) {
   try {

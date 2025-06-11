@@ -2,7 +2,7 @@
   "name": "calendrier",
   "version": "1.0.0",
   "description": "Cette application web gère la répartition des tâches de ménage dans la cuisine. Elle fonctionne entièrement côté client : ouvrez simplement `index.html` dans un navigateur moderne pour générer et imprimer un calendrier personnalisé.",
-  "main": "calendar.js",
+  "main": "src/calendar.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
