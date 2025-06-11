@@ -1,86 +1,12 @@
+import {
+    fetchAssignments,
+    saveAssignments,
+    saveAssignment,
+    deleteAssignments,
+} from './supabase.js';
+import { showRequestError } from './ui.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-    const SUPABASE_URL = 'https://dexbvustuzzghzdpetjr.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRleGJ2dXN0dXp6Z2h6ZHBldGpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk1NjQ4NTEsImV4cCI6MjA2NTE0MDg1MX0.h3PbDOoiLj9gQmaGJkRWZL7vN_M52Qboik4EFjqpavA';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    async function fetchAssignments() {
-        const { data, error } = await supabaseClient
-            .from('assignments')
-            .select('*');
-
-        if (error) {
-            showRequestError(`Erreur de récupération : ${error.message}`);
-            return [];
-        }
-
-        return data.map(row => ({
-            date: row.due_date.slice(0, 10),
-            chambres: row.title
-                ? row.title.split('/').map(s => s.trim()).filter(Boolean)
-                : [],
-        }));
-    }
-
-    async function saveAssignments(assignments) {
-        if (assignments.length === 0) return;
-
-        const month = assignments[0].date.slice(0, 7);
-        const { data: exist, error: errExist } = await supabaseClient
-            .from('assignments')
-            .select('id, due_date');
-
-        if (errExist) {
-            showRequestError(`Erreur vérification existantes : ${errExist.message}`);
-            return;
-        }
-
-        const toDelete = exist
-            .filter(a => a.due_date.slice(0, 7) === month)
-            .map(a => a.id);
-
-        if (toDelete.length) {
-            const { error: errDel } = await supabaseClient
-                .from('assignments')
-                .delete()
-                .in('id', toDelete);
-
-            if (errDel) {
-                showRequestError(`Erreur suppression : ${errDel.message}`);
-                return;
-            }
-        }
-
-        const cleanAssignments = assignments
-            .filter(a => a.chambre && a.chambre !== '')
-            .map(a => ({ title: a.chambre, due_date: a.date }));
-
-        if (cleanAssignments.length) {
-            const { error: errInsert } = await supabaseClient
-                .from('assignments')
-                .insert(cleanAssignments);
-
-            if (errInsert) {
-                showRequestError(`Erreur insertion : ${errInsert.message}`);
-            }
-        }
-    }
-
-    async function saveAssignment(date, chambre) {
-        if (chambre) {
-            const { error } = await supabaseClient
-                .from('assignments')
-                .upsert({ title: chambre, due_date: date }, { onConflict: ['due_date'] });
-
-            if (error) showRequestError(`Erreur maj : ${error.message}`);
-        } else {
-            const { error } = await supabaseClient
-                .from('assignments')
-                .delete()
-                .eq('due_date', date);
-
-            if (error) showRequestError(`Erreur suppression : ${error.message}`);
-        }
-    }
 
     // ----------- UI & LOGIQUE -----------
 
@@ -110,14 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutModal = document.getElementById('logout-modal');
     const logoutConfirm = document.getElementById('logout-confirm');
     const logoutCancel = document.getElementById('logout-cancel');
-
-    function showRequestError(msg) {
-        if (errorMessageDiv) {
-            errorMessageDiv.textContent = msg;
-        } else {
-            alert(msg);
-        }
-    }
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
@@ -338,7 +256,13 @@ document.addEventListener('DOMContentLoaded', () => {
             dayDiv.appendChild(inputWrapper);
             calendar.appendChild(dayDiv);
         }
-        const assignments = await fetchAssignments();
+        let assignments = [];
+        try {
+            assignments = await fetchAssignments();
+        } catch (err) {
+            console.error(err);
+            showRequestError(`Erreur de récupération : ${err.message}`);
+        }
         const dayDivs = calendar.querySelectorAll('.day');
         for (let d = 1; d <= dayDivs.length; d++) {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
@@ -432,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await saveAssignments(all);
             } catch (err) {
                 console.error(err);
-                showRequestError("Erreur lors de l'enregistrement des données");
+                showRequestError(`Erreur lors de l'enregistrement : ${err.message}`);
             }
         }
     }
@@ -460,14 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isAdmin && deleteDates.length) {
             try {
-                const { error } = await supabaseClient
-                    .from('assignments')
-                    .delete()
-                    .in('due_date', deleteDates);
-
-                if (error) {
-                    showRequestError(`Erreur suppression : ${error.message}`);
-                }
+                await deleteAssignments(deleteDates);
             } catch (err) {
                 console.error(err);
                 showRequestError(`Erreur suppression : ${err.message || JSON.stringify(err)}`);
@@ -601,7 +518,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const month = parseInt(monthSelect.value, 10);
         const year = parseInt(yearSelect.value, 10);
         const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        await saveAssignment(dateStr, value);
+        try {
+            await saveAssignment(dateStr, value);
+        } catch (err) {
+            console.error(err);
+            showRequestError(`Erreur sauvegarde : ${err.message}`);
+        }
     });
 
     printBtn.addEventListener('click', () => {
