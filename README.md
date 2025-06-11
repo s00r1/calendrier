@@ -14,6 +14,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
 - Sauvegarde en ligne des affectations grâce à Supabase
+- Ajout possible de plusieurs chambres par jour et liaison de chambres pour les attributions groupées
 
 ## Installation
 
@@ -29,7 +30,7 @@ Pour conserver les affectations avec Supabase :
 2. Dans **Table Editor**, créez une table `assignments` avec les colonnes `id` (auto‑incrément, clé primaire), `due_date` (date, unique) et `title` (texte). La colonne `due_date` doit être unique pour permettre l’`upsert`.
 3. Activez la *Row Level Security* puis ajoutez une politique autorisant le rôle `anon` à lire et écrire dans la table (expression `true` pour les tests).
 4. Dans **Settings > API**, copiez l'URL et la clé `anon` de votre projet.
-5. Renseignez ces valeurs dans `calendar.js` aux constantes `SUPABASE_URL` et `SUPABASE_KEY`.
+5. Renseignez ces valeurs dans `supabase.js` aux constantes `SUPABASE_URL` et `SUPABASE_KEY`.
 
 **Note :** ces clés sont temporaires pour les tests et seront remplacées ultérieurement par une méthode plus sûre.
 
@@ -37,7 +38,7 @@ Pour conserver les affectations avec Supabase :
 
 1. Sélectionnez le mois et l'année souhaités, le calendrier se met à jour instantanément.
 2. Activez le **mode administrateur** via le bouton *Admin* et entrez le mot de passe par défaut `s00r1`.
-3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique.
+3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique. Utilisez le bouton **+** pour ajouter plusieurs chambres si besoin.
 4. Cliquez sur **Imprimer** pour générer une version papier du planning.
 5. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
    Les modifications sont enregistrées automatiquement dans Supabase si
@@ -53,7 +54,12 @@ Saisissez les numéros à ignorer dans le champ d'exclusion puis validez pour re
 
 #### Cas particulier
 
+
 Si la liste d'exclusion contient toutes les chambres (les 54 numéros), le bouton **Auto** affiche un message d'erreur et aucune attribution n'est réalisée.
+
+### Lier des chambres
+
+Utilisez les deux champs sous la section admin pour indiquer deux numéros de chambre à lier. Elles seront attribuées ensemble lors des modifications et de l'attribution automatique. Un bouton permet de supprimer un lien existant.
 
 ### Nettoyer le calendrier
 
