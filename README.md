@@ -247,9 +247,9 @@ N'hésitez pas à ouvrir des issues ou des pull requests pour proposer des amél
 
 ## Licence
 
-Ce projet est distribué sous la licence MIT.
-Une documentation est également disponible en anglais : README_en.md.
-Une documentation et une licence en arabe sont disponibles : README_ar.md et LICENSE_AR.md.
+Ce projet est distribué sous la [licence MIT](LICENSE).
+Une documentation est également disponible en anglais : [README_en.md](README_en.md).
+Une documentation et une licence en arabe sont disponibles : [README_ar.md](README_ar.md) et [LICENSE_AR.md](LICENSE_AR.md).
 
 ---
 
