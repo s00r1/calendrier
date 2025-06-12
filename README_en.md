@@ -21,7 +21,11 @@ No specific installation is required. Clone the repository and open the `index.h
 
 ```bash
 npx serve .
+# or
+npm start
 ```
+
+The `npm start` command automatically runs `npx serve .` to serve the application.
 
 ### Configuration
 
