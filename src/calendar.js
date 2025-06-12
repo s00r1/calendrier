@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateRoomSelectOptions() {
-        const selects = [startRoomInput, linkRoomAInput, linkRoomBInput].filter(Boolean);
+        const selects = [startRoomInput, linkRoomAInput, linkRoomBInput, excludeRoomInput].filter(Boolean);
         if (selects.length === 0) return;
 
         const prevValues = selects.map(sel => sel.value);
@@ -173,9 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 sel.appendChild(opt);
             });
             pairs.forEach(([a, b]) => {
+                if (excludedRooms.has(a) || excludedRooms.has(b)) return;
                 const opt = document.createElement('option');
-                opt.value = a;
                 opt.textContent = `${a}/${b}`;
+                if (sel === excludeRoomInput) {
+                    opt.value = `${a}/${b}`;
+                } else {
+                    opt.value = a;
+                }
                 sel.appendChild(opt);
             });
             if (sel.querySelector(`option[value="${prevValues[idx]}"]`)) {
@@ -475,11 +480,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function addExcludedRoom() {
-        const num = parseInt(excludeRoomInput.value, 10);
-        if (!isNaN(num) && num >= 1 && num <= 54 && num !== 13) {
-            excludedRooms.add(num);
-            updateExcludedList();
+        const val = excludeRoomInput.value;
+        if (!val) return;
+        if (val.includes('/')) {
+            val.split('/')
+                .map(v => parseInt(v, 10))
+                .filter(n => !isNaN(n) && n !== 13)
+                .forEach(n => excludedRooms.add(n));
+        } else {
+            const num = parseInt(val, 10);
+            if (!isNaN(num) && num >= 1 && num <= 54 && num !== 13) {
+                excludedRooms.add(num);
+            }
         }
+        updateExcludedList();
         excludeRoomInput.value = '';
     }
 
