@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const yearSelect = document.getElementById('year');
     const calendar = document.getElementById('calendar');
     const printBtn = document.getElementById('print');
+    const downloadPdfBtn = document.getElementById('download-pdf');
     const subtitle = document.getElementById('subtitle');
     const adminBtn = document.getElementById('admin-login');
     const adminControls = document.getElementById('admin-controls');
@@ -86,6 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             clearCalendar: 'Vider',
             adminLogin: 'Admin',
             print: 'Imprimer',
+            downloadPdf: 'Télécharger PDF',
             logoutPrompt: 'Quitter le mode admin ?',
             logoutConfirm: 'Oui',
             logoutCancel: 'Non',
@@ -117,6 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             clearCalendar: 'مسح',
             adminLogin: 'إدارة',
             print: 'طباعة',
+            downloadPdf: 'تحميل PDF',
             logoutPrompt: 'الخروج من وضع الإدارة؟',
             logoutConfirm: 'نعم',
             logoutCancel: 'لا',
@@ -153,6 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             autoOptionsTitle,
             linkedRoomsTitle,
             printBtn,
+            downloadPdfBtn,
             logoutModal,
             logoutConfirm,
             logoutCancel,
@@ -698,6 +702,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error(err);
             showRequestError(`Erreur sauvegarde : ${err.message}`);
         }
+    });
+
+    downloadPdfBtn.addEventListener('click', () => {
+        const element = document.getElementById('calendar');
+        const opt = {
+            margin: 0,
+            filename: 'calendrier.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
     });
 
     printBtn.addEventListener('click', () => {

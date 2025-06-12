@@ -10,6 +10,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Exclusion de chambres et démarrage de l'attribution à une date précise
 - Effacement rapide du calendrier et thème sombre pour le confort visuel
 - Impression directe depuis le navigateur
+- Export du calendrier au format PDF
 - Les éléments de l'interface administrateur sont automatiquement masqués lors
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
@@ -50,11 +51,12 @@ Pour conserver les affectations avec Supabase :
 1. Sélectionnez le mois et l'année souhaités, le calendrier se met à jour instantanément.
 2. Activez le **mode administrateur** via le bouton *Admin* et entrez le mot de passe defini dans le fichier `.env` (cle `ADMIN_PASS`).
 3. Renseignez les numéros de chambre pour chaque date ou utilisez l'attribution automatique. Utilisez le bouton **+** pour ajouter plusieurs chambres si besoin.
-4. Cliquez sur **Imprimer** pour générer une version papier du planning.
-5. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
+4. Cliquez sur **Télécharger PDF** pour enregistrer le planning.
+5. Cliquez sur **Imprimer** pour générer une version papier du planning.
+6. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
    Les modifications sont enregistrées automatiquement dans Supabase si
    la configuration est correcte.
-6. Utilisez la barre **Configuration** en haut du panneau admin pour charger ou sauvegarder un jeu d'options et modifier le mot de passe.
+7. Utilisez la barre **Configuration** en haut du panneau admin pour charger ou sauvegarder un jeu d'options et modifier le mot de passe.
 
 ### Attribution automatique
 
