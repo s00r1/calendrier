@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             subtitlePrefix: 'Pour le mois de',
             startRoomLabel: 'No de chambre de départ',
             startRoomPlaceholder: '#',
-            startDayLabel: 'Jour :',
+            startDayLabel: 'Jour de début',
             excludeRoomLabel: 'Exclure :',
             excludeRoomPlaceholder: '#',
             autoAssign: 'Auto',
