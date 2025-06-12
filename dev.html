@@ -1,72 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendrier du ménage de la cuisine</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Dev</title>
+  <script>
+    window.location.href = 'index.html?test-api=1';
+  </script>
 </head>
 <body>
-    <button id="langSwitcher" class="lang-switcher" title="Changer de langue">AR</button>
-    <button id="themeSwitcher" class="theme-switcher" title="Changer de thème">🌘</button>
-    <h1>Calendrier du ménage de la cuisine</h1>
-    <h2 id="subtitle"></h2>
-    <div class="controls">
-        <div class="date-selectors">
-            <select id="month"></select>
-            <select id="year"></select>
-        </div>
-        <button id="admin-login">Admin</button>
-    </div>
-
-    <div class="admin-section">
-        <div id="admin-controls" class="admin-controls">
-            <div class="admin-group">
-                <label for="start-room">Départ&nbsp;:</label>
-                <input id="start-room" type="number" min="1" max="54" placeholder="#">
-                <label for="start-day">Jour&nbsp;:</label>
-                <select id="start-day"></select>
-            </div>
-            <div class="admin-group">
-                <label for="exclude-room">Exclure&nbsp;:</label>
-                <input id="exclude-room" type="number" min="1" max="54" placeholder="#">
-                <button id="add-exclude">+</button>
-                <div id="excluded-list"></div>
-            </div>
-            <div class="admin-group" id="link-group">
-                <input id="link-room-a" type="number" min="1" max="54" placeholder="#">
-                <input id="link-room-b" type="number" min="1" max="54" placeholder="#">
-                <button id="add-link">Lier</button>
-                <div id="linked-list"></div>
-            </div>
-            <div class="admin-buttons">
-                <button id="auto-assign">Auto</button>
-                <button id="clear-calendar">Vider</button>
-            </div>
-        </div>
-        <div id="error-message" class="error-message"></div>
-    </div>
-    <div id="calendar" class="calendar"></div>
-    <button id="print">Imprimer</button>
-    <div id="logout-modal" class="modal">
-        <div class="modal-content">
-            <p>Quitter le mode admin ?</p>
-            <div class="modal-buttons">
-                <button id="logout-confirm">Oui</button>
-                <button id="logout-cancel">Non</button>
-            </div>
-        </div>
-    </div>
-    <template id="room-input-template">
-        <div class="room-input">
-            <span class="room-prefix"></span>
-            <input type="text" min="1" max="54" placeholder="#">
-            <button type="button" class="add-room">+</button>
-        </div>
-    </template>
-    <!-- Chargement des modules en ES modules -->
-    <script src="env-loader.js"></script>
-    <script type="module" src="src/calendar.js"></script>
-    <script type="module" src="test-api.js"></script>
+  <p>Redirection...</p>
 </body>
 </html>

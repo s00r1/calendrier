@@ -95,8 +95,9 @@ Les donnees recuperees ou un message d'erreur complet s'afficheront dans la cons
 ### Tests manuels de l'API
 
 Un autre script (`test-api.js`) permet de verifier depuis le navigateur que les requetes
-Supabase fonctionnent correctement. Ouvrez la page `dev.html` pour executer ces tests
-manuels. Les resultats ou erreurs s'afficheront directement sur l'interface.
+Supabase fonctionnent correctement. Ouvrez la page `index.html?test-api=1` (ou
+simplement `dev.html`) pour executer ces tests manuels. Les resultats ou erreurs
+s'afficheront directement sur l'interface.
 
 
 ### Thème sombre
