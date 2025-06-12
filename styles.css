@@ -269,6 +269,13 @@ input {
 .room-input input {
     width: 5em;
     margin: 2px 0;
+    font-weight: bold;
+    color: var(--text-color);
+}
+.room-input input:disabled {
+    color: var(--text-color);
+    -webkit-text-fill-color: var(--text-color);
+    opacity: 1;
 }
 
 .controls label {
@@ -537,6 +544,13 @@ input {
 
     .room-input input {
         width: 3.5em;
+        font-weight: bold;
+        color: var(--text-color);
+    }
+    .room-input input:disabled {
+        color: var(--text-color);
+        -webkit-text-fill-color: var(--text-color);
+        opacity: 1;
     }
 
     .calendar {
