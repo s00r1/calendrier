@@ -705,14 +705,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     downloadPdfBtn.addEventListener('click', () => {
-        const element = document.getElementById('calendar');
+        const calendarEl = document.getElementById('calendar');
+        const month = parseInt(monthSelect.value, 10);
+        const year = yearSelect.value;
+        const header = document.createElement('h2');
+        header.textContent = `Calendrier du ménage de la cuisine pour le mois de ${monthNamesMap[currentLang][month]} ${year}`;
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(header);
+        wrapper.appendChild(calendarEl.cloneNode(true));
         const opt = {
             margin: 0,
             filename: 'calendrier.pdf',
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
-        html2pdf().set(opt).from(element).save();
+        html2pdf().set(opt).from(wrapper).save();
     });
 
     printBtn.addEventListener('click', () => {
