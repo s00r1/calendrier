@@ -705,6 +705,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     downloadPdfBtn.addEventListener('click', () => {
+        const darkBefore = document.body.classList.contains('dark');
+        if (darkBefore) document.body.classList.remove('dark');
+
         const calendarEl = document.getElementById('calendar');
         const month = parseInt(monthSelect.value, 10);
         const year = yearSelect.value;
@@ -719,24 +722,39 @@ document.addEventListener('DOMContentLoaded', async () => {
             html2canvas: { scale: 2 },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
-        html2pdf().set(opt).from(wrapper).save();
+        html2pdf()
+            .set(opt)
+            .from(wrapper)
+            .save()
+            .then(() => {
+                if (darkBefore) document.body.classList.add('dark');
+            });
     });
 
     printBtn.addEventListener('click', () => {
         const before = currentLang;
         const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
+        const darkBefore = document.body.classList.contains('dark');
+
+        if (darkBefore) document.body.classList.remove('dark');
+
         if (before !== 'fr') {
             setLanguage('fr');
             restoreInputs(calendar, savedValues);
-            window.addEventListener(
-                'afterprint',
-                () => {
+        }
+
+        window.addEventListener(
+            'afterprint',
+            () => {
+                if (before !== 'fr') {
                     setLanguage(before);
                     restoreInputs(calendar, savedValues);
-                },
-                { once: true }
-            );
-        }
+                }
+                if (darkBefore) document.body.classList.add('dark');
+            },
+            { once: true }
+        );
+
         window.print();
     });
 
