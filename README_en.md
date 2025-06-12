@@ -55,7 +55,7 @@ In the admin section, enter the **starting room** and **start date**. Press the 
 
 ### Excluding rooms
 
-Enter the numbers to ignore in the exclusion field then validate to remove those rooms from the automatic planning.
+Select the room number or linked pair to ignore from the drop-down menu, then confirm to remove it from automatic planning. Linked pairs appear as "a/b" and exclude both rooms.
 
 #### Edge case
 

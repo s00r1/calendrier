@@ -58,7 +58,7 @@ Dans la section administrateur, indiquez la **chambre de départ** ainsi que la 
 
 ### Exclure des chambres
 
-Saisissez les numéros à ignorer dans le champ d'exclusion puis validez pour retirer ces chambres de la planification automatique.
+Sélectionnez le numéro ou le couple de chambres à ignorer dans le menu déroulant puis validez pour retirer ces chambres de la planification automatique. Les couples apparaissent sous la forme « a/b » et excluent les deux numéros.
 
 #### Cas particulier
 
