@@ -103,6 +103,13 @@ Toggle the **Theme** button to switch between a light and dark display according
 
 Contributions are welcome! Feel free to open issues or pull requests to suggest improvements.
 
+### Getting started
+
+1. Copy `.env.example` to `.env` and fill in the required variables.
+2. Run `npm install` if needed and then `npm start` (or `npx serve .`) to serve the application locally.
+3. Use `node testSupabase.js` to verify the Supabase connection.
+4. Pull requests must preserve client-side compatibility: please avoid adding extra server-side dependencies.
+
 ## License
 
 This project is distributed under the [MIT](LICENSE) license. Documentation and a license in Arabic are available: [README_ar.md](README_ar.md) and [LICENSE_AR.md](LICENSE_AR.md).
