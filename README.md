@@ -130,6 +130,13 @@ Activez le bouton **Thème** pour basculer entre un affichage clair et sombre se
 
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir des issues ou des pull requests pour proposer des améliorations.
 
+### Pour démarrer
+
+1. Copiez le fichier `.env.example` vers `.env` puis renseignez les variables nécessaires.
+2. Exécutez éventuellement `npm install` puis `npm start` (ou `npx serve .`) pour servir l'application localement.
+3. Lancez `node testSupabase.js` afin de vérifier la connexion à Supabase.
+4. Les pull requests doivent préserver la compatibilité client‑side : merci de ne pas ajouter de dépendances serveur supplémentaires.
+
 ## Licence
 
 Ce projet est distribué sous la licence [MIT](LICENSE).
