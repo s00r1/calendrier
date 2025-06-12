@@ -3,6 +3,12 @@ import {
     saveAssignments,
     saveAssignment,
     deleteAssignments,
+    fetchConfigList,
+    fetchConfig,
+    createConfig,
+    deleteConfig,
+    updateAdminPass,
+    fetchAdminPass,
 } from './data.js';
 import {
     showRequestError,
@@ -13,7 +19,7 @@ import {
     initLangSwitcher,
 } from './ui.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
 
     // ----------- UI & LOGIQUE -----------
 
@@ -45,11 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutModal = document.getElementById('logout-modal');
     const logoutConfirm = document.getElementById('logout-confirm');
     const logoutCancel = document.getElementById('logout-cancel');
+    const configSelect = document.getElementById('config-select');
+    const loadConfigBtn = document.getElementById('load-config');
+    const saveConfigBtn = document.getElementById('save-config');
+    const deleteConfigBtn = document.getElementById('delete-config');
+    const changePassBtn = document.getElementById('change-pass');
 
     let isAdmin = false;
     const excludedRooms = new Set([13]);
     const linkedRooms = new Map();
     let currentLang = 'fr';
+    let configList = [];
     const monthNamesMap = {
         fr: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
         ar: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
@@ -86,6 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
             adminSectionTitle: "Options d'attributions automatique des chambres",
             linkedRoomsTitle: 'Chambres liées',
             dayPrefix: 'Chambre',
+            saveConfig: 'Sauvegarder',
+            loadConfig: 'Charger',
+            deleteConfig: 'Supprimer',
+            changePass: 'Changer mot de passe',
+            configNamePrompt: 'Nom de la configuration ?',
+            newPassPrompt: 'Nouveau mot de passe ?',
+            passChanged: 'Mot de passe mis à jour',
         },
         ar: {
             title: 'جدول تنظيف المطبخ',
@@ -110,6 +129,13 @@ document.addEventListener('DOMContentLoaded', () => {
             adminSectionTitle: 'خيارات التوزيع التلقائي للغرف',
             linkedRoomsTitle: 'الغرف المرتبطة',
             dayPrefix: 'الغرفة',
+            saveConfig: 'حفظ الإعداد',
+            loadConfig: 'تحميل',
+            deleteConfig: 'حذف',
+            changePass: 'تغيير كلمة السر',
+            configNamePrompt: 'اسم الإعداد؟',
+            newPassPrompt: 'كلمة السر الجديدة؟',
+            passChanged: 'تم تحديث كلمة السر',
         },
     };
 
@@ -131,6 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
             logoutConfirm,
             logoutCancel,
             langSwitcher,
+            configSelect,
+            loadConfigBtn,
+            saveConfigBtn,
+            deleteConfigBtn,
+            changePassBtn,
             populateMonthSelect,
             generateCalendar,
         });
@@ -543,6 +574,83 @@ document.addEventListener('DOMContentLoaded', () => {
         updateRoomSelectOptions();
     }
 
+    async function refreshConfigList() {
+        if (!configSelect) return;
+        try {
+            configList = await fetchConfigList();
+            configSelect.innerHTML = '';
+            const emptyOpt = document.createElement('option');
+            emptyOpt.value = '';
+            emptyOpt.textContent = '';
+            configSelect.appendChild(emptyOpt);
+            configList.forEach(cfg => {
+                const opt = document.createElement('option');
+                opt.value = cfg.id;
+                opt.textContent = cfg.name;
+                configSelect.appendChild(opt);
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function loadSelectedConfig() {
+        const id = parseInt(configSelect.value, 10);
+        if (!id) return;
+        try {
+            const cfg = await fetchConfig(id);
+            excludedRooms.clear();
+            (cfg.excluded || []).forEach(n => excludedRooms.add(n));
+            linkedRooms.clear();
+            (cfg.linked || []).forEach(([a, b]) => addLinkedRoom(a, b));
+            updateExcludedList();
+            updateLinkedList();
+            updateRoomSelectOptions();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function saveCurrentConfig() {
+        const name = prompt(texts[currentLang].configNamePrompt);
+        if (!name) return;
+        const excluded = Array.from(excludedRooms);
+        const pairs = [];
+        linkedRooms.forEach((set, a) => {
+            set.forEach(b => { if (a < b) pairs.push([a,b]); });
+        });
+        try {
+            await createConfig(name, excluded, pairs);
+            await refreshConfigList();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function deleteSelectedConfig() {
+        const id = parseInt(configSelect.value, 10);
+        if (!id) return;
+        if (!confirm('Delete?')) return;
+        try {
+            await deleteConfig(id);
+            await refreshConfigList();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    async function changePassword() {
+        const pass = prompt(texts[currentLang].newPassPrompt);
+        if (!pass) return;
+        try {
+            await updateAdminPass(pass);
+            window.ADMIN_PASS = pass;
+            alert(texts[currentLang].passChanged);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
 
     monthSelect.addEventListener('change', generateCalendar);
     yearSelect.addEventListener('change', generateCalendar);
@@ -639,6 +747,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    if (loadConfigBtn) loadConfigBtn.addEventListener('click', loadSelectedConfig);
+    if (saveConfigBtn) saveConfigBtn.addEventListener('click', saveCurrentConfig);
+    if (deleteConfigBtn) deleteConfigBtn.addEventListener('click', deleteSelectedConfig);
+    if (changePassBtn) changePassBtn.addEventListener('click', changePassword);
     if (adminBtn) {
         adminBtn.addEventListener('click', () => {
             if (isAdmin) {
@@ -674,4 +786,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateExcludedList();
     updateLinkedList();
     updateRoomSelectOptions();
+    try {
+        const storedPass = await fetchAdminPass();
+        if (storedPass) window.ADMIN_PASS = storedPass;
+    } catch (e) {
+        console.error(e);
+    }
+    refreshConfigList();
 });
