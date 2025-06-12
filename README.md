@@ -1,9 +1,9 @@
 # Calendrier du ménage de la cuisine
 
+## Présentation du projet
 Cette application web gère la répartition des tâches de ménage dans la cuisine. Elle fonctionne entièrement côté client : ouvrez simplement `index.html` dans un navigateur moderne pour générer et imprimer un calendrier personnalisé.
 
-## Fonctionnalités principales
-
+### Fonctionnalités principales
 - Génération dynamique d'un calendrier mensuel
 - Attribution manuelle ou automatique des chambres (de **1** à **54** sauf la chambre **13**)
 - Mode administrateur protégé par mot de passe pour modifier le planning
@@ -11,25 +11,50 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Effacement rapide du calendrier et thème sombre pour le confort visuel
 - Impression directe depuis le navigateur
 - Export du calendrier au format PDF
-- Les éléments de l'interface administrateur sont automatiquement masqués lors
-  de l'impression
+- Les éléments de l'interface administrateur sont automatiquement masqués lors de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
 - Sauvegarde en ligne des affectations grâce à Supabase
 - Sauvegarde et chargement de configurations d'attribution
 - Changement du mot de passe administrateur via l'interface
 - Ajout possible de plusieurs chambres par jour et liaison de chambres pour les attributions groupées
 
-## Installation
+## Installation locale
+1. Clonez le dépôt :
+   ```bash
+   git clone <url-du-depot>
+   cd calendrier
+   ```
+2. Copiez `.env.example` vers `.env` puis renseignez vos clés Supabase et `ADMIN_PASS`.
+3. Installez les dépendances :
+   ```bash
+   npm install
+   ```
+4. Démarrez le serveur local :
+   ```bash
+   npm start
+   ```
+5. Ouvrez ensuite `index.html` dans votre navigateur.
 
-Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le fichier `index.html` avec votre navigateur préféré. Vous pouvez également servir le dossier via un petit serveur HTTP si vous souhaitez y accéder depuis d'autres machines :
+## Travail sur GitHub
+1. Forkez ce dépôt sur GitHub.
+2. Clonez votre fork :
+   ```bash
+   git clone https://github.com/votre-compte/calendrier.git
+   cd calendrier
+   ```
+3. Créez une branche de fonctionnalité :
+   ```bash
+   git checkout -b ma-fonctionnalite
+   ```
+4. Commitez vos changements puis poussez la branche :
+   ```bash
+   git push origin ma-fonctionnalite
+   ```
+5. Depuis GitHub, ouvrez une Pull Request vers le dépôt d'origine.
 
-```bash
-npx serve .
-# ou
-npm start
-```
-
-Le script `npm start` lance automatiquement `npx serve .` pour servir l'application.
+## Tests manuels
+- `node testSupabase.js` vérifie l'accès à la table `assignments`.
+- `index.html?test-api=1` ou `dev.html` testent les requêtes Supabase depuis le navigateur.
 
 ### Configuration
 
