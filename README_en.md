@@ -18,6 +18,61 @@ This web application manages kitchen cleaning tasks. It runs entirely on the cli
 - Change the admin password from the interface
 - Add multiple rooms per day and link rooms together
 
+---
+
+## 🚀 Detailed local installation (Windows, Linux, macOS)
+
+### 1️⃣ Prerequisites
+
+To use this project you should have:
+- **Git** (to clone the repository)
+- A **modern browser** (Chrome, Firefox, Edge, Safari...)
+- (Optional) [VS Code](https://code.visualstudio.com/) to easily edit the code
+- (For persistence) A [Supabase](https://app.supabase.com/) account
+
+#### Install Git for your system:
+
+- Windows: Download Git here: https://git-scm.com/download/win and install it with default options. Launch “Git Bash” from the Start menu.
+- Linux: open a terminal and type:
+    sudo apt update
+    sudo apt install git
+- macOS: open Terminal and type:
+    brew install git
+  (If Homebrew is missing, see https://brew.sh)
+
+---
+
+### 2️⃣ Clone the repository
+
+Open your terminal (**Git Bash** on Windows or the usual terminal on Linux/Mac) and type:
+
+    git clone https://github.com/s00r1/calendrier.git
+    cd calendrier
+
+*Tip: if you don't want to use Git, click the “Code” button on GitHub then “Download ZIP” and unzip it wherever you like.*
+
+---
+
+### 3️⃣ Open the project
+
+- Open the resulting `calendrier` folder.
+- To edit the files, open it with [VS Code](https://code.visualstudio.com/) or your favorite editor.
+- If you don't need to modify anything, skip to the next step.
+
+---
+
+### 4️⃣ Start the project locally
+
+Quick method: double-click `index.html`.
+Depending on your browser or system, some features may require using a local server.
+
+Recommended server (to view and edit everything):
+- Install the free Live Server extension for VS Code.
+- Right-click `index.html` → “Open with Live Server”.
+- Alternative: run `npx serve .` or `python3 -m http.server` in the project folder.
+
+---
+
 ## Local installation
 1. Clone the repository:
    ```bash
@@ -57,6 +112,19 @@ This web application manages kitchen cleaning tasks. It runs entirely on the cli
 - Use `index.html?test-api=1` or `dev.html` to test Supabase requests in the browser.
 
 ### Configuration
+
+1. Copy the `.env.example` file to `.env`.
+2. Fill it with your Supabase credentials and the admin password:
+
+    SUPABASE_URL=<your_url>
+    SUPABASE_KEY=<your_key>
+    ADMIN_PASS=s00r1
+
+To enable Supabase persistence:
+- Create an account at <https://app.supabase.com> and a project.
+- Follow the remaining **Configuration** steps below.
+
+---
 
 Copy the `.env.example` file to `.env` and set `SUPABASE_URL`, `SUPABASE_KEY` and `ADMIN_PASS`.
 The `.env.example` file includes:
@@ -146,6 +214,22 @@ The **Clear** button quickly removes all entered values so you can start with a 
 
 After manually filling the schedule or using the **Auto** button, refresh the page. All assigned dates should reappear thanks to persistence via Supabase. If not, double-check your Supabase configuration.
 
+### Verify Supabase connection
+
+The Node script `testSupabase.js` can quickly test access to the `assignments` table.
+
+1. Install the dependencies (once):
+    npm install
+2. Run the script:
+    node testSupabase.js
+The retrieved data or a complete error message will appear in the console.
+
+### Manual API tests
+
+Another script (`test-api.js`) checks from the browser that Supabase requests work correctly.
+Open `index.html?test-api=1` (or simply `dev.html`) to run these manual tests.
+The results or errors will display directly in the interface.
+
 ### Dark theme
 
 Toggle the **Theme** button to switch between a light and dark display according to your preferences.
@@ -163,7 +247,7 @@ Contributions are welcome! Feel free to open issues or pull requests to suggest 
 
 ## License
 
-This project is distributed under the [MIT](LICENSE) license. Documentation and a license in Arabic are available: [README_ar.md](README_ar.md) and [LICENSE_AR.md](LICENSE_AR.md).
+This project is distributed under the [MIT](LICENSE) license. A guide in French is available: [README.md](README.md). Documentation and a license in Arabic are also available: [README_ar.md](README_ar.md) and [LICENSE_AR.md](LICENSE_AR.md).
 
 ## 💡 Tips & Beginner FAQ
 
