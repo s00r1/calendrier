@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminBtn = document.getElementById('admin-login');
     const adminControls = document.getElementById('admin-controls');
     const autoOptionsTitle = document.getElementById('auto-options-title');
+    const linkedRoomsTitle = document.getElementById('linked-rooms-title');
     const adminSection = document.querySelector('.admin-section');
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
@@ -83,7 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPassPrompt: 'Mot de passe admin ?',
             adminEnabled: 'Mode édition activé',
             adminWrongPass: 'Mot de passe incorrect',
-            adminSectionTitle: 'Options automatiques',
+            adminSectionTitle: "Options d'attributions automatique des chambres",
+            linkedRoomsTitle: 'Chambres liées',
             dayPrefix: 'Chambre',
         },
         ar: {
@@ -91,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             subtitlePrefix: 'لشهر',
             startRoomLabel: 'رقم غرفة البداية',
             startRoomPlaceholder: '#',
-            startDayLabel: 'اليوم:',
+            startDayLabel: 'يوم البدء',
             excludeRoomLabel: 'استثناء:',
             excludeRoomPlaceholder: '#',
             autoAssign: 'تلقائي',
@@ -107,7 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPassPrompt: 'كلمة مرور الإدارة؟',
             adminEnabled: 'تم تفعيل وضع التحرير',
             adminWrongPass: 'كلمة المرور غير صحيحة',
-            adminSectionTitle: 'إعدادات التوزيع التلقائي',
+            adminSectionTitle: 'خيارات التوزيع التلقائي للغرف',
+            linkedRoomsTitle: 'الغرف المرتبطة',
             dayPrefix: 'الغرفة',
         },
     };
@@ -124,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
             clearCalendarBtn,
             adminBtn,
             autoOptionsTitle,
+            linkedRoomsTitle,
             printBtn,
             logoutModal,
             logoutConfirm,
