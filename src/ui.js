@@ -38,6 +38,7 @@ export function applyLanguage(lang, {
   clearCalendarBtn,
   adminBtn,
   autoOptionsTitle,
+  linkedRoomsTitle,
   printBtn,
   logoutModal,
   logoutConfirm,
@@ -60,6 +61,7 @@ export function applyLanguage(lang, {
   clearCalendarBtn.textContent = t.clearCalendar;
   adminBtn.textContent = t.adminLogin;
   if (autoOptionsTitle) autoOptionsTitle.textContent = t.adminSectionTitle;
+  if (linkedRoomsTitle) linkedRoomsTitle.textContent = t.linkedRoomsTitle;
   printBtn.textContent = t.print;
   if (logoutModal) logoutModal.querySelector('p').textContent = t.logoutPrompt;
   logoutConfirm.textContent = t.logoutConfirm;
