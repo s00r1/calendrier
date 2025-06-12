@@ -134,6 +134,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function updateRoomSelectOptions() {
+        if (!startRoomInput) return;
+        const prev = startRoomInput.value;
+        startRoomInput.innerHTML = '';
+        const linked = new Set();
+        linkedRooms.forEach((set, a) => {
+            linked.add(a);
+            set.forEach(b => linked.add(b));
+        });
+        for (let i = 1; i <= 54; i++) {
+            if (i === 13) continue;
+            if (excludedRooms.has(i)) continue;
+            if (linked.has(i)) continue;
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = i;
+            startRoomInput.appendChild(opt);
+        }
+        if (startRoomInput.querySelector(`option[value="${prev}"]`)) {
+            startRoomInput.value = prev;
+        }
+    }
+
     function updateExcludedList() {
         if (!excludedListDiv) return;
         const rooms = Array.from(excludedRooms).sort((a, b) => a - b);
@@ -157,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             excludedListDiv.appendChild(item);
         });
+        updateRoomSelectOptions();
     }
 
     function setDayInputsDisabled(disabled) {
@@ -475,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
             item.appendChild(btn);
             linkedListDiv.appendChild(item);
         });
+        updateRoomSelectOptions();
     }
 
 
@@ -629,4 +654,5 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAdminControls();
     updateExcludedList();
     updateLinkedList();
+    updateRoomSelectOptions();
 });
