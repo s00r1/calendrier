@@ -708,16 +708,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     downloadPdfBtn.addEventListener('click', () => {
+        const before = currentLang;
+        const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
         const darkBefore = document.body.classList.contains('dark');
+
         if (darkBefore) document.body.classList.remove('dark');
+
+        if (before !== 'fr') {
+            setLanguage('fr');
+            restoreInputs(calendar, savedValues);
+        }
 
         const calendarEl = document.getElementById('calendar');
         const month = parseInt(monthSelect.value, 10);
         const year = yearSelect.value;
-        const header = document.createElement('h2');
-        header.textContent = `Calendrier du ménage de la cuisine pour le mois de ${monthNamesMap[currentLang][month]} ${year}`;
+        const header1 = document.createElement('h2');
+        header1.textContent = 'Calendrier du ménage de la cuisine';
+        const header2 = document.createElement('h2');
+        header2.textContent = `Pour le mois de ${monthNamesMap['fr'][month]} ${year}`;
         const wrapper = document.createElement('div');
-        wrapper.appendChild(header);
+        wrapper.appendChild(header1);
+        wrapper.appendChild(header2);
         wrapper.appendChild(calendarEl.cloneNode(true));
         const opt = {
             margin: 0,
@@ -730,6 +741,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             .from(wrapper)
             .save()
             .then(() => {
+                if (before !== 'fr') {
+                    setLanguage(before);
+                    restoreInputs(calendar, savedValues);
+                }
                 if (darkBefore) document.body.classList.add('dark');
             });
     });
