@@ -53,7 +53,6 @@ export function applyLanguage(lang, {
   document.querySelector('h1').textContent = t.title;
   const startRoomLabel = document.querySelector('label[for="start-room"]');
   if (startRoomLabel) startRoomLabel.textContent = t.startRoomLabel;
-  startRoomInput.placeholder = t.startRoomPlaceholder;
   document.querySelector('label[for="start-day"]').textContent = t.startDayLabel;
   document.querySelector('label[for="exclude-room"]').textContent = t.excludeRoomLabel;
   excludeRoomInput.placeholder = t.excludeRoomPlaceholder;
