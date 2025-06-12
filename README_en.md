@@ -21,7 +21,7 @@ This web application manages kitchen cleaning tasks. It runs entirely on the cli
 ## Local installation
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/s00r1/calendrier.git
    cd calendrier
    ```
 2. Copy `.env.example` to `.env` and fill in your Supabase keys and `ADMIN_PASS`.
@@ -39,7 +39,7 @@ This web application manages kitchen cleaning tasks. It runs entirely on the cli
 1. Fork this repository on GitHub.
 2. Clone your fork:
    ```bash
-   git clone https://github.com/your-account/calendrier.git
+   git clone https://github.com/s00r1/calendrier.git
    cd calendrier
    ```
 3. Create a feature branch:
@@ -164,3 +164,12 @@ Contributions are welcome! Feel free to open issues or pull requests to suggest 
 ## License
 
 This project is distributed under the [MIT](LICENSE) license. Documentation and a license in Arabic are available: [README_ar.md](README_ar.md) and [LICENSE_AR.md](LICENSE_AR.md).
+
+## 💡 Tips & Beginner FAQ
+
+- Can't clone? Make sure Git is installed (see step 1).
+- Permission issue on the folder? Run your editor/terminal as administrator (Windows) or use sudo (Linux/Mac).
+- Error when starting? Check that the Supabase keys are correctly set in `.env` and that the internet connection is active.
+- Need to reset the project? Delete the folder, clone again and start calmly.
+
+For any question or problem, open a GitHub issue at <https://github.com/s00r1/calendrier/issues>.

@@ -96,7 +96,7 @@ Pour collaborer/modifier :
 1. Forkez ce dépôt sur GitHub (bouton “Fork” en haut à droite).
 2. Clonez votre fork :
 
-    git clone https://github.com/<votre-utilisateur>/calendrier.git
+    git clone https://github.com/s00r1/calendrier.git
     cd calendrier
 
 3. Créez une branche dédiée à vos changements :
