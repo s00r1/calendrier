@@ -15,6 +15,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
 - Sauvegarde en ligne des affectations grâce à Supabase
 - Sauvegarde et chargement de configurations d'attribution
+- Changement du mot de passe administrateur via l'interface
 - Ajout possible de plusieurs chambres par jour et liaison de chambres pour les attributions groupées
 
 ## Installation
@@ -53,6 +54,7 @@ Pour conserver les affectations avec Supabase :
 5. Changez la langue à tout moment via le bouton **AR/FR** en haut de page.
    Les modifications sont enregistrées automatiquement dans Supabase si
    la configuration est correcte.
+6. Utilisez la barre **Configuration** en haut du panneau admin pour charger ou sauvegarder un jeu d'options et modifier le mot de passe.
 
 ### Attribution automatique
 
@@ -71,6 +73,15 @@ Si la liste d'exclusion contient toutes les chambres (les 54 numéros), le bouto
 
 Utilisez les deux champs sous la section admin pour indiquer deux numéros de chambre à lier. Elles seront attribuées ensemble lors des modifications et de l'attribution automatique. Un bouton permet de supprimer un lien existant. Les couples ainsi créés apparaissent dans les menus déroulants sous la forme « a/b » (la valeur renvoyée reste le premier numéro).
 
+
+### Sauvegarder ou charger une configuration
+
+La première ligne de la zone admin affiche maintenant un bandeau **Configuration** placé juste sous le bouton *Admin*. On y trouve un menu déroulant listant les configurations enregistrées ainsi que les boutons **Charger**, **Sauvegarder** et **Supprimer**. Ce même bandeau comporte aussi un bouton **Changer mot de passe**.
+
+- Utilisez **Sauvegarder** pour stocker les exclusions et liaisons actuellement définies.
+- Sélectionnez ensuite un nom dans la liste et cliquez sur **Charger** pour réappliquer ces réglages.
+- **Supprimer** retire l'entrée choisie.
+- **Changer mot de passe** enregistre un nouveau mot de passe administrateur dans Supabase.
 ### Nettoyer le calendrier
 
 Le bouton **Clear** efface rapidement toutes les valeurs saisies et permet de repartir sur une grille vierge.
