@@ -729,7 +729,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const wrapper = document.createElement('div');
         wrapper.appendChild(header1);
         wrapper.appendChild(header2);
-        wrapper.appendChild(calendarEl.cloneNode(true));
+        const clone = calendarEl.cloneNode(true);
+        clone.querySelectorAll('.add-room').forEach(btn => btn.remove());
+        clone.querySelectorAll('input').forEach(inp => {
+            inp.disabled = true;
+        });
+        wrapper.appendChild(clone);
         const opt = {
             margin: 0,
             filename: 'calendrier.pdf',
