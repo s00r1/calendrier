@@ -15,6 +15,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Online saving of assignments thanks to Supabase
 - Ability to add multiple rooms per day and link rooms so they are assigned together
 - Save and reload admin configurations
+- Change the admin password directly from the interface
 
 ## Installation
 
@@ -51,6 +52,7 @@ To persist assignments with Supabase:
 
 4. Click **Print** to generate a paper version of the schedule.
 5. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in Supabase when configured.
+6. Use the **Configuration** bar at the top of the admin area to load or save settings and change the password.
 ### Automatic assignment
 
 In the admin section, enter the **starting room** and **start date**. Press the **Auto** button to pre-fill the calendar taking any excluded rooms into account.
@@ -67,6 +69,15 @@ If the exclusion list contains all rooms (all 54 numbers), the **Auto** button d
 
 Use the two fields in the admin section to specify room numbers that should always be assigned together. Remove a link with the small cross next to it. Linked pairs also appear in the drop-down lists as "a/b" while the returned value remains the first number.
 
+
+### Saving or loading a configuration
+
+The top line of the admin area now contains a **Configuration** bar located just below the *Admin* button. It provides a drop-down list of saved configurations along with **Load**, **Save** and **Delete** buttons. The same bar also offers a **Change password** button.
+
+- Click **Save** to store the current exclusion and linking settings.
+- Select a name and press **Load** to apply it.
+- **Delete** removes the selected entry.
+- **Change password** records a new admin password in Supabase.
 ### Cleaning the calendar
 
 The **Clear** button quickly removes all entered values so you can start with a blank grid.
