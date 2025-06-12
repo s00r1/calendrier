@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subtitle = document.getElementById('subtitle');
     const adminBtn = document.getElementById('admin-login');
     const adminControls = document.getElementById('admin-controls');
+    const autoOptionsTitle = document.getElementById('auto-options-title');
     const adminSection = document.querySelector('.admin-section');
     const startRoomInput = document.getElementById('start-room');
     const startDaySelect = document.getElementById('start-day');
@@ -82,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPassPrompt: 'Mot de passe admin ?',
             adminEnabled: 'Mode édition activé',
             adminWrongPass: 'Mot de passe incorrect',
+            adminSectionTitle: 'Options automatiques',
             dayPrefix: 'Chambre',
         },
         ar: {
@@ -105,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             adminPassPrompt: 'كلمة مرور الإدارة؟',
             adminEnabled: 'تم تفعيل وضع التحرير',
             adminWrongPass: 'كلمة المرور غير صحيحة',
+            adminSectionTitle: 'إعدادات التوزيع التلقائي',
             dayPrefix: 'الغرفة',
         },
     };
@@ -120,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             autoAssignBtn,
             clearCalendarBtn,
             adminBtn,
+            autoOptionsTitle,
             printBtn,
             logoutModal,
             logoutConfirm,

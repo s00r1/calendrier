@@ -37,6 +37,7 @@ export function applyLanguage(lang, {
   autoAssignBtn,
   clearCalendarBtn,
   adminBtn,
+  autoOptionsTitle,
   printBtn,
   logoutModal,
   logoutConfirm,
@@ -59,6 +60,7 @@ export function applyLanguage(lang, {
   autoAssignBtn.textContent = t.autoAssign;
   clearCalendarBtn.textContent = t.clearCalendar;
   adminBtn.textContent = t.adminLogin;
+  if (autoOptionsTitle) autoOptionsTitle.textContent = t.adminSectionTitle;
   printBtn.textContent = t.print;
   if (logoutModal) logoutModal.querySelector('p').textContent = t.logoutPrompt;
   logoutConfirm.textContent = t.logoutConfirm;
