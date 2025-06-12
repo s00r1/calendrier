@@ -1,7 +1,7 @@
 # Calendrier du ménage de la cuisine
 
 ## Présentation du projet
-Cette application web gère la répartition des tâches de ménage dans la cuisine.  
+Cette application web gère la répartition des tâches de ménage dans la cuisine.
 Elle fonctionne entièrement côté client : ouvrez simplement `index.html` dans un navigateur moderne pour générer et imprimer un calendrier personnalisé.
 
 ### Fonctionnalités principales
@@ -64,7 +64,7 @@ Ouvrez votre terminal (**Git Bash** sur Windows, terminal classique sur Linux/Ma
 
 ### 4️⃣ Lancer le projet en local
 
-Méthode rapide : Double-cliquez sur `index.html`.  
+Méthode rapide : Double-cliquez sur `index.html`.
 Selon votre navigateur/système, certaines fonctions avancées peuvent nécessiter d’utiliser un serveur local.
 
 Serveur local recommandé (pour tout voir et modifier) :
@@ -169,12 +169,12 @@ Puis ouvrez le fichier `create_admin_configs.sql` fourni dans le dépôt pour cr
 
 ### Attribution automatique
 
-Dans la section administrateur, indiquez la chambre de départ ainsi que la date de début.  
+Dans la section administrateur, indiquez la chambre de départ ainsi que la date de début.
 Appuyez sur le bouton Auto pour préremplir le calendrier en tenant compte des éventuelles chambres exclues.
 
 ### Exclure des chambres
 
-Sélectionnez le numéro ou le couple de chambres à ignorer dans le menu déroulant puis validez pour retirer ces chambres de la planification automatique.  
+Sélectionnez le numéro ou le couple de chambres à ignorer dans le menu déroulant puis validez pour retirer ces chambres de la planification automatique.
 Les couples apparaissent sous la forme « a/b » et excluent les deux numéros.
 
 #### Cas particulier
@@ -183,15 +183,15 @@ Si la liste d'exclusion contient toutes les chambres (les 54 numéros), le bouto
 
 ### Lier des chambres
 
-Utilisez les deux champs sous la section admin pour indiquer deux numéros de chambre à lier.  
-Elles seront attribuées ensemble lors des modifications et de l'attribution automatique.  
-Un bouton permet de supprimer un lien existant.  
+Utilisez les deux champs sous la section admin pour indiquer deux numéros de chambre à lier.
+Elles seront attribuées ensemble lors des modifications et de l'attribution automatique.
+Un bouton permet de supprimer un lien existant.
 Les couples ainsi créés apparaissent dans les menus déroulants sous la forme « a/b » (la valeur renvoyée reste le premier numéro).
 
 ### Sauvegarder ou charger une configuration
 
-La première ligne de la zone admin affiche maintenant un bandeau Configuration placé juste sous le bouton Admin.  
-On y trouve un menu déroulant listant les configurations enregistrées ainsi que les boutons Charger, Sauvegarder et Supprimer.  
+La première ligne de la zone admin affiche maintenant un bandeau Configuration placé juste sous le bouton Admin.
+On y trouve un menu déroulant listant les configurations enregistrées ainsi que les boutons Charger, Sauvegarder et Supprimer.
 Ce même bandeau comporte aussi un bouton Changer mot de passe.
 
 - Utilisez Sauvegarder pour stocker les exclusions et liaisons actuellement définies.
@@ -205,8 +205,8 @@ Le bouton Clear efface rapidement toutes les valeurs saisies et permet de repart
 
 ### Tester la sauvegarde
 
-Après avoir rempli manuellement le planning ou utilisé le bouton Auto, rafraîchissez la page.  
-Toutes les dates attribuées doivent réapparaître grâce à la persistance via Supabase.  
+Après avoir rempli manuellement le planning ou utilisé le bouton Auto, rafraîchissez la page.
+Toutes les dates attribuées doivent réapparaître grâce à la persistance via Supabase.
 Si ce n'est pas le cas, vérifiez votre configuration Supabase.
 
 ### Vérifier la connexion Supabase
@@ -221,8 +221,8 @@ Les données récupérées ou un message d'erreur complet s'afficheront dans la 
 
 ### Tests manuels de l'API
 
-Un autre script (`test-api.js`) permet de vérifier depuis le navigateur que les requêtes Supabase fonctionnent correctement.  
-Ouvrez la page `index.html?test-api=1` (ou simplement `dev.html`) pour exécuter ces tests manuels.  
+Un autre script (`test-api.js`) permet de vérifier depuis le navigateur que les requêtes Supabase fonctionnent correctement.
+Ouvrez la page `index.html?test-api=1` (ou simplement `dev.html`) pour exécuter ces tests manuels.
 Les résultats ou erreurs s'afficheront directement sur l'interface.
 
 ### Thème sombre
@@ -233,7 +233,7 @@ Activez le bouton Thème pour basculer entre un affichage clair et sombre selon 
 
 ## Contribuer
 
-Les contributions sont les bienvenues !  
+Les contributions sont les bienvenues !
 N'hésitez pas à ouvrir des issues ou des pull requests pour proposer des améliorations.
 
 ### Pour démarrer
