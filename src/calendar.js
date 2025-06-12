@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fr: {
             title: 'Calendrier du ménage de la cuisine',
             subtitlePrefix: 'Pour le mois de',
-            startRoomLabel: 'Départ :',
+            startRoomLabel: 'No de chambre de départ',
             startRoomPlaceholder: '#',
             startDayLabel: 'Jour :',
             excludeRoomLabel: 'Exclure :',
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ar: {
             title: 'جدول تنظيف المطبخ',
             subtitlePrefix: 'لشهر',
-            startRoomLabel: 'البداية:',
+            startRoomLabel: 'رقم غرفة البداية',
             startRoomPlaceholder: '#',
             startDayLabel: 'اليوم:',
             excludeRoomLabel: 'استثناء:',
