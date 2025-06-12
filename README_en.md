@@ -1,34 +1,60 @@
 # Kitchen Cleaning Schedule
 
-This web application manages the distribution of cleaning tasks in the kitchen. It runs entirely on the client side: simply open `index.html` in a modern browser to generate and print a customized calendar.
+## Project overview
+This web application manages kitchen cleaning tasks. It runs entirely on the client side: open `index.html` in a modern browser to generate and print a custom calendar.
 
-## Main features
-
+### Main features
 - Dynamically generates a monthly calendar
 - Manual or automatic assignment of rooms (from **1** to **54** except room **13**)
 - Password-protected admin mode to edit the schedule
 - Exclude rooms and start assignments on a specific date
-- Quick calendar clearing and dark theme for comfortable viewing
+- Quick calendar clearing and dark theme
 - Print directly from the browser
-- Download the schedule as a PDF file
-- Admin interface elements are automatically hidden when printing
-- Bilingual interface (French/العربية) with instant switching via the AR/FR button
-- Online saving of assignments thanks to Supabase
-- Ability to add multiple rooms per day and link rooms so they are assigned together
-- Save and reload admin configurations
-- Change the admin password directly from the interface
+- Download the schedule as a PDF
+- Admin interface elements are hidden when printing
+- Bilingual interface (French/العربية) with instant AR/FR toggle
+- Online saving of assignments with Supabase
+- Save and load admin configurations
+- Change the admin password from the interface
+- Add multiple rooms per day and link rooms together
 
-## Installation
+## Local installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd calendrier
+   ```
+2. Copy `.env.example` to `.env` and fill in your Supabase keys and `ADMIN_PASS`.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the local server:
+   ```bash
+   npm start
+   ```
+5. Open `index.html` in your browser.
 
-No specific installation is required. Clone the repository and open the `index.html` file with your preferred browser. You can also serve the folder through a small HTTP server if you want to access it from other machines:
+## Working on GitHub
+1. Fork this repository on GitHub.
+2. Clone your fork:
+   ```bash
+   git clone https://github.com/your-account/calendrier.git
+   cd calendrier
+   ```
+3. Create a feature branch:
+   ```bash
+   git checkout -b my-feature
+   ```
+4. Commit your changes and push the branch:
+   ```bash
+   git push origin my-feature
+   ```
+5. From GitHub, open a Pull Request to the original repository.
 
-```bash
-npx serve .
-# or
-npm start
-```
-
-The `npm start` command automatically runs `npx serve .` to serve the application.
+## Manual tests
+- Run `node testSupabase.js` to check access to the `assignments` table.
+- Use `index.html?test-api=1` or `dev.html` to test Supabase requests in the browser.
 
 ### Configuration
 
