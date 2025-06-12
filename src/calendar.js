@@ -135,26 +135,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateRoomSelectOptions() {
-        if (!startRoomInput) return;
-        const prev = startRoomInput.value;
-        startRoomInput.innerHTML = '';
+        const selects = [startRoomInput, linkRoomAInput, linkRoomBInput].filter(Boolean);
+        if (selects.length === 0) return;
+
+        const prevValues = selects.map(sel => sel.value);
         const linked = new Set();
         linkedRooms.forEach((set, a) => {
             linked.add(a);
             set.forEach(b => linked.add(b));
         });
+        const options = [];
         for (let i = 1; i <= 54; i++) {
             if (i === 13) continue;
             if (excludedRooms.has(i)) continue;
             if (linked.has(i)) continue;
-            const opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = i;
-            startRoomInput.appendChild(opt);
+            options.push(i);
         }
-        if (startRoomInput.querySelector(`option[value="${prev}"]`)) {
-            startRoomInput.value = prev;
-        }
+
+        selects.forEach((sel, idx) => {
+            sel.innerHTML = '';
+            options.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v;
+                opt.textContent = v;
+                sel.appendChild(opt);
+            });
+            if (sel.querySelector(`option[value="${prevValues[idx]}"]`)) {
+                sel.value = prevValues[idx];
+            }
+        });
     }
 
     function updateExcludedList() {
@@ -581,32 +590,10 @@ document.addEventListener('DOMContentLoaded', () => {
         addLinkBtn.addEventListener('click', () => {
             const a = parseInt(linkRoomAInput.value, 10);
             const b = parseInt(linkRoomBInput.value, 10);
-            if (
-                !isNaN(a) &&
-                !isNaN(b) &&
-                a >= 1 &&
-                a <= 54 &&
-                b >= 1 &&
-                b <= 54 &&
-                a !== b &&
-                a !== 13 &&
-                b !== 13
-            ) {
+            if (!isNaN(a) && !isNaN(b) && a !== b) {
                 addLinkedRoom(a, b);
                 updateLinkedList();
             }
-            linkRoomAInput.value = '';
-            linkRoomBInput.value = '';
-        });
-    }
-    if (linkRoomAInput && linkRoomBInput) {
-        [linkRoomAInput, linkRoomBInput].forEach(inp => {
-            inp.addEventListener('keydown', e => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (addLinkBtn) addLinkBtn.click();
-                }
-            });
         });
     }
     if (addExcludeBtn) {
