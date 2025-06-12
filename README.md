@@ -67,7 +67,7 @@ Si la liste d'exclusion contient toutes les chambres (les 54 numéros), le bouto
 
 ### Lier des chambres
 
-Utilisez les deux champs sous la section admin pour indiquer deux numéros de chambre à lier. Elles seront attribuées ensemble lors des modifications et de l'attribution automatique. Un bouton permet de supprimer un lien existant.
+Utilisez les deux champs sous la section admin pour indiquer deux numéros de chambre à lier. Elles seront attribuées ensemble lors des modifications et de l'attribution automatique. Un bouton permet de supprimer un lien existant. Les couples ainsi créés apparaissent dans les menus déroulants sous la forme « a/b » (la valeur renvoyée reste le premier numéro).
 
 ### Nettoyer le calendrier
 

@@ -63,7 +63,7 @@ If the exclusion list contains all rooms (all 54 numbers), the **Auto** button d
 
 ### Linking rooms
 
-Use the two fields in the admin section to specify room numbers that should always be assigned together. Remove a link with the small cross next to it.
+Use the two fields in the admin section to specify room numbers that should always be assigned together. Remove a link with the small cross next to it. Linked pairs also appear in the drop-down lists as "a/b" while the returned value remains the first number.
 
 ### Cleaning the calendar
 
