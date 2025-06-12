@@ -41,7 +41,7 @@ Pour conserver les affectations avec Supabase :
 2. Dans **Table Editor**, créez une table `assignments` avec les colonnes `id` (auto‑incrément, clé primaire), `due_date` (date, unique) et `title` (texte). La colonne `due_date` doit être unique pour permettre l’`upsert`.
 3. Activez la *Row Level Security* puis ajoutez une politique autorisant le rôle `anon` à lire et écrire dans la table (expression `true` pour les tests).
 4. Dans **Settings > API**, copiez l'URL et la clé `anon` de votre projet.
-5. Renseignez ces valeurs dans `supabase-config.js` aux constantes `SUPABASE_URL` et `SUPABASE_KEY`.
+5. Renseignez ces valeurs dans le fichier `.env` aux variables `SUPABASE_URL` et `SUPABASE_KEY`.
 6. Créez la table `admin_configs` en exécutant le script `create_admin_configs.sql` dans le SQL Editor de Supabase.
 
 **Note :** ces clés sont temporaires pour les tests et seront remplacées ultérieurement par une méthode plus sûre.
