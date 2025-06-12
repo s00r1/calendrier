@@ -22,7 +22,10 @@ No specific installation is required. Clone the repository and open the `index.h
 ```bash
 npx serve .
 ```
-Copy the `.env.example` file to `.env` and set the `ADMIN_PASS` value.
+
+### Configuration
+
+Copy the `.env.example` file to `.env` and set `SUPABASE_URL`, `SUPABASE_KEY` and `ADMIN_PASS`.
 
 To persist assignments with Supabase:
 
@@ -30,7 +33,7 @@ To persist assignments with Supabase:
 2. In **Table Editor**, create a table `assignments` with the columns `id` (auto-increment, primary key), `due_date` (date, unique) and `title` (text). The `due_date` column must be unique so that `upsert` works correctly.
 3. Enable *Row Level Security* and add a policy allowing the `anon` role to read and write on the table (use `true` as expression for testing).
 4. Under **Settings > API**, copy your project URL and anon key.
-5. Fill these values in `supabase.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
+5. Fill these values in `supabase-config.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
 
 **Note:** These keys are temporary for testing and will later be replaced by a safer method.
 
