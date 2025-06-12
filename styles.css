@@ -9,6 +9,10 @@
     --btn-admin: #dc3545;
     --btn-auto: #17a2b8;
     --btn-add: #ffc107;
+    --btn-load: #0d6efd;
+    --btn-save: #198754;
+    --btn-delete: #dc3545;
+    --btn-change: #6f42c1;
 }
 
 @page {
@@ -39,6 +43,10 @@ body.dark {
     --btn-admin: #ff6b6b;
     --btn-auto: #17a2b8;
     --btn-add: #ffca28;
+    --btn-load: #3399ff;
+    --btn-save: #28d76b;
+    --btn-delete: #ff6b6b;
+    --btn-change: #a370ff;
 }
 
 body.dark input {
@@ -74,6 +82,7 @@ body.dark input {
 
 .config-controls {
     display: flex;
+    flex-direction: row;
     gap: 10px;
     justify-content: center;
     margin-top: 10px;
@@ -181,6 +190,34 @@ button:hover {
 #clear-calendar {
     background-color: var(--btn-add);
     color: #000;
+}
+
+#load-config {
+    background-color: var(--btn-load);
+    color: #fff;
+    border-radius: 4px;
+    margin: 0 4px;
+}
+
+#save-config {
+    background-color: var(--btn-save);
+    color: #fff;
+    border-radius: 4px;
+    margin: 0 4px;
+}
+
+#delete-config {
+    background-color: var(--btn-delete);
+    color: #fff;
+    border-radius: 4px;
+    margin: 0 4px;
+}
+
+#change-pass {
+    background-color: var(--btn-change);
+    color: #fff;
+    border-radius: 4px;
+    margin: 0 4px;
 }
 
 .calendar {
@@ -469,6 +506,7 @@ input {
 
     .config-controls {
         flex-direction: column;
+        gap: 8px;
     }
 
     #admin-controls input,
