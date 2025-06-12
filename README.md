@@ -34,6 +34,13 @@ Le script `npm start` lance automatiquement `npx serve .` pour servir l'applicat
 ### Configuration
 
 Copiez le fichier `.env.example` vers `.env` et renseignez `SUPABASE_URL`, `SUPABASE_KEY` ainsi que `ADMIN_PASS`.
+Le fichier `.env.example` contient par defaut :
+
+```env
+SUPABASE_URL=<votre_url>
+SUPABASE_KEY=<votre_cle>
+ADMIN_PASS=s00r1
+```
 
 Pour conserver les affectations avec Supabase :
 

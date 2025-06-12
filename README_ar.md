@@ -32,6 +32,13 @@ npm start
 ### الإعداد
 
 انسخ الملف `.env.example` إلى `.env` ثم عيّن القيم `SUPABASE_URL` و`SUPABASE_KEY` و`ADMIN_PASS`.
+يحتوي ملف `.env.example` على:
+
+```env
+SUPABASE_URL=<your_url>
+SUPABASE_KEY=<your_key>
+ADMIN_PASS=s00r1
+```
 
 للاحتفاظ بالتوزيعات على الإنترنت باستخدام Supabase:
 
