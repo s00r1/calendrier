@@ -21,7 +21,11 @@
 
 ```bash
 npx serve .
+# أو
+npm start
 ```
+
+الأمر `npm start` يشغّل تلقائيًا `npx serve .` لخدمة التطبيق محليًا.
 
 ### الإعداد
 

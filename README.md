@@ -22,7 +22,11 @@ Aucune installation spécifique n'est requise. Clonez le dépôt puis ouvrez le 
 
 ```bash
 npx serve .
+# ou
+npm start
 ```
+
+Le script `npm start` lance automatiquement `npx serve .` pour servir l'application.
 
 ### Configuration
 
