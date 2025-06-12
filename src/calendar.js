@@ -141,25 +141,41 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selects.length === 0) return;
 
         const prevValues = selects.map(sel => sel.value);
-        const linked = new Set();
+
+        const pairs = [];
         linkedRooms.forEach((set, a) => {
-            linked.add(a);
-            set.forEach(b => linked.add(b));
+            set.forEach(b => {
+                if (a < b) pairs.push([a, b]);
+            });
         });
-        const options = [];
+        pairs.sort((p1, p2) => p1[0] - p2[0] || p1[1] - p2[1]);
+
+        const inPairs = new Set();
+        pairs.forEach(([a, b]) => {
+            inPairs.add(a);
+            inPairs.add(b);
+        });
+
+        const singleOptions = [];
         for (let i = 1; i <= 54; i++) {
             if (i === 13) continue;
             if (excludedRooms.has(i)) continue;
-            if (linked.has(i)) continue;
-            options.push(i);
+            if (inPairs.has(i)) continue;
+            singleOptions.push(i);
         }
 
         selects.forEach((sel, idx) => {
             sel.innerHTML = '';
-            options.forEach(v => {
+            singleOptions.forEach(v => {
                 const opt = document.createElement('option');
                 opt.value = v;
                 opt.textContent = v;
+                sel.appendChild(opt);
+            });
+            pairs.forEach(([a, b]) => {
+                const opt = document.createElement('option');
+                opt.value = a;
+                opt.textContent = `${a}/${b}`;
                 sel.appendChild(opt);
             });
             if (sel.querySelector(`option[value="${prevValues[idx]}"]`)) {
