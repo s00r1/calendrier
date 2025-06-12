@@ -44,6 +44,11 @@ export function applyLanguage(lang, {
   logoutConfirm,
   logoutCancel,
   langSwitcher,
+  configSelect,
+  loadConfigBtn,
+  saveConfigBtn,
+  deleteConfigBtn,
+  changePassBtn,
   populateMonthSelect,
   generateCalendar,
 }) {
@@ -67,6 +72,10 @@ export function applyLanguage(lang, {
   logoutConfirm.textContent = t.logoutConfirm;
   logoutCancel.textContent = t.logoutCancel;
   if (langSwitcher) langSwitcher.textContent = lang === 'ar' ? 'FR' : 'AR';
+  if (loadConfigBtn) loadConfigBtn.textContent = t.loadConfig;
+  if (saveConfigBtn) saveConfigBtn.textContent = t.saveConfig;
+  if (deleteConfigBtn) deleteConfigBtn.textContent = t.deleteConfig;
+  if (changePassBtn) changePassBtn.textContent = t.changePass;
   populateMonthSelect(monthSelect, monthNamesMap[lang]);
   generateCalendar();
 }

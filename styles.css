@@ -72,6 +72,14 @@ body.dark input {
     justify-content: center;
 }
 
+.config-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
 button {
     background-color: var(--accent-color);
     color: var(--header-text);
@@ -456,6 +464,10 @@ input {
     }
 
     .admin-buttons {
+        flex-direction: column;
+    }
+
+    .config-controls {
         flex-direction: column;
     }
 

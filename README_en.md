@@ -14,6 +14,7 @@ This web application manages the distribution of cleaning tasks in the kitchen. 
 - Bilingual interface (French/العربية) with instant switching via the AR/FR button
 - Online saving of assignments thanks to Supabase
 - Ability to add multiple rooms per day and link rooms so they are assigned together
+- Save and reload admin configurations
 
 ## Installation
 
@@ -38,6 +39,7 @@ To persist assignments with Supabase:
 3. Enable *Row Level Security* and add a policy allowing the `anon` role to read and write on the table (use `true` as expression for testing).
 4. Under **Settings > API**, copy your project URL and anon key.
 5. Fill these values in `supabase-config.js` in the `SUPABASE_URL` and `SUPABASE_KEY` constants.
+6. Run the `create_admin_configs.sql` script in the Supabase SQL Editor to create the `admin_configs` table.
 
 **Note:** These keys are temporary for testing and will later be replaced by a safer method.
 

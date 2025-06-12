@@ -67,3 +67,76 @@ export async function deleteAssignments(dates) {
     .in('due_date', dates);
   if (error) throw new Error(error.message);
 }
+
+// ---------- Gestion des configurations sauvegardées ----------
+
+export async function fetchConfigList() {
+  const { data, error } = await supabase
+    .from('admin_configs')
+    .select('id, name')
+    .order('name');
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function fetchConfig(id) {
+  const { data, error } = await supabase
+    .from('admin_configs')
+    .select('id, name, excluded, linked')
+    .eq('id', id)
+    .single();
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function createConfig(name, excluded, linked) {
+  const { error } = await supabase.from('admin_configs').insert({
+    name,
+    excluded,
+    linked,
+  });
+  if (error) throw new Error(error.message);
+}
+
+export async function updateConfig(id, updates) {
+  const { error } = await supabase
+    .from('admin_configs')
+    .update(updates)
+    .eq('id', id);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteConfig(id) {
+  const { error } = await supabase
+    .from('admin_configs')
+    .delete()
+    .eq('id', id);
+  if (error) throw new Error(error.message);
+}
+
+export async function fetchAdminPass() {
+  const { data, error } = await supabase
+    .from('admin_configs')
+    .select('admin_pass')
+    .order('id')
+    .limit(1)
+    .single();
+  if (error) throw new Error(error.message);
+  return data ? data.admin_pass : null;
+}
+
+export async function updateAdminPass(newPass) {
+  const first = await supabase
+    .from('admin_configs')
+    .select('id')
+    .order('id')
+    .limit(1)
+    .single();
+  if (first.error) throw new Error(first.error.message);
+  if (!first.data) throw new Error('No config row');
+  const { error } = await supabase
+    .from('admin_configs')
+    .update({ admin_pass: newPass })
+    .eq('id', first.data.id);
+  if (error) throw new Error(error.message);
+}

@@ -14,6 +14,7 @@ Cette application web gère la répartition des tâches de ménage dans la cuisi
   de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
 - Sauvegarde en ligne des affectations grâce à Supabase
+- Sauvegarde et chargement de configurations d'attribution
 - Ajout possible de plusieurs chambres par jour et liaison de chambres pour les attributions groupées
 
 ## Installation
@@ -39,6 +40,7 @@ Pour conserver les affectations avec Supabase :
 3. Activez la *Row Level Security* puis ajoutez une politique autorisant le rôle `anon` à lire et écrire dans la table (expression `true` pour les tests).
 4. Dans **Settings > API**, copiez l'URL et la clé `anon` de votre projet.
 5. Renseignez ces valeurs dans `supabase-config.js` aux constantes `SUPABASE_URL` et `SUPABASE_KEY`.
+6. Créez la table `admin_configs` en exécutant le script `create_admin_configs.sql` dans le SQL Editor de Supabase.
 
 **Note :** ces clés sont temporaires pour les tests et seront remplacées ultérieurement par une méthode plus sûre.
 
