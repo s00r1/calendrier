@@ -163,7 +163,7 @@ Contributions are welcome! Feel free to open issues or pull requests to suggest 
 
 ## License
 
-This project is distributed under the [MIT](LICENSE) license. Documentation and a license in Arabic are available: [README_ar.md](README_ar.md) and [LICENSE_AR.md](LICENSE_AR.md).
+This project is distributed under the [MIT](LICENSE) license. Documentation is also available in French: [README.md](README.md). Documentation and a license in Arabic are available: [README_ar.md](README_ar.md) and [LICENSE_AR.md](LICENSE_AR.md).
 
 ## 💡 Tips & Beginner FAQ
 
