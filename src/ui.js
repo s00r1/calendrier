@@ -40,6 +40,7 @@ export function applyLanguage(lang, {
   autoOptionsTitle,
   linkedRoomsTitle,
   printBtn,
+  downloadPdfBtn,
   logoutModal,
   logoutConfirm,
   logoutCancel,
@@ -68,6 +69,7 @@ export function applyLanguage(lang, {
   if (autoOptionsTitle) autoOptionsTitle.textContent = t.adminSectionTitle;
   if (linkedRoomsTitle) linkedRoomsTitle.textContent = t.linkedRoomsTitle;
   printBtn.textContent = t.print;
+  if (downloadPdfBtn) downloadPdfBtn.textContent = t.downloadPdf;
   if (logoutModal) logoutModal.querySelector('p').textContent = t.logoutPrompt;
   logoutConfirm.textContent = t.logoutConfirm;
   logoutCancel.textContent = t.logoutCancel;

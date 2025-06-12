@@ -56,6 +56,7 @@
         <div id="error-message" class="error-message"></div>
     </div>
     <div id="calendar" class="calendar"></div>
+    <button id="download-pdf">Télécharger PDF</button>
     <button id="print">Imprimer</button>
     <div id="logout-modal" class="modal">
         <div class="modal-content">
@@ -75,6 +76,7 @@
     </template>
     <!-- Chargement des modules en ES modules -->
     <script src="env-loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script type="module" src="src/calendar.js"></script>
     <script>
       (function() {
