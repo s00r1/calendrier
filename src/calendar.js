@@ -863,7 +863,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             { once: true }
         );
 
-        window.print();
+        try {
+            window.print();
+        } finally {
+            if (document.body.contains(wrapper)) {
+                document.body.removeChild(wrapper);
+            }
+            calendarEl.style.display = '';
+            if (before !== 'fr') {
+                await setLanguage(before);
+                restoreInputs(calendar, savedValues);
+            }
+            if (darkBefore) document.body.classList.add('dark');
+        }
     });
 
     initThemeSwitcher(themeSwitcher);
