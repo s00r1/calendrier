@@ -757,6 +757,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Ajoute au DOM pour que les styles CSS s'appliquent (OBLIGATOIRE)
         wrapper.className = 'print-clone';
         document.body.appendChild(wrapper);
+        // Rend le wrapper visible pour la capture PDF
+        wrapper.style.position = 'static';
+        wrapper.style.left = '0';
+        wrapper.style.opacity = '1';
 
         const opt = {
             margin: 0,
@@ -770,7 +774,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             .from(wrapper)
             .save()
             .then(async () => {
-                // Nettoyage : retire le wrapper du DOM, sinon ça s'accumule
+                // Nettoyage : rétablit la classe puis retire le wrapper
+                wrapper.className = 'print-clone';
                 document.body.removeChild(wrapper);
                 // Remet le thème/langue si besoin
                 if (before !== 'fr') {
@@ -781,6 +786,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
             .catch(async (err) => {
                 if (document.body.contains(wrapper)) {
+                    wrapper.className = 'print-clone';
                     document.body.removeChild(wrapper);
                 }
                 if (before !== 'fr') {
