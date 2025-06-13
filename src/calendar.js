@@ -781,6 +781,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                     restoreInputs(calendar, savedValues);
                 }
                 if (darkBefore) document.body.classList.add('dark');
+            })
+            .catch(async (err) => {
+                if (document.body.contains(wrapper)) {
+                    document.body.removeChild(wrapper);
+                }
+                if (before !== 'fr') {
+                    await setLanguage(before);
+                    restoreInputs(calendar, savedValues);
+                }
+                if (darkBefore) document.body.classList.add('dark');
+                showRequestError(`Erreur generation PDF : ${err.message}`);
             });
     });
 
