@@ -439,6 +439,19 @@ input {
     }
 }
 
+.compact-print h1,
+.compact-print h2 {
+    font-size: 1.3em !important;
+    margin-bottom: 8px !important;
+}
+.compact-print .calendar {
+    font-size: 1em !important;
+}
+.compact-print .day,
+.compact-print .header {
+    padding: 6px !important;
+}
+
 .print-clone {
     position: fixed;
     left: -9999px;

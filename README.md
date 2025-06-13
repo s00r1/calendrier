@@ -13,6 +13,7 @@ Toutes les dépendances nécessaires sont fournies en local, notamment `libs/htm
 - Effacement rapide du calendrier et thème sombre pour le confort visuel
 - Impression directe depuis le navigateur
 - Export du calendrier au format PDF
+- L'export PDF ajuste automatiquement la taille de l'entête pour les mois à six semaines
 - Les éléments de l'interface administrateur sont automatiquement masqués lors de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
 - Sauvegarde en ligne des affectations grâce à Supabase
