@@ -727,18 +727,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         const header2 = document.createElement('h2');
         header2.textContent = `Pour le mois de ${monthNamesMap['fr'][month]} ${year}`;
         const wrapper = document.createElement('div');
+        wrapper.style.background = "#fff";
+        wrapper.style.color = "#222";
+        wrapper.style.padding = "24px 20px 20px 20px";
+
         wrapper.appendChild(header1);
         wrapper.appendChild(header2);
+
+        // Clone le calendrier, transforme les inputs en texte simple pour le PDF !
         const clone = calendarEl.cloneNode(true);
         clone.querySelectorAll('.add-room').forEach(btn => btn.remove());
         clone.querySelectorAll('input').forEach(inp => {
-            inp.disabled = true;
+            const val = inp.value;
+            const span = document.createElement('span');
+            span.textContent = val;
+            span.style.fontWeight = "bold";
+            span.style.display = "block";
+            span.style.margin = "2px 0";
+            inp.parentNode.replaceChild(span, inp);
         });
+        // Forcer la couleur et le style clair sur le clone !
+        clone.style.background = "#fff";
+        clone.style.color = "#222";
         wrapper.appendChild(clone);
+
         const opt = {
             margin: 0,
             filename: 'calendrier.pdf',
-            html2canvas: { scale: 2 },
+            html2canvas: { scale: 2, backgroundColor: "#fff" },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
         html2pdf()
