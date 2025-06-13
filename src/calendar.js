@@ -713,7 +713,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const darkBefore = document.body.classList.contains('dark');
 
         if (darkBefore) document.body.classList.remove('dark');
-
         if (before !== 'fr') {
             setLanguage('fr');
             restoreInputs(calendar, savedValues);
@@ -730,12 +729,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         wrapper.style.background = "#fff";
         wrapper.style.color = "#222";
         wrapper.style.padding = "24px 20px 20px 20px";
+        wrapper.style.width = "100%";
 
         wrapper.appendChild(header1);
         wrapper.appendChild(header2);
 
-        // Clone le calendrier, transforme les inputs en texte simple pour le PDF !
+        // Clone le calendrier AVEC classe, sinon y a pas le style !
         const clone = calendarEl.cloneNode(true);
+        clone.className = calendarEl.className;
+
+        // On retire tous les boutons et inputs, on met du texte simple à la place
         clone.querySelectorAll('.add-room').forEach(btn => btn.remove());
         clone.querySelectorAll('input').forEach(inp => {
             const val = inp.value;
@@ -746,10 +749,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             span.style.margin = "2px 0";
             inp.parentNode.replaceChild(span, inp);
         });
-        // Forcer la couleur et le style clair sur le clone !
+
         clone.style.background = "#fff";
         clone.style.color = "#222";
         wrapper.appendChild(clone);
+
+        // Ajoute au DOM pour que les styles CSS s'appliquent (OBLIGATOIRE)
+        wrapper.style.position = "fixed";
+        wrapper.style.left = "-9999px";
+        wrapper.style.top = "0";
+        wrapper.style.zIndex = "-9999";
+        document.body.appendChild(wrapper);
 
         const opt = {
             margin: 0,
@@ -758,15 +768,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
-    wrapper.style.position = "fixed";
-    wrapper.style.left = "-9999px";
-    document.body.appendChild(wrapper);
-
         html2pdf()
             .set(opt)
             .from(wrapper)
             .save()
             .then(() => {
+                // Nettoyage : retire le wrapper du DOM, sinon ça s'accumule
+                document.body.removeChild(wrapper);
+                // Remet le thème/langue si besoin
                 if (before !== 'fr') {
                     setLanguage(before);
                     restoreInputs(calendar, savedValues);
