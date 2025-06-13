@@ -20,42 +20,51 @@
     </div>
 
     <div class="admin-section">
-        <h3 id="auto-options-title"></h3>
-        <div id="admin-controls" class="admin-controls">
+        <h3 class="admin-section-title">🛠️ Gestion de la configuration</h3>
+        <div class="card">
             <div class="config-controls">
                 <select id="config-select"></select>
-                <button id="load-config">📂 Load</button>
-                <button id="save-config">💾 Save</button>
-                <button id="delete-config">🗑️ Del</button>
-                <button id="change-pass">🔑 Passwd</button>
+                <button id="load-config" title="Charger la config"><span class="icon">📂</span> Load</button>
+                <button id="save-config" title="Enregistrer la config"><span class="icon">💾</span> Save</button>
+                <button id="delete-config" title="Supprimer la config"><span class="icon">🗑️</span> Del</button>
+                <button id="change-pass" title="Changer le mot de passe"><span class="icon">🔑</span> Passwd</button>
             </div>
-
+        </div>
+        <h3 class="admin-section-title">🏠 Chambres & Départs</h3>
+        <div class="card">
             <div class="admin-group">
                 <label for="start-room">No de chambre de départ</label>
                 <select id="start-room"></select>
                 <label for="start-day">Jour de début</label>
                 <select id="start-day"></select>
             </div>
+        </div>
+        <h3 class="admin-section-title">🚫 Exclusions</h3>
+        <div class="card">
             <div class="admin-group">
-                <label for="exclude-room">Exclure&nbsp;:</label>
+                <label for="exclude-room">Exclure :</label>
                 <select id="exclude-room"></select>
-                <button id="add-exclude">+</button>
+                <button id="add-exclude" title="Ajouter à la liste des exclusions">➕</button>
                 <div id="excluded-list"></div>
             </div>
-            <p id="linked-rooms-title">Chambres liées</p>
+        </div>
+        <h3 class="admin-section-title">🔗 Chambres liées</h3>
+        <div class="card">
             <div class="admin-group" id="link-group">
                 <select id="link-room-a"></select>
                 <select id="link-room-b"></select>
-                <button id="add-link">Lier</button>
+                <button id="add-link" title="Lier les chambres">🔗 Lier</button>
                 <div id="linked-list"></div>
             </div>
-            <div class="admin-buttons">
-                <button id="auto-assign">Auto</button>
-                <button id="clear-calendar">Vider</button>
-            </div>
+        </div>
+        <div class="admin-buttons card" style="margin-bottom: 0;">
+            <button id="auto-assign" title="Affectation automatique"><span class="icon">🤖</span> Auto</button>
+            <button id="clear-calendar" title="Vider le calendrier"><span class="icon">🧹</span> Vider</button>
         </div>
         <div id="error-message" class="error-message"></div>
     </div>
+
+    
     <div id="calendar" class="calendar"></div>
     <button id="download-pdf">Télécharger PDF</button>
     <button id="print">Imprimer</button>
