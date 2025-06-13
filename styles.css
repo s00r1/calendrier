@@ -106,11 +106,6 @@ button:hover {
     margin: 10px auto;
 }
 
-#download-pdf {
-    background-color: var(--btn-print);
-    color: #fff;
-    display: block;
-    margin: 10px auto;
 }
 
 .theme-switcher {
@@ -393,7 +388,6 @@ input {
     #linked-list,
     #logout-modal,
     #print,
-    #download-pdf,
     .theme-switcher,
     .lang-switcher {
         display: none !important;

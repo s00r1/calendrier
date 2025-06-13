@@ -10,7 +10,6 @@ This web application manages kitchen cleaning tasks. It runs entirely on the cli
 - Exclude rooms and start assignments on a specific date
 - Quick calendar clearing and dark theme
 - Print directly from the browser
-- Download the schedule as a PDF
 - Admin interface elements are hidden when printing
 - Bilingual interface (French/العربية) with instant AR/FR toggle
 - Online saving of assignments with Supabase
@@ -209,7 +208,6 @@ create policy anon_full_access on public.assignments
 2. Enable **admin mode** via the *Admin* button and enter the password set in the `.env` file (`ADMIN_PASS`).
 3. Enter the room numbers for each date or use automatic assignment. Use the **+** button to add multiple rooms if needed.
 
-4. Click **Download PDF** to save the schedule.
 5. Click **Print** to generate a paper version of the schedule.
 6. Change the language at any time using the **AR/FR** button at the top of the page. Changes are automatically saved in Supabase when configured.
 7. Use the **Configuration** bar at the top of the admin area to load or save settings and change the password.

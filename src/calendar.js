@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const yearSelect = document.getElementById('year');
     const calendar = document.getElementById('calendar');
     const printBtn = document.getElementById('print');
-    const downloadPdfBtn = document.getElementById('download-pdf');
     const subtitle = document.getElementById('subtitle');
     const mainTitle = document.querySelector('h1');
     const adminBtn = document.getElementById('admin-login');
@@ -91,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             clearCalendar: 'Vider',
             adminLogin: 'Admin',
             print: 'Imprimer',
-            downloadPdf: 'Télécharger PDF',
             logoutPrompt: 'Quitter le mode admin ?',
             logoutConfirm: 'Oui',
             logoutCancel: 'Non',
@@ -127,7 +125,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             clearCalendar: 'مسح',
             adminLogin: 'إدارة',
             print: 'طباعة',
-            downloadPdf: 'تحميل PDF',
             logoutPrompt: 'الخروج من وضع الإدارة؟',
             logoutConfirm: 'نعم',
             logoutCancel: 'لا',
@@ -172,7 +169,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             linkedRoomsTitle,
             addLinkBtn,
             printBtn,
-            downloadPdfBtn,
             logoutModal,
             logoutConfirm,
             logoutCancel,
@@ -720,120 +716,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    downloadPdfBtn.addEventListener('click', async () => {
-        const before = currentLang;
-        const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
-        const darkBefore = document.body.classList.contains('dark');
-
-        const adminSectionDisplay = adminSection ? adminSection.style.display : '';
-        const adminControlsDisplay = adminControls ? adminControls.style.display : '';
-        const adminBtnDisplay = adminBtn ? adminBtn.style.display : '';
-
-        if (adminSection) adminSection.style.display = 'none';
-        if (adminControls) adminControls.style.display = 'none';
-        if (adminBtn) adminBtn.style.display = 'none';
-
-        if (darkBefore) document.body.classList.remove('dark');
-        if (before !== 'fr') {
-            await setLanguage('fr');
-            restoreInputs(calendar, savedValues);
-        }
-
-        const calendarEl = document.getElementById('calendar');
-        const month = parseInt(monthSelect.value, 10);
-        const year = yearSelect.value;
-        const header1 = document.createElement('h2');
-        header1.textContent = 'Calendrier du ménage de la cuisine';
-        const header2 = document.createElement('h2');
-        header2.textContent = `Pour le mois de ${monthNamesMap['fr'][month]} ${year}`;
-
-        const originalMargin = document.body.style.margin;
-        document.body.style.margin = '0';
-
-        const wrapper = document.createElement('div');
-        wrapper.style.background = "#fff";
-        wrapper.style.color = "#222";
-        wrapper.style.padding = "24px 20px 20px 20px";
-        wrapper.style.width = "100%";
-
-        wrapper.appendChild(header1);
-        wrapper.appendChild(header2);
-
-        // Clone le calendrier AVEC classe, sinon y a pas le style !
-        const clone = calendarEl.cloneNode(true);
-        clone.className = calendarEl.className;
-
-        // On retire tous les boutons et inputs, on met du texte simple à la place
-        clone.querySelectorAll('.add-room').forEach(btn => btn.remove());
-        clone.querySelectorAll('input').forEach(inp => {
-            const val = inp.value;
-            const span = document.createElement('span');
-            span.textContent = val;
-            span.style.fontWeight = "bold";
-            span.style.display = "block";
-            span.style.margin = "2px 0";
-            inp.parentNode.replaceChild(span, inp);
-        });
-
-        clone.style.background = "#fff";
-        clone.style.color = "#222";
-        wrapper.appendChild(clone);
-
-        const fd = new Date(year, month, 1).getDay();
-        const weeksPdf = Math.ceil(((fd === 0 ? 7 : fd) - 1 + new Date(year, month + 1, 0).getDate()) / 7);
-
-        // Ajoute au DOM pour que les styles CSS s'appliquent (OBLIGATOIRE)
-        wrapper.className = 'print-clone';
-        if (weeksPdf >= 6) wrapper.classList.add('compact-print');
-        document.body.appendChild(wrapper);
-        // Rend le wrapper visible pour la capture PDF
-        wrapper.style.position = 'static';
-        wrapper.style.left = '0';
-        wrapper.style.opacity = '1';
-
-        const opt = {
-            margin: 0,
-            filename: 'calendrier.pdf',
-            html2canvas: { scale: 2, backgroundColor: "#fff" },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-        };
-
-        html2pdf()
-            .set(opt)
-            .from(wrapper)
-            .save()
-            .then(async () => {
-                // Nettoyage : rétablit la classe puis retire le wrapper
-                wrapper.className = 'print-clone';
-                document.body.removeChild(wrapper);
-                document.body.style.margin = originalMargin;
-                // Remet le thème/langue si besoin
-                if (before !== 'fr') {
-                    await setLanguage(before);
-                    restoreInputs(calendar, savedValues);
-                }
-                if (darkBefore) document.body.classList.add('dark');
-                if (adminSection) adminSection.style.display = adminSectionDisplay;
-                if (adminControls) adminControls.style.display = adminControlsDisplay;
-                if (adminBtn) adminBtn.style.display = adminBtnDisplay;
-            })
-            .catch(async (err) => {
-                if (document.body.contains(wrapper)) {
-                    wrapper.className = 'print-clone';
-                    document.body.removeChild(wrapper);
-                }
-                document.body.style.margin = originalMargin;
-                if (before !== 'fr') {
-                    await setLanguage(before);
-                    restoreInputs(calendar, savedValues);
-                }
-                if (darkBefore) document.body.classList.add('dark');
-                if (adminSection) adminSection.style.display = adminSectionDisplay;
-                if (adminControls) adminControls.style.display = adminControlsDisplay;
-                if (adminBtn) adminBtn.style.display = adminBtnDisplay;
-                showRequestError(`Erreur generation PDF : ${err.message}`);
-            });
-    });
 
     printBtn.addEventListener('click', async () => {
         const before = currentLang;
