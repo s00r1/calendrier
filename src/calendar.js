@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function setLanguage(lang) {
         currentLang = lang;
-        return applyLanguage(lang, {
+        const result = applyLanguage(lang, {
             texts,
             monthNamesMap,
             monthSelect,
@@ -181,6 +181,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             populateMonthSelect,
             generateCalendar,
         });
+        if (themeSwitcher) {
+            themeSwitcher.style.right = '10px';
+            themeSwitcher.style.left = 'auto';
+        }
+        return result;
     }
 
     function updateRoomSelectOptions() {
