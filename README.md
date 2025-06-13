@@ -12,7 +12,7 @@ Toutes les dépendances nécessaires sont fournies en local, notamment `libs/htm
 - Exclusion de chambres et démarrage de l'attribution à une date précise
 - Effacement rapide du calendrier et thème sombre pour le confort visuel
 - Impression directe depuis le navigateur
-- Export du calendrier au format PDF
+- Export du calendrier au format PDF (entête et marges ajustés pour tenir sur une seule page, même pour les mois à six semaines)
 - L'export PDF ajuste automatiquement la taille de l'entête pour les mois à six semaines
 - Les éléments de l'interface administrateur sont automatiquement masqués lors de l'impression
 - Interface bilingue (français/العربية) avec changement instantané via le bouton AR/FR
