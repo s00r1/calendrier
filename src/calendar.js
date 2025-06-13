@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const adminBtn = document.getElementById('admin-login');
     const adminControls = document.getElementById('admin-controls');
     const autoOptionsTitle = document.getElementById('auto-options-title');
+    const configTitle = document.getElementById('config-title');
+    const roomsTitle = document.getElementById('rooms-title');
+    const exclusionsTitle = document.getElementById('exclusions-title');
     const linkedRoomsTitle = document.getElementById('linked-rooms-title');
     const adminSection = document.querySelector('.admin-section');
     const startRoomInput = document.getElementById('start-room');
@@ -98,6 +101,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             adminPassPrompt: 'Mot de passe admin ?',
             adminEnabled: 'Mode édition activé',
             adminWrongPass: 'Mot de passe incorrect',
+            configTitle: 'Gestion de la configuration',
+            roomsTitle: 'Chambres & Départs',
+            exclusionsTitle: 'Exclusions',
             adminSectionTitle: "Options d'attributions automatique des chambres",
             linkedRoomsTitle: 'Chambres liées',
             linkRooms: 'Lier',
@@ -131,6 +137,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             adminPassPrompt: 'كلمة مرور الإدارة؟',
             adminEnabled: 'تم تفعيل وضع التحرير',
             adminWrongPass: 'كلمة المرور غير صحيحة',
+            configTitle: 'إدارة الإعدادات',
+            roomsTitle: 'الغرف والبداية',
+            exclusionsTitle: 'الاستثناءات',
             adminSectionTitle: 'خيارات التوزيع التلقائي للغرف',
             linkedRoomsTitle: 'الغرف المرتبطة',
             linkRooms: 'ربط',
@@ -157,6 +166,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             clearCalendarBtn,
             adminBtn,
             autoOptionsTitle,
+            configTitle,
+            roomsTitle,
+            exclusionsTitle,
             linkedRoomsTitle,
             addLinkBtn,
             printBtn,
