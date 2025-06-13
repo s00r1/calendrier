@@ -563,3 +563,92 @@ input {
         padding: 8px;
     }
 }
+
+.card {
+    background: #f6f8fa;
+    box-shadow: 0 2px 8px #0002;
+    border-radius: 10px;
+    margin: 16px 0;
+    padding: 18px 14px;
+    border: 1.5px solid #e2e8f0;
+    transition: box-shadow 0.18s cubic-bezier(.4,2,.6,1);
+}
+body.dark .card {
+    background: #222c34;
+    box-shadow: 0 2px 10px #0009;
+    border-color: #394250;
+}
+
+.admin-section-title {
+    color: #0d6efd;
+    margin-bottom: 2px;
+    font-size: 1.13em;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding-left: 2px;
+}
+body.dark .admin-section-title {
+    color: #66b0ff;
+}
+
+.config-controls button,
+.admin-group button,
+.admin-buttons button {
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px #0001;
+    border: 1.5px solid #fff0;
+    margin-bottom: 2px;
+    min-width: 84px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    justify-content: center;
+    font-size: 1em;
+}
+.config-controls button:hover,
+.admin-group button:hover,
+.admin-buttons button:hover {
+    box-shadow: 0 4px 18px #0002;
+    border-color: #bbb;
+    transform: scale(1.07);
+}
+#delete-config, #clear-calendar {
+    border: 2px solid #d50000 !important;
+}
+#delete-config:hover, #clear-calendar:hover {
+    background: #fff !important;
+    color: #d50000 !important;
+    border-color: #d50000 !important;
+}
+#save-config {
+    border: 2px solid #22bb66;
+}
+#save-config:hover {
+    background: #22bb66 !important;
+    color: #fff !important;
+}
+
+.icon {
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+
+/* Responsive pimpé */
+@media (max-width: 650px) {
+    .card {
+        padding: 12px 3vw;
+    }
+    .admin-section-title {
+        font-size: 1em;
+        padding-left: 1px;
+    }
+    .config-controls button,
+    .admin-group button,
+    .admin-buttons button {
+        min-width: 92px;
+        font-size: 0.98em;
+        padding: 10px 4px;
+    }
+}
