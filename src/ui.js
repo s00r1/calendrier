@@ -44,7 +44,6 @@ export function applyLanguage(lang, {
   linkedRoomsTitle,
   addLinkBtn,
   printBtn,
-  downloadPdfBtn,
   logoutModal,
   logoutConfirm,
   logoutCancel,
@@ -77,7 +76,6 @@ export function applyLanguage(lang, {
   if (linkedRoomsTitle) linkedRoomsTitle.textContent = t.linkedRoomsTitle;
   if (addLinkBtn) addLinkBtn.textContent = t.linkRooms;
   printBtn.textContent = t.print;
-  if (downloadPdfBtn) downloadPdfBtn.textContent = t.downloadPdf;
   if (logoutModal) logoutModal.querySelector('p').textContent = t.logoutPrompt;
   logoutConfirm.textContent = t.logoutConfirm;
   logoutCancel.textContent = t.logoutCancel;
