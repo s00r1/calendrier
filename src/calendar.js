@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function setLanguage(lang) {
         currentLang = lang;
-        applyLanguage(lang, {
+        return applyLanguage(lang, {
             texts,
             monthNamesMap,
             monthSelect,
@@ -707,14 +707,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    downloadPdfBtn.addEventListener('click', () => {
+    downloadPdfBtn.addEventListener('click', async () => {
         const before = currentLang;
         const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
         const darkBefore = document.body.classList.contains('dark');
 
         if (darkBefore) document.body.classList.remove('dark');
         if (before !== 'fr') {
-            setLanguage('fr');
+            await setLanguage('fr');
             restoreInputs(calendar, savedValues);
         }
 
@@ -772,19 +772,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             .set(opt)
             .from(wrapper)
             .save()
-            .then(() => {
+            .then(async () => {
                 // Nettoyage : retire le wrapper du DOM, sinon ça s'accumule
                 document.body.removeChild(wrapper);
                 // Remet le thème/langue si besoin
                 if (before !== 'fr') {
-                    setLanguage(before);
+                    await setLanguage(before);
                     restoreInputs(calendar, savedValues);
                 }
                 if (darkBefore) document.body.classList.add('dark');
             });
     });
 
-    printBtn.addEventListener('click', () => {
+    printBtn.addEventListener('click', async () => {
         const before = currentLang;
         const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
         const darkBefore = document.body.classList.contains('dark');
@@ -792,15 +792,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (darkBefore) document.body.classList.remove('dark');
 
         if (before !== 'fr') {
-            setLanguage('fr');
+            await setLanguage('fr');
             restoreInputs(calendar, savedValues);
         }
 
         window.addEventListener(
             'afterprint',
-            () => {
+            async () => {
                 if (before !== 'fr') {
-                    setLanguage(before);
+                    await setLanguage(before);
                     restoreInputs(calendar, savedValues);
                 }
                 if (darkBefore) document.body.classList.add('dark');
@@ -874,7 +874,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    setLanguage(currentLang);
+    await setLanguage(currentLang);
     updateAdminControls();
     updateExcludedList();
     updateLinkedList();
