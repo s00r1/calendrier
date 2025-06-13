@@ -15,11 +15,6 @@
     --btn-change: #6f42c1;
 }
 
-@page {
-    size: A4 portrait;
-    margin: 1cm;
-}
-
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -118,7 +113,6 @@ button:hover {
     margin: 10px auto;
 }
 
-
 .theme-switcher {
     position: fixed;
     top: 10px;
@@ -165,7 +159,6 @@ button:hover {
     background: var(--accent-color);
     color: #fff;
 }
-
 .theme-switcher:hover {
     background: var(--accent-color);
     color: #fff;
@@ -184,8 +177,10 @@ button:hover {
 #add-exclude {
     background-color: var(--btn-add);
     color: #000;
+    width: 2em;
+    font-size: 0.8rem;
+    padding: 2px 4px;
 }
-
 .add-room {
     background-color: var(--btn-add);
     color: #000;
@@ -193,33 +188,28 @@ button:hover {
     font-size: 0.8rem;
     padding: 2px 4px;
 }
-
 #clear-calendar {
     background-color: var(--btn-add);
     color: #000;
 }
-
 #load-config {
     background-color: var(--btn-load);
     color: #fff;
     border-radius: 4px;
     margin: 0 4px;
 }
-
 #save-config {
     background-color: var(--btn-save);
     color: #fff;
     border-radius: 4px;
     margin: 0 4px;
 }
-
 #delete-config {
     background-color: var(--btn-delete);
     color: #fff;
     border-radius: 4px;
     margin: 0 4px;
 }
-
 #change-pass {
     background-color: var(--btn-change);
     color: #fff;
@@ -232,6 +222,9 @@ button:hover {
     grid-template-columns: repeat(7, 1fr);
     gap: 6px;
     margin: 0 auto;
+    /* Ajouté pour responsive sur mobile */
+    max-width: 100vw;
+    overflow-x: auto;
 }
 
 .day, .header {
@@ -297,32 +290,16 @@ input {
     align-items: flex-start;
     flex-direction: column;
 }
-
 #admin-controls label {
     display: inline-block;
 }
-
 #admin-controls input,
 #admin-controls select,
 #admin-controls button {
     width: 6em;
 }
 
-/* Tailored size for the plus button */
-#add-exclude {
-    width: 2em;
-    font-size: 0.8rem;
-    padding: 2px 4px;
-}
-.add-room {
-    width: 2em;
-}
-
-#excluded-list {
-    min-width: 6em;
-    text-align: center;
-}
-#linked-list {
+#excluded-list, #linked-list {
     min-width: 6em;
     text-align: center;
 }
@@ -339,7 +316,6 @@ input {
     align-items: center;
     gap: 4px;
 }
-
 .error-close {
     background: none;
     border: none;
@@ -349,15 +325,7 @@ input {
     line-height: 1;
 }
 
-.excluded-item {
-    display: inline-flex;
-    align-items: center;
-    margin: 2px;
-    padding: 2px 4px;
-    background-color: var(--header-bg);
-    border-radius: 4px;
-}
-
+.excluded-item,
 .linked-item {
     display: inline-flex;
     align-items: center;
@@ -366,18 +334,7 @@ input {
     background-color: var(--header-bg);
     border-radius: 4px;
 }
-
-.linked-item button {
-    margin-left: 4px;
-    background: none;
-    border: none;
-    color: var(--accent-color);
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1;
-    padding: 0 4px;
-}
-
+.linked-item button,
 .excluded-item button {
     margin-left: 4px;
     background: none;
@@ -401,7 +358,6 @@ input {
     justify-content: center;
     z-index: 1000;
 }
-
 .modal-content {
     background: var(--bg-color);
     color: var(--text-color);
@@ -410,19 +366,22 @@ input {
     text-align: center;
     box-shadow: 0 2px 10px #0008;
 }
-
 .modal-buttons {
     margin-top: 10px;
     display: flex;
     gap: 10px;
     justify-content: center;
 }
-
 .modal-buttons button {
     flex: 1 0 auto;
 }
 
+/* PRINT PATCH - paysage + suppression des controls/admin/inputs du PDF/print */
 @media print {
+    @page {
+        size: A4 landscape;
+        margin: 1cm;
+    }
     .controls button,
     .controls select,
     .controls input,
@@ -432,43 +391,66 @@ input {
     #error-message,
     #excluded-list,
     #linked-list,
-    #logout-modal {
-        display: none !important;
-    }
-    input {
-        border: none;
-    }
-    body {
-        margin: 0;
-    }
-    .calendar {
-        width: 100%;
-        font-size: 0.9em;
-        page-break-inside: avoid;
-    }
+    #logout-modal,
     #print,
     #download-pdf,
     .theme-switcher,
     .lang-switcher {
-        display: none;
+        display: none !important;
+    }
+    input, .add-room {
+        display: none !important;
+    }
+    body {
+        margin: 0;
+        background: #fff !important;
+        color: #222 !important;
+    }
+    .calendar {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        font-size: 1.2em !important;
+        margin: 0 auto !important;
+        page-break-inside: avoid;
+        background: #fff !important;
+        color: #222 !important;
+    }
+    h1, h2 {
+        color: #000 !important;
+        margin-bottom: 18px !important;
+        text-align: center !important;
+        font-size: 1.6em !important;
+    }
+    body.dark {
+        background: #fff !important;
+        color: #222 !important;
     }
 }
 
+/* Responsive mobile & calendrier overflow */
+@media (max-width: 700px) {
+    .calendar {
+        overflow-x: auto;
+        min-width: 700px;
+        max-width: 100vw;
+        font-size: 1em !important;
+    }
+    h1, h2 {
+        font-size: 1.3em !important;
+    }
+}
 @media (max-width: 600px) {
     body {
         margin: 10px;
         font-size: 13px;
     }
-
     h1 {
         font-size: 1.6rem;
         margin-top: 64px;
     }
-
     #subtitle {
         font-size: 1.2rem;
     }
-
     .theme-switcher,
     .lang-switcher {
         width: 40px;
@@ -477,71 +459,56 @@ input {
         line-height: 40px;
         top: 10px;
     }
-
     .controls {
         flex-direction: column;
         align-items: stretch;
     }
-
     .controls > * {
         width: 100%;
     }
-
     .date-selectors {
         flex-direction: column;
     }
-
     .controls button,
     .controls select,
     .controls input {
         font-size: 1rem;
         padding: 10px;
     }
-
     button {
         font-size: 0.9rem;
     }
-
     .room-prefix {
         font-size: 0.75rem;
     }
-
     #admin-controls {
         flex-direction: column;
     }
-
     .admin-group {
         flex-direction: column;
         align-items: stretch;
     }
-
     .admin-buttons {
         flex-direction: column;
     }
-
     .config-controls {
         flex-direction: column;
         gap: 8px;
     }
-
     #admin-controls input,
     #admin-controls select,
     #admin-controls button {
         width: 100%;
     }
-
-    /* Keep plus button small on mobile */
     #add-exclude {
         width: 2em;
     }
     .add-room {
         width: 2em;
     }
-
     input {
         width: 100%;
     }
-
     .room-input input {
         width: 3.5em;
         font-weight: bold;
@@ -552,18 +519,15 @@ input {
         -webkit-text-fill-color: var(--text-color);
         opacity: 1;
     }
-
     .calendar {
         font-size: 0.9rem;
         gap: 4px;
         margin: 0 auto;
     }
-
     .day, .header {
         padding: 8px;
     }
 }
-
 .card {
     background: #f6f8fa;
     box-shadow: 0 2px 8px #0002;
@@ -635,7 +599,7 @@ body.dark .admin-section-title {
     vertical-align: middle;
 }
 
-/* Responsive pimpé */
+/* Responsive boost bouton admin */
 @media (max-width: 650px) {
     .card {
         padding: 12px 3vw;
