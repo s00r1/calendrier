@@ -81,7 +81,7 @@ export function applyLanguage(lang, {
   if (deleteConfigBtn) deleteConfigBtn.textContent = t.deleteConfig;
   if (changePassBtn) changePassBtn.textContent = t.changePass;
   populateMonthSelect(monthSelect, monthNamesMap[lang]);
-  generateCalendar();
+  return generateCalendar();
 }
 
 export function restoreInputs(calendar, values) {
