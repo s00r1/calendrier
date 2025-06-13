@@ -746,6 +746,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         header1.textContent = 'Calendrier du ménage de la cuisine';
         const header2 = document.createElement('h2');
         header2.textContent = `Pour le mois de ${monthNamesMap['fr'][month]} ${year}`;
+
+        const originalMargin = document.body.style.margin;
+        document.body.style.margin = '0';
+
         const wrapper = document.createElement('div');
         wrapper.style.background = "#fff";
         wrapper.style.color = "#222";
@@ -802,6 +806,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Nettoyage : rétablit la classe puis retire le wrapper
                 wrapper.className = 'print-clone';
                 document.body.removeChild(wrapper);
+                document.body.style.margin = originalMargin;
                 // Remet le thème/langue si besoin
                 if (before !== 'fr') {
                     await setLanguage(before);
@@ -817,6 +822,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     wrapper.className = 'print-clone';
                     document.body.removeChild(wrapper);
                 }
+                document.body.style.margin = originalMargin;
                 if (before !== 'fr') {
                     await setLanguage(before);
                     restoreInputs(calendar, savedValues);
