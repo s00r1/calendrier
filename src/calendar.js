@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const printBtn = document.getElementById('print');
     const downloadPdfBtn = document.getElementById('download-pdf');
     const subtitle = document.getElementById('subtitle');
+    const mainTitle = document.querySelector('h1');
     const adminBtn = document.getElementById('admin-login');
     const adminControls = document.getElementById('admin-controls');
     const autoOptionsTitle = document.getElementById('auto-options-title');
@@ -846,12 +847,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         wrapper.className = 'print-clone';
         document.body.appendChild(wrapper);
         calendarEl.style.display = 'none';
+        if (mainTitle) mainTitle.style.display = 'none';
+        if (subtitle) subtitle.style.display = 'none';
 
         window.addEventListener(
             'afterprint',
             async () => {
                 document.body.removeChild(wrapper);
                 calendarEl.style.display = '';
+                if (mainTitle) mainTitle.style.display = '';
+                if (subtitle) subtitle.style.display = '';
                 if (before !== 'fr') {
                     await setLanguage(before);
                     restoreInputs(calendar, savedValues);
@@ -868,6 +873,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.body.removeChild(wrapper);
             }
             calendarEl.style.display = '';
+            if (mainTitle) mainTitle.style.display = '';
+            if (subtitle) subtitle.style.display = '';
             if (before !== 'fr') {
                 await setLanguage(before);
                 restoreInputs(calendar, savedValues);
