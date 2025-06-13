@@ -427,6 +427,18 @@ input {
     }
 }
 
+.print-clone {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+}
+@media print {
+    .print-clone {
+        position: static;
+        left: 0;
+    }
+}
+
 /* Responsive mobile & calendrier overflow */
 @media (max-width: 700px) {
     .calendar {
