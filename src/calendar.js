@@ -757,6 +757,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             html2canvas: { scale: 2, backgroundColor: "#fff" },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
+
+    wrapper.style.position = "fixed";
+    wrapper.style.left = "-9999px";
+    document.body.appendChild(wrapper);
+
         html2pdf()
             .set(opt)
             .from(wrapper)
