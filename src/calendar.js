@@ -755,8 +755,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         clone.style.color = "#222";
         wrapper.appendChild(clone);
 
+        const fd = new Date(year, month, 1).getDay();
+        const weeksPdf = Math.ceil(((fd === 0 ? 7 : fd) - 1 + new Date(year, month + 1, 0).getDate()) / 7);
+
         // Ajoute au DOM pour que les styles CSS s'appliquent (OBLIGATOIRE)
         wrapper.className = 'print-clone';
+        if (weeksPdf >= 6) wrapper.classList.add('compact-print');
         document.body.appendChild(wrapper);
         // Rend le wrapper visible pour la capture PDF
         wrapper.style.position = 'static';
@@ -844,7 +848,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         clone.style.color = "#222";
         wrapper.appendChild(clone);
 
+        const fdP = new Date(year, month, 1).getDay();
+        const weeksPrint = Math.ceil(((fdP === 0 ? 7 : fdP) - 1 + new Date(year, month + 1, 0).getDate()) / 7);
+
         wrapper.className = 'print-clone';
+        if (weeksPrint >= 6) wrapper.classList.add('compact-print');
         document.body.appendChild(wrapper);
         calendarEl.style.display = 'none';
         if (mainTitle) mainTitle.style.display = 'none';
