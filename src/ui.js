@@ -37,6 +37,9 @@ export function applyLanguage(lang, {
   autoAssignBtn,
   clearCalendarBtn,
   adminBtn,
+  configTitle,
+  roomsTitle,
+  exclusionsTitle,
   autoOptionsTitle,
   linkedRoomsTitle,
   addLinkBtn,
@@ -67,6 +70,9 @@ export function applyLanguage(lang, {
   autoAssignBtn.textContent = t.autoAssign;
   clearCalendarBtn.textContent = t.clearCalendar;
   adminBtn.textContent = t.adminLogin;
+  if (configTitle) configTitle.textContent = t.configTitle;
+  if (roomsTitle) roomsTitle.textContent = t.roomsTitle;
+  if (exclusionsTitle) exclusionsTitle.textContent = t.exclusionsTitle;
   if (autoOptionsTitle) autoOptionsTitle.textContent = t.adminSectionTitle;
   if (linkedRoomsTitle) linkedRoomsTitle.textContent = t.linkedRoomsTitle;
   if (addLinkBtn) addLinkBtn.textContent = t.linkRooms;

@@ -20,7 +20,7 @@
     </div>
 
     <div class="admin-section">
-        <h3 class="admin-section-title">🛠️ Gestion de la configuration</h3>
+        <h3 id="config-title" class="admin-section-title">🛠️ Gestion de la configuration</h3>
         <div class="card">
             <div class="config-controls">
                 <select id="config-select"></select>
@@ -30,7 +30,7 @@
                 <button id="change-pass" title="Changer le mot de passe"><span class="icon">🔑</span> Passwd</button>
             </div>
         </div>
-        <h3 class="admin-section-title">🏠 Chambres & Départs</h3>
+        <h3 id="rooms-title" class="admin-section-title">🏠 Chambres & Départs</h3>
         <div class="card">
             <div class="admin-group">
                 <label for="start-room">No de chambre de départ</label>
@@ -39,7 +39,7 @@
                 <select id="start-day"></select>
             </div>
         </div>
-        <h3 class="admin-section-title">🚫 Exclusions</h3>
+        <h3 id="exclusions-title" class="admin-section-title">🚫 Exclusions</h3>
         <div class="card">
             <div class="admin-group">
                 <label for="exclude-room">Exclure :</label>
@@ -48,7 +48,7 @@
                 <div id="excluded-list"></div>
             </div>
         </div>
-        <h3 class="admin-section-title">🔗 Chambres liées</h3>
+        <h3 id="linked-rooms-title" class="admin-section-title">🔗 Chambres liées</h3>
         <div class="card">
             <div class="admin-group" id="link-group">
                 <select id="link-room-a"></select>
