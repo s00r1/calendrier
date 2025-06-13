@@ -756,9 +756,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Ajoute au DOM pour que les styles CSS s'appliquent (OBLIGATOIRE)
         wrapper.style.position = "fixed";
-        wrapper.style.left = "-9999px";
+        wrapper.style.left = "0";
         wrapper.style.top = "0";
         wrapper.style.zIndex = "-9999";
+        wrapper.style.opacity = "0";
         document.body.appendChild(wrapper);
 
         const opt = {
@@ -841,9 +842,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         wrapper.appendChild(clone);
 
         wrapper.style.position = "fixed";
-        wrapper.style.left = "-9999px";
+        wrapper.style.left = "0";
         wrapper.style.top = "0";
         wrapper.style.zIndex = "-9999";
+        wrapper.style.opacity = "0";
         document.body.appendChild(wrapper);
         calendarEl.style.display = 'none';
 
