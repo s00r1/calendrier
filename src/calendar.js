@@ -725,6 +725,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const savedValues = Array.from(calendar.querySelectorAll('.day input')).map(inp => inp.value);
         const darkBefore = document.body.classList.contains('dark');
 
+        const adminSectionDisplay = adminSection ? adminSection.style.display : '';
+        const adminControlsDisplay = adminControls ? adminControls.style.display : '';
+        const adminBtnDisplay = adminBtn ? adminBtn.style.display : '';
+
+        if (adminSection) adminSection.style.display = 'none';
+        if (adminControls) adminControls.style.display = 'none';
+        if (adminBtn) adminBtn.style.display = 'none';
+
         if (darkBefore) document.body.classList.remove('dark');
         if (before !== 'fr') {
             await setLanguage('fr');
@@ -800,6 +808,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     restoreInputs(calendar, savedValues);
                 }
                 if (darkBefore) document.body.classList.add('dark');
+                if (adminSection) adminSection.style.display = adminSectionDisplay;
+                if (adminControls) adminControls.style.display = adminControlsDisplay;
+                if (adminBtn) adminBtn.style.display = adminBtnDisplay;
             })
             .catch(async (err) => {
                 if (document.body.contains(wrapper)) {
@@ -811,6 +822,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     restoreInputs(calendar, savedValues);
                 }
                 if (darkBefore) document.body.classList.add('dark');
+                if (adminSection) adminSection.style.display = adminSectionDisplay;
+                if (adminControls) adminControls.style.display = adminControlsDisplay;
+                if (adminBtn) adminBtn.style.display = adminBtnDisplay;
                 showRequestError(`Erreur generation PDF : ${err.message}`);
             });
     });
