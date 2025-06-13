@@ -796,9 +796,51 @@ document.addEventListener('DOMContentLoaded', async () => {
             restoreInputs(calendar, savedValues);
         }
 
+        const calendarEl = document.getElementById('calendar');
+        const month = parseInt(monthSelect.value, 10);
+        const year = yearSelect.value;
+        const header1 = document.createElement('h2');
+        header1.textContent = 'Calendrier du ménage de la cuisine';
+        const header2 = document.createElement('h2');
+        header2.textContent = `Pour le mois de ${monthNamesMap['fr'][month]} ${year}`;
+        const wrapper = document.createElement('div');
+        wrapper.style.background = "#fff";
+        wrapper.style.color = "#222";
+        wrapper.style.padding = "24px 20px 20px 20px";
+        wrapper.style.width = "100%";
+
+        wrapper.appendChild(header1);
+        wrapper.appendChild(header2);
+
+        const clone = calendarEl.cloneNode(true);
+        clone.className = calendarEl.className;
+        clone.querySelectorAll('.add-room').forEach(btn => btn.remove());
+        clone.querySelectorAll('input').forEach(inp => {
+            const val = inp.value;
+            const span = document.createElement('span');
+            span.textContent = val;
+            span.style.fontWeight = "bold";
+            span.style.display = "block";
+            span.style.margin = "2px 0";
+            inp.parentNode.replaceChild(span, inp);
+        });
+
+        clone.style.background = "#fff";
+        clone.style.color = "#222";
+        wrapper.appendChild(clone);
+
+        wrapper.style.position = "fixed";
+        wrapper.style.left = "-9999px";
+        wrapper.style.top = "0";
+        wrapper.style.zIndex = "-9999";
+        document.body.appendChild(wrapper);
+        calendarEl.style.display = 'none';
+
         window.addEventListener(
             'afterprint',
             async () => {
+                document.body.removeChild(wrapper);
+                calendarEl.style.display = '';
                 if (before !== 'fr') {
                     await setLanguage(before);
                     restoreInputs(calendar, savedValues);
