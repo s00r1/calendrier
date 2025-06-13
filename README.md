@@ -1,8 +1,9 @@
 # Calendrier du ménage de la cuisine
 
 ## Présentation du projet
-Cette application web gère la répartition des tâches de ménage dans la cuisine.  
+Cette application web gère la répartition des tâches de ménage dans la cuisine.
 Elle fonctionne entièrement côté client : ouvrez simplement `index.html` dans un navigateur moderne pour générer et imprimer un calendrier personnalisé.
+Toutes les dépendances nécessaires sont fournies en local, notamment `libs/html2pdf.bundle.min.js` (version 0.10.1) pour l’export PDF hors connexion.
 
 ### Fonctionnalités principales
 - Génération dynamique d'un calendrier mensuel
