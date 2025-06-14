@@ -181,10 +181,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             populateMonthSelect,
             generateCalendar,
         });
-        if (themeSwitcher) {
-            themeSwitcher.style.right = '10px';
-            themeSwitcher.style.left = 'auto';
-        }
         return result;
     }
 
