@@ -73,6 +73,23 @@ Serveur local recommandé (pour tout voir et modifier) :
 
 ---
 
+### 🐧 Utilisation sur Raspberry Pi 4
+
+Sous Raspberry Pi OS (basé sur Debian 12), l'installation de paquets Python
+dans l'environnement système est restreinte. Pour éviter l'erreur
+`externally-managed-environment`, créez d'abord un environnement virtuel puis
+exécutez le script `setup_gui_rpi4.py` :
+
+```bash
+python3 -m venv ~/env_gui
+source ~/env_gui/bin/activate
+pip install --upgrade pip
+python setup_gui_rpi4.py
+```
+
+Gardez l'environnement activé pour lancer l'application
+(`source ~/env_gui/bin/activate` à chaque session).
+
 ## Configuration
 
 1. Copiez le fichier `.env.example` en `.env`.
